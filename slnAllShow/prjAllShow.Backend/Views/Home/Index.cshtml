@@ -1,7 +1,14 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-<h1>Index</h1>
+<div id="app">
 
+    <template>
+        <div>
+            <b-table striped hover :items="items"></b-table>
+        </div>
+    </template>
+
+</div>
+<script src="~/scripts/Home/index.js"></script>

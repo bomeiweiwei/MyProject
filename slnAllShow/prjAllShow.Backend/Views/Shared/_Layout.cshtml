@@ -4,9 +4,13 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"] - AllShow</title>
-
-    <!--Bootstarp CSS-->
-    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.css" /> 
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>  
+    <script src="~/vendor/vue/dist/vue.js"></script>
+    <script src="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.js"></script>
+    <script src="~/vendor/axios/dist/axios.js"></script>
 </head>
 <body>
     <header>
@@ -35,12 +39,11 @@
         </div>
     </footer>
 
-
-    <!--jQuery JS-->
-    <script src="~/lib/jquery/jquery.js"></script>
-    <!--Bootstarp JS-->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-
+     <script>
+        var baseInstance = axios.create({
+            baseURL: window.location.origin
+        });
+    </script>
     @RenderSection("Scripts", required: false)
 
 </body>
