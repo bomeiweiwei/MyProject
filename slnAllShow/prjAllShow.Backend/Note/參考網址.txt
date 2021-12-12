@@ -1,2 +1,5 @@
 ﻿1. 在現有的C# mvc 專案導入Vue.js
 https://medium.com/dot-js/%E5%9C%A8%E7%8F%BE%E6%9C%89%E7%9A%84c-mvc-%E5%B0%88%E6%A1%88%E5%B0%8E%E5%85%A5vue-js-65109a7e78ac
+
+2. NLog
+https://medium.com/@WilliamWhetstone/net-core-project-%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B-nlog-b8effb9561f9

@@ -1,9 +1,17 @@
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();
+
+builder.Host.ConfigureLogging(logging=>
+{ 
+    logging.ClearProviders();
+    logging.SetMinimumLevel(LogLevel.Trace);
+}).UseNLog();
 
 var app = builder.Build();
 
