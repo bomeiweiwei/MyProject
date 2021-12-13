@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>單檔案上傳</title>
+    <style>
+        div {
+            width: 220px;
+            height: 400px;
+            background-color: beige;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            float: left;
+        }
+
+        img {
+            width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>檔案存入DB</h1>
+    <h3>上傳單一檔案</h3>
+    <form method="post" action="@Url.Action("UpImages")" enctype="multipart/form-data">
+        <p>請選擇要上傳的檔案</p>
+        <p><input type="file" name="formFile"></p>
+        <p><input type="submit" value="上傳檔案"></p>
+    </form>
+    <hr />
+    @{
+        int count = ViewBag.Count;       
+    }
+    @for (int i = 0; i < count; i++)
+    {
+        <div>
+            <img src="/FilesUpload/ShowImages?id=@(i+1)">
+        </div>       
+    }
+</body>
+</html>
