@@ -30,7 +30,6 @@ namespace prjAllShow.Backend.Models.Identity
                 {
                     claims.Add(new Claim(JwtClaimTypes.Role, "factory"));
                 }
-                claims.Add(new Claim(JwtClaimTypes.Email, user.Email));
 
                 identity.AddClaims(claims);
             }

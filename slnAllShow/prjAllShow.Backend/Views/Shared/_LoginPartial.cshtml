@@ -13,20 +13,20 @@
         if ((await AuthorizationService.AuthorizeAsync(User, "IsAdmin")).Succeeded)
         {
             <li class="nav-item">
-                <a id="manage" class="nav-link" asp-controller="Account" asp-action="Details" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a class="nav-link" asp-area="Admin"  asp-controller="Home" asp-action="Index">首頁</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="Admin"  asp-controller="Home" asp-action="Index">管理者首頁</a>
-            </li>
+                <a id="manage" class="nav-link" asp-area="" asp-controller="Account" asp-action="Details" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>            
         }
         else
         {
-            <li class="nav-item">
-                <a id="manage" class="nav-link" asp-controller="Account" asp-action="Details" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+             <li class="nav-item">
+                <a class="nav-link" asp-area="Factory"  asp-controller="Home" asp-action="Index">首頁</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-area="Factory"  asp-controller="Home" asp-action="Index">廠商首頁</a>
-            </li>
+                <a id="manage" class="nav-link" asp-area="" asp-controller="Account" asp-action="Details" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>          
         }
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

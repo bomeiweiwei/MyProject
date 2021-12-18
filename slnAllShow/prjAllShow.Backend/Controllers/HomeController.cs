@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Localization;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using prjAllShow.Backend.Models;
 using prjAllShow.Backend.Resources;
 using System.Diagnostics;
+using System.Security.Claims;
 using System.Text.Encodings.Web;
 
 namespace prjAllShow.Backend.Controllers
@@ -21,7 +23,18 @@ namespace prjAllShow.Backend.Controllers
 
         public IActionResult Index()
         {
-            //_logger.LogInformation("使用者登入首頁");
+            var uIdentity = User.Identity;
+            if (uIdentity != null)
+            {
+                var identity = (ClaimsIdentity)uIdentity;
+                IEnumerable<Claim> claims = identity.Claims;
+                var checkClaim = claims.Where(m => m.Type == JwtClaimTypes.Role).FirstOrDefault();
+                if (checkClaim != null)
+                {
+                    string area = checkClaim.Value;
+                    return RedirectToAction("Index", "Home", new { Area = area });
+                }
+            }
             return View();
         }
 

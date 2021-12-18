@@ -1,0 +1,22 @@
+﻿
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    ViewData["Title"] = "All Show - 廠商";
+    Layout = "~/Views/Shared/_LayoutFactory.cshtml";
+
+    var usr = await UserManager.GetUserAsync(User);
+    var email = usr?.Email;
+}
+
+<div class="col-12 col-md-8 mb-2">
+    <div class="card" style="width:100%;">
+        <img class="card-img-top" src="~/Images/fPage.png" style="height:600px" />
+        <div class="card-body">
+            <h5 class="card-title">這是廠商首頁</h5>
+            <p class="card-text text-secondary">廠商名稱：@UserManager.GetUserName(User)</p>
+            <p class="card-text text-secondary">如有系統問題請用：@email 郵寄系統管理者，他會不會收窩不知道</p>            
+        </div>
+    </div>
+</div>
+

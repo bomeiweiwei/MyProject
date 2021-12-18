@@ -1,5 +1,12 @@
-﻿
-
-@ViewBag.UserEmail
-
-<a asp-controller="Account" asp-action="Edit">編輯</a>
+﻿<div class="col-12 col-md-4 mb-2">
+    <div class="card" style="width:100%;">
+        <img class="card-img-top" src="#" style="height:240px" />
+        <div class="card-body">
+            <h5 class="card-title">詳細資料</h5>
+            <p class="card-text text-secondary">User Name：@ViewBag.UserName</p>
+            <p class="card-text text-secondary">Email：@ViewBag.UserEmail</p>
+            <p class="card-text text-secondary">Phone Number：@ViewBag.PhoneNumber</p>            
+            <a asp-controller="Account" asp-action="Edit">編輯</a>
+        </div>
+    </div>
+</div>
