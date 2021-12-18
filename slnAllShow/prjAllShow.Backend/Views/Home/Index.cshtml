@@ -1,15 +1,8 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@inject IHtmlLocalizer<SharedResources> _localizer
+
+@{
+    ViewData["Title"] = "All Show";
 }
 
-<a href="@Url.Action("Login")">登入</a>
-<div id="app">
-
-    <template>
-        <div>
-            <b-table striped hover :items="items"></b-table>
-        </div>
-    </template>
-
-</div>
-<script src="~/scripts/Home/index.js"></script>
+@*<a href="@Url.Action("Login","Account")">@_localizer["Register.Login"]</a>
+<a href="@Url.Action("Register","Account")">@_localizer["Register.Title"]</a>*@

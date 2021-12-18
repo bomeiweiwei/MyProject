@@ -12,7 +12,7 @@ using prjAllShow.Backend.Data;
 namespace prjAllShow.Backend.Migrations
 {
     [DbContext(typeof(AllShowDBContext))]
-    [Migration("20211213141119_InitialCreate")]
+    [Migration("20211218014239_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -3,3 +3,33 @@ https://medium.com/dot-js/%E5%9C%A8%E7%8F%BE%E6%9C%89%E7%9A%84c-mvc-%E5%B0%88%E6
 
 2. NLog
 https://medium.com/@WilliamWhetstone/net-core-project-%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B-nlog-b8effb9561f9
+
+3. 資源檔
+https://www.dotblogs.com.tw/Null/2020/05/05/155552
+以程式設計方式來設定文化特性
+https://docs.microsoft.com/zh-tw/aspnet/core/fundamentals/localization?view=aspnetcore-6.0#set-the-culture-programmatically
+
+4. Identity
+Scaffold Identity 至沒有現有授權的 MVC 專案 => 加入Identity
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-6.0&tabs=visual-studio#scaffold-identity-into-an-mvc-project-without-existing-authorization
+建立完整的 Identity UI 來源 => 拿掉預設Identity功能( // services.AddDefaultIdentity<IdentityUser>() )，使用自訂
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-6.0&tabs=visual-studio#create-full-identity-ui-source
+
+*將自訂使用者資料新增至 Identity 資料庫
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/add-user-data?view=aspnetcore-6.0&tabs=visual-studio#add-custom-user-data-to-the-identity-db
+*自訂模型
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-6.0#customize-the-model
+*變更主要金鑰類型 => 我把 Key 從 string 變成 int
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-6.0#change-the-primary-key-type
+*變更資料表/資料行名稱和 facet => 我把原Table名稱前面都加上AllShow
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/customize-identity-model?view=aspnetcore-6.0#change-tablecolumn-names-and-facets
+其他選項
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-6.0#identity-options
+
+*使用新增宣告 IdentityIUserClaimsPrincipalFactory<ApplicationUser>
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/add-user-data?view=aspnetcore-6.0&tabs=visual-studio#add-claims-to-identity-using-iuserclaimsprincipalfactoryapplicationuser
+*需搭配
+https://damienbod.com/2018/10/30/implementing-user-management-with-asp-net-core-identity-and-custom-claims/
+*這段才能執行而不會丟Policy錯誤@if ((await AuthorizationService.AuthorizeAsync(User, "IsAdmin")).Succeeded)
+*other
+https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core

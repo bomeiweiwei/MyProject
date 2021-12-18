@@ -1,3 +1,5 @@
 ﻿Add-Migration InitialCreate -Context AllShowDBContext
 Update-Database -Context AllShowDBContext
 
+Add-Migration InitialIdentityCreate -Context IdentityDBContext
+Update-Database -Context IdentityDBContext

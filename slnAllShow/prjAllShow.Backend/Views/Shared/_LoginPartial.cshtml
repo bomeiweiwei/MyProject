@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Authorization
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IAuthorizationService AuthorizationService
+
+@inject IHtmlLocalizer<SharedResources> _localizer
+
+<ul class="navbar-nav flex-grow-1">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        if ((await AuthorizationService.AuthorizeAsync(User, "IsAdmin")).Succeeded)
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link" asp-controller="Account" asp-action="Details" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Admin"  asp-controller="Home" asp-action="Index">管理者首頁</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a id="manage" class="nav-link" asp-controller="Account" asp-action="Details" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="Factory"  asp-controller="Home" asp-action="Index">廠商首頁</a>
+            </li>
+        }
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link">@_localizer["Logout"]</button>
+            </form>
+        </li>  
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" id="register" asp-area="" asp-controller="Account" asp-action="Register">@_localizer["Register.Title"]</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="login" asp-area="" asp-controller="Account" asp-action="Login">@_localizer["Register.Login"]</a>
+        </li>
+    }
+</ul>
