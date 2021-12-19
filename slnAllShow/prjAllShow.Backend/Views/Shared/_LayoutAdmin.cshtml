@@ -23,8 +23,13 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                     @await Html.PartialAsync("_LoginPartial"); 
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">                   
+                    @await Html.PartialAsync("_LoginPartial");       
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin"  asp-controller="Employee" asp-action="Index">員工管理</a>
+                        </li>
+                    </ul>               
                 </div>
             </div>
         </nav>

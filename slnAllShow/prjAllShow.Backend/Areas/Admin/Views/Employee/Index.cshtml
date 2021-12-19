@@ -1,0 +1,73 @@
+﻿@model IEnumerable<EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutAdmin";
+}
+
+<p>
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">新增員工</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpSexDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpTel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HireDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpAccountStateDesc)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpSexDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpTel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HireDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpAccountStateDesc)
+            </td>                       
+            <td>
+                <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-warning">編輯</a> |
+                <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-info">詳細</a> |
+                <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
+                @*@Html.ActionLink("Edit", "Edit", new { aId = item.AuserId, eId = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { aId = item.AuserId, eId = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { aId = item.AuserId, eId = item.Id })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

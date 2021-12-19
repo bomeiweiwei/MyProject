@@ -13,6 +13,10 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Factory\Data\" />
     <Folder Include="Areas\Factory\Models\" />
+    <Folder Include="Areas\WebApi\Controllers\" />
+    <Folder Include="Areas\WebApi\Data\" />
+    <Folder Include="Areas\WebApi\Models\" />
+    <Folder Include="Areas\WebApi\Views\" />
     <Folder Include="Helper\" />
   </ItemGroup>
 

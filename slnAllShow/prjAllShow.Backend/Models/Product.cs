@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace prjAllShow.Backend.Models
 {
-    [Table("Product")]
     public class Product : BaseModel
     {
         [ScaffoldColumn(false)]

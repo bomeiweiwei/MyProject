@@ -123,6 +123,39 @@
   <data name="EmailPWDError" xml:space="preserve">
     <value>信箱或密碼錯誤</value>
   </data>
+  <data name="Employee.EmpAccount" xml:space="preserve">
+    <value>員工帳號</value>
+  </data>
+  <data name="Employee.EmpAccountState" xml:space="preserve">
+    <value>員工帳號狀態</value>
+  </data>
+  <data name="Employee.EmpBirth" xml:space="preserve">
+    <value>生日</value>
+  </data>
+  <data name="Employee.EmpEmail" xml:space="preserve">
+    <value>信箱</value>
+  </data>
+  <data name="Employee.EmpName" xml:space="preserve">
+    <value>員工姓名</value>
+  </data>
+  <data name="Employee.EmpNo" xml:space="preserve">
+    <value>員工編號</value>
+  </data>
+  <data name="Employee.EmpPwd" xml:space="preserve">
+    <value>員工密碼</value>
+  </data>
+  <data name="Employee.EmpSex" xml:space="preserve">
+    <value>性別</value>
+  </data>
+  <data name="Employee.EmpTel" xml:space="preserve">
+    <value>電話</value>
+  </data>
+  <data name="Employee.HireDate" xml:space="preserve">
+    <value>到職日期</value>
+  </data>
+  <data name="Employee.LeaveDate" xml:space="preserve">
+    <value>離職日期</value>
+  </data>
   <data name="Field_MaxLength" xml:space="preserve">
     <value>{0} 不能輸入大於{1}字元</value>
   </data>

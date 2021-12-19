@@ -59,5 +59,10 @@ namespace prjAllShow.Backend.Controllers
             }
             return LocalRedirect(returnUrl);
         }
+
+        public IActionResult Welcome()
+        {
+            return View();
+        }
     }
 }

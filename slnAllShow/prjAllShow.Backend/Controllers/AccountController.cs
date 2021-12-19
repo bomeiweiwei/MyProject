@@ -71,7 +71,8 @@ namespace prjAllShow.Backend.Controllers
                         if (result.Succeeded)
                         {
                             //角色名稱
-                            var roleName = "Admin";
+                            //var roleName = "Admin";
+                            var roleName = "Customer";
                             //判斷角色是否存在
                             var _result = await _roleManager.RoleExistsAsync(roleName);
                             if (!_result)
@@ -83,7 +84,8 @@ namespace prjAllShow.Backend.Controllers
                             await _userManager.AddToRoleAsync(user, roleName);
 
                             scope.Complete();
-                            return RedirectToAction("Index", "Home", new { area = "Admin" });
+                            //return RedirectToAction("Index", "Home", new { area = "Admin" });
+                            return RedirectToAction("Welcome");
                         }
                     }
                     catch (Exception ex)
