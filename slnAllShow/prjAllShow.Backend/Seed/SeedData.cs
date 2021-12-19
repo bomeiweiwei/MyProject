@@ -181,9 +181,13 @@ namespace prjAllShow.Backend.Seed
                     context.SaveChanges();
                 }
                 employees = context.EmployeeSetting.ToList();
-                for (int i = 0; i < employees.Count(); i++)
+
+                appUserDict.Add(appUserId, 1);//super admin
+                appUserId++;
+
+                for (int i = 1; i < employees.Count(); i++)
                 {
-                    appUserDict.Add(appUserId, 1);
+                    appUserDict.Add(appUserId, 2);
                     appUserId++;
                 }
                 //adminIds = employees.Select(x => x.Id).ToList();                
@@ -441,7 +445,7 @@ namespace prjAllShow.Backend.Seed
                 shops = context.ShopSetting.ToList();
                 for (int i = 0; i < shops.Count(); i++)
                 {
-                    appUserDict.Add(appUserId, 2);
+                    appUserDict.Add(appUserId, 3);
                     appUserId++;
                 }
                 //factoryIds = shops.Select(sh => sh.Id).ToList();
@@ -643,7 +647,7 @@ namespace prjAllShow.Backend.Seed
                 members = context.MemberSetting.ToList();
                 for (int i = 0; i < members.Count(); i++)
                 {
-                    appUserDict.Add(appUserId, 3);
+                    appUserDict.Add(appUserId, 4);
                     appUserId++;
                 }
                 //customerIds = members.Select(m => m.Id).ToList();                
@@ -663,6 +667,14 @@ namespace prjAllShow.Backend.Seed
                          new ApplicationRole
                          {
                              //Id = 1,
+                             Description = "This Is Super Admin",
+                             Name = "SuperAdmin",
+                             NormalizedName = "SUPERADMIN"
+
+                         },
+                         new ApplicationRole
+                         {
+                             //Id = 2,
                              Description = "This Is Admin",
                              Name = "Admin",
                              NormalizedName = "ADMIN"
@@ -670,7 +682,7 @@ namespace prjAllShow.Backend.Seed
                          },
                          new ApplicationRole
                          {
-                             //Id = 2,
+                             //Id = 3,
                              Description = "This Is Factory",
                              Name = "Factory",
                              NormalizedName = "FACTORY"
@@ -678,7 +690,7 @@ namespace prjAllShow.Backend.Seed
                          },
                          new ApplicationRole
                          {
-                             //Id = 3,
+                             //Id = 4,
                              Description = "This Is Customer",
                              Name = "Customer",
                              NormalizedName = "CUSTOMER"
