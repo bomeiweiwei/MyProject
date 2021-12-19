@@ -11,12 +11,15 @@ namespace prjAllShow.Backend.Seed
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            List<int> adminIds = new List<int>();
+            //List<int> adminIds = new List<int>();
             List<EmployeeSetting> employees = new List<EmployeeSetting>();
-            List<int> factoryIds = new List<int>();
+            //List<int> factoryIds = new List<int>();
             List<ShopSetting> shops = new List<ShopSetting>();
-            List<int> customerIds = new List<int>();
+            //List<int> customerIds = new List<int>();
             List<MemberSetting> members = new List<MemberSetting>();
+
+            int appUserId = 1;
+            Dictionary<int, int> appUserDict = new Dictionary<int, int>();//Key：角色，Value：appUserId++ => 存進UserRoles
 
             var defaultUser = new ApplicationUser();
             var passwordHasher = new PasswordHasher<ApplicationUser>();
@@ -74,6 +77,19 @@ namespace prjAllShow.Backend.Seed
                         new EmployeeSetting
                         {
                             //EmpNo = 1,
+                            EmpName = "系統管理者",
+                            EmpAccount = "allshow@gmail.com",
+                            EmpPwd = hashedPassword,
+                            EmpEmail = "allshow@gmail.com",
+                            EmpSex = "1",
+                            EmpBirth = new DateTime(1987, 2, 10),
+                            EmpTel = "0975123210",
+                            HireDate = new DateTime(2021, 11, 30),
+                            EmpAccountState = "1"
+                        },
+                        new EmployeeSetting
+                        {
+                            //EmpNo = 2,
                             EmpName = "吳king",
                             EmpAccount = "scott@gmail.com",
                             EmpPwd = hashedPassword,
@@ -86,7 +102,7 @@ namespace prjAllShow.Backend.Seed
                         },
                         new EmployeeSetting
                         {
-                            //EmpNo = 2,
+                            //EmpNo = 3,
                             EmpName = "湯O睿",
                             EmpAccount = "emp2@gmail.com",
                             EmpPwd = hashedPassword,
@@ -99,7 +115,7 @@ namespace prjAllShow.Backend.Seed
                         },
                         new EmployeeSetting
                         {
-                            //EmpNo = 3,
+                            //EmpNo = 4,
                             EmpName = "鍾O偉",
                             EmpAccount = "emp3@gmail.com",
                             EmpPwd = hashedPassword,
@@ -112,7 +128,7 @@ namespace prjAllShow.Backend.Seed
                         },
                         new EmployeeSetting
                         {
-                            //EmpNo = 4,
+                            //EmpNo = 5,
                             EmpName = "李O瑄",
                             EmpAccount = "emp4@gmail.com",
                             EmpPwd = hashedPassword,
@@ -125,7 +141,7 @@ namespace prjAllShow.Backend.Seed
                         },
                         new EmployeeSetting
                         {
-                            //EmpNo = 5,
+                            //EmpNo = 6,
                             EmpName = "張O銘",
                             EmpAccount = "emp5@gmail.com",
                             EmpPwd = hashedPassword,
@@ -138,7 +154,7 @@ namespace prjAllShow.Backend.Seed
                         },
                         new EmployeeSetting
                         {
-                            //EmpNo = 6,
+                            //EmpNo = 7,
                             EmpName = "蕭O凱",
                             EmpAccount = "emp6@gmail.com",
                             EmpPwd = hashedPassword,
@@ -151,7 +167,7 @@ namespace prjAllShow.Backend.Seed
                         },
                         new EmployeeSetting
                         {
-                            //EmpNo = 7,
+                            //EmpNo = 8,
                             EmpName = "吳O諺",
                             EmpAccount = "emp7@gmail.com",
                             EmpPwd = hashedPassword,
@@ -165,7 +181,12 @@ namespace prjAllShow.Backend.Seed
                     context.SaveChanges();
                 }
                 employees = context.EmployeeSetting.ToList();
-                adminIds = employees.Select(x => x.Id).ToList();                
+                for (int i = 0; i < employees.Count(); i++)
+                {
+                    appUserDict.Add(appUserId, 1);
+                    appUserId++;
+                }
+                //adminIds = employees.Select(x => x.Id).ToList();                
                 #endregion
                 #region Authority
                 if (!context.Authority.Any())
@@ -418,7 +439,12 @@ namespace prjAllShow.Backend.Seed
                     context.SaveChanges();
                 }
                 shops = context.ShopSetting.ToList();
-                factoryIds = shops.Select(sh => sh.Id).ToList();
+                for (int i = 0; i < shops.Count(); i++)
+                {
+                    appUserDict.Add(appUserId, 2);
+                    appUserId++;
+                }
+                //factoryIds = shops.Select(sh => sh.Id).ToList();
                 #endregion
                 #region ShClassList
                 if (!context.ShClassList.Any())
@@ -615,7 +641,12 @@ namespace prjAllShow.Backend.Seed
                     context.SaveChanges();
                 }
                 members = context.MemberSetting.ToList();
-                customerIds = members.Select(m => m.Id).ToList();                
+                for (int i = 0; i < members.Count(); i++)
+                {
+                    appUserDict.Add(appUserId, 3);
+                    appUserId++;
+                }
+                //customerIds = members.Select(m => m.Id).ToList();                
                 #endregion
                 #endregion
             }
@@ -671,12 +702,12 @@ namespace prjAllShow.Backend.Seed
                             NormalizedEmail = item.EmpEmail.ToUpper(),
                             PasswordHash = hashedPassword,
                             LockoutEnabled = true,
-                            SecurityStamp = Guid.NewGuid().ToString()
+                            SecurityStamp = Guid.NewGuid().ToString(),
+                            IsAdmin = true
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
                     }
-
 
                     foreach (var item in shops)
                     {
@@ -689,12 +720,12 @@ namespace prjAllShow.Backend.Seed
                             NormalizedEmail = item.ShEmail.ToUpper(),
                             PasswordHash = hashedPassword,
                             LockoutEnabled = true,
-                            SecurityStamp = Guid.NewGuid().ToString()
+                            SecurityStamp = Guid.NewGuid().ToString(),
+                            IsAdmin = false
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
                     }
-
 
                     foreach (var item in members)
                     {
@@ -707,47 +738,23 @@ namespace prjAllShow.Backend.Seed
                             NormalizedEmail = item.MemEmail.ToUpper(),
                             PasswordHash = hashedPassword,
                             LockoutEnabled = true,
-                            SecurityStamp = Guid.NewGuid().ToString()
+                            SecurityStamp = Guid.NewGuid().ToString(),
+                            IsAdmin = false
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
                     }
-
                 }
                 #endregion
                 #region UserRoles
                 if (!context.UserRoles.Any())
                 {
-                    foreach (var Id in adminIds)
+                    foreach (KeyValuePair<int, int> item in appUserDict)
                     {
                         IdentityUserRole<int> ur = new IdentityUserRole<int>
                         {
-                            RoleId = 1,
-                            UserId = Id
-                        };
-
-                        context.UserRoles.Add(ur);
-                        context.SaveChanges();
-                    }
-
-                    foreach (var Id in factoryIds)
-                    {
-                        IdentityUserRole<int> ur = new IdentityUserRole<int>
-                        {
-                            RoleId = 2,
-                            UserId = Id
-                        };
-
-                        context.UserRoles.Add(ur);
-                        context.SaveChanges();
-                    }
-
-                    foreach (var Id in customerIds)
-                    {
-                        IdentityUserRole<int> ur = new IdentityUserRole<int>
-                        {
-                            RoleId = 3,
-                            UserId = Id
+                            RoleId = item.Value,
+                            UserId = item.Key,
                         };
 
                         context.UserRoles.Add(ur);

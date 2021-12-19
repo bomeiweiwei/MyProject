@@ -31,5 +31,8 @@ https://docs.microsoft.com/zh-tw/aspnet/core/security/authentication/add-user-da
 *需搭配
 https://damienbod.com/2018/10/30/implementing-user-management-with-asp-net-core-identity-and-custom-claims/
 *這段才能執行而不會丟Policy錯誤@if ((await AuthorizationService.AuthorizeAsync(User, "IsAdmin")).Succeeded)
+
+*以原則為基礎的角色檢查
+https://docs.microsoft.com/zh-tw/aspnet/core/security/authorization/roles?view=aspnetcore-6.0#policy-based-role-checks
 *other
 https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core

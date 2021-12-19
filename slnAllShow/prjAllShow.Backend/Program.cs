@@ -1,3 +1,4 @@
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -39,6 +40,8 @@ builder.Services.AddAuthorization(options =>
     {
         policyIsAdminRequirement.Requirements.Add(new IsAdminRequirement());
     });
+    options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Admin", "SuperAdmin")/*.RequireClaim(JwtClaimTypes.Role, "admin")*/);
+    options.AddPolicy("RequireFactoryRole", policy => policy.RequireRole("Factory")/*.RequireClaim(JwtClaimTypes.Role, "factory")*/);
 });
 
 builder.Services.Configure<IdentityOptions>(options =>

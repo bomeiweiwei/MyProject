@@ -25,10 +25,12 @@ namespace prjAllShow.Backend.Models.Identity
                 if (user.IsAdmin)
                 {
                     claims.Add(new Claim(JwtClaimTypes.Role, "admin"));
+                    //claims.Add(new Claim(ClaimTypes.Role, "Admin"));
                 }
                 else
                 {
                     claims.Add(new Claim(JwtClaimTypes.Role, "factory"));
+                    //claims.Add(new Claim(ClaimTypes.Role, "Factory"));
                 }
 
                 identity.AddClaims(claims);
