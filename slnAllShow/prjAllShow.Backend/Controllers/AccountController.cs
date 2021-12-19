@@ -161,7 +161,7 @@ namespace prjAllShow.Backend.Controllers
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             ViewBag.UserEmail = HtmlEncoder.Default.Encode(userEmail);
             var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
-            ViewBag.PhoneNumber = HtmlEncoder.Default.Encode(user.PhoneNumber);
+            ViewBag.PhoneNumber = HtmlEncoder.Default.Encode(user.PhoneNumber ?? "");
 
             return View();
         }

@@ -12,7 +12,7 @@ using prjAllShow.Backend.Data;
 namespace prjAllShow.Backend.Migrations.IdentityDB
 {
     [DbContext(typeof(IdentityDBContext))]
-    [Migration("20211218014256_InitialIdentityCreate")]
+    [Migration("20211219014859_InitialIdentityCreate")]
     partial class InitialIdentityCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,28 +23,6 @@ namespace prjAllShow.Backend.Migrations.IdentityDB
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AllShowRoles", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
@@ -149,53 +127,6 @@ namespace prjAllShow.Backend.Migrations.IdentityDB
                     b.ToTable("AllShowUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("prjAllShow.Backend.Models.EmployeeSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EmpAccount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpAccountState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("EmpBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EmpEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpPwd")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpSex")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("EmpTel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("HireDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("LeaveDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmployeeSetting");
-                });
-
             modelBuilder.Entity("prjAllShow.Backend.Models.Identity.ApplicationRole", b =>
                 {
                     b.Property<int>("Id")
@@ -227,7 +158,7 @@ namespace prjAllShow.Backend.Migrations.IdentityDB
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AllShowRoles", (string)null);
                 });
 
             modelBuilder.Entity("prjAllShow.Backend.Models.Identity.ApplicationUser", b =>
@@ -301,165 +232,6 @@ namespace prjAllShow.Backend.Migrations.IdentityDB
                     b.ToTable("AllShowUsers", (string)null);
                 });
 
-            modelBuilder.Entity("prjAllShow.Backend.Models.MemberSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MemAccountState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("MemBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MemCheckNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("MemCreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("MemDiminutive")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemPic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemPwd")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemSex")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MemTel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("MemUpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MemberSetting");
-                });
-
-            modelBuilder.Entity("prjAllShow.Backend.Models.ShopSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EmpNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShAbout")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShAccount")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShAdPic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShAdState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShAdTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShBoss")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ShCheckDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ShCheckState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShContact")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ShEndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ShLogoPic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShPopShop")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShPwd")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShPwdState")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ShStartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ShStopRightEnddate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ShStopRightStartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ShTel")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShThePic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ShopSetting");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("prjAllShow.Backend.Models.Identity.ApplicationRole", null)
@@ -509,48 +281,6 @@ namespace prjAllShow.Backend.Migrations.IdentityDB
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("prjAllShow.Backend.Models.EmployeeSetting", b =>
-                {
-                    b.HasOne("prjAllShow.Backend.Models.Identity.ApplicationUser", "User")
-                        .WithMany("EmployeeSettings")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("prjAllShow.Backend.Models.MemberSetting", b =>
-                {
-                    b.HasOne("prjAllShow.Backend.Models.Identity.ApplicationUser", "User")
-                        .WithMany("MemberSettings")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("prjAllShow.Backend.Models.ShopSetting", b =>
-                {
-                    b.HasOne("prjAllShow.Backend.Models.Identity.ApplicationUser", "User")
-                        .WithMany("ShopSettings")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("prjAllShow.Backend.Models.Identity.ApplicationUser", b =>
-                {
-                    b.Navigation("EmployeeSettings");
-
-                    b.Navigation("MemberSettings");
-
-                    b.Navigation("ShopSettings");
                 });
 #pragma warning restore 612, 618
         }

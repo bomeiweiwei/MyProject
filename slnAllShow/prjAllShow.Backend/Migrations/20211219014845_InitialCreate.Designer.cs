@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using prjAllShow.Backend.Data;
 
@@ -11,9 +12,10 @@ using prjAllShow.Backend.Data;
 namespace prjAllShow.Backend.Migrations
 {
     [DbContext(typeof(AllShowDBContext))]
-    partial class AllShowDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211219014845_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

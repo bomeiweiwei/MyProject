@@ -27,11 +27,6 @@ namespace prjAllShow.Backend.Data
                 entity.ToTable(name: "AllShowUsers"/*, schema: schema*/);
             });
 
-            builder.Entity<IdentityRole<int>>(entity =>
-            {
-                entity.ToTable(name: "AllShowRoles"/*, schema: schema*/);
-            });
-
             builder.Entity<IdentityUserClaim<int>>(entity =>
             {
                 entity.ToTable("AllShowUserClaims"/*, schema: schema*/);
@@ -42,6 +37,16 @@ namespace prjAllShow.Backend.Data
                 entity.ToTable("AllShowUserLogins"/*, schema: schema*/);
             });
 
+            builder.Entity<IdentityUserToken<int>>(entity =>
+            {
+                entity.ToTable("AllShowUserTokens"/*, schema: schema*/);
+            });
+
+            builder.Entity<ApplicationRole>(entity =>
+            {
+                entity.ToTable(name: "AllShowRoles"/*, schema: schema*/);
+            });
+          
             builder.Entity<IdentityRoleClaim<int>>(entity =>
             {
                 entity.ToTable("AllShowRoleClaims"/*, schema: schema*/);
@@ -52,10 +57,7 @@ namespace prjAllShow.Backend.Data
                 entity.ToTable("AllShowUserRoles"/*, schema: schema*/);
             });
 
-            builder.Entity<IdentityUserToken<int>>(entity =>
-            {
-                entity.ToTable("AllShowUserTokens"/*, schema: schema*/);
-            });
+            
         }
     }
 }
