@@ -34,5 +34,7 @@ namespace prjAllShow.Backend.Models.ViewModels
                 }
             }
         }
+
+        public bool? ChangePwd { get; set; }
     }
 }

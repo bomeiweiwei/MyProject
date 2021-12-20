@@ -1,0 +1,25 @@
+﻿@model EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "_LayoutAdmin";
+}
+
+<div class="col-12 col-md-4 mb-2">
+    <div class="card" style="width:100%;">
+        <div class="card-body">
+            <h5 class="card-title">詳細資料</h5>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpName)：@Html.DisplayFor(model => model.EmpName)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpEmail)：@Html.DisplayFor(model => model.EmpEmail)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpSexDesc)：@Html.DisplayFor(model => model.EmpSexDesc)</p> 
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpBirth)：@Html.DisplayFor(model => model.EmpBirth)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpTel)：@Html.DisplayFor(model => model.EmpTel)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.HireDate)：@Html.DisplayFor(model => model.HireDate)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.LeaveDate)：@Html.DisplayFor(model => model.LeaveDate)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpAccountStateDesc)：@Html.DisplayFor(model => model.EmpAccountStateDesc)</p>  
+            <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@Model.AuserId" asp-route-eId="@Model.Id" class="btn btn-warning">編輯</a> |
+            <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,77 @@
+﻿@model EmployeeSetting
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_LayoutAdmin";
+}
+
+<h4>新增員工</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmpName" class="control-label"></label>
+                <input asp-for="EmpName" class="form-control" />
+                <span asp-validation-for="EmpName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpPwd" class="control-label"></label>
+                <input asp-for="EmpPwd" class="form-control" />
+                <span asp-validation-for="EmpPwd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpEmail" class="control-label"></label>
+                <input asp-for="EmpEmail" class="form-control" />
+                <span asp-validation-for="EmpEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="EmpSex1" name="EmpSex" value="0" checked>
+                  <label class="form-check-label" for="EmpSex1">女</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="EmpSex2" name="EmpSex" value="1">
+                  <label class="form-check-label" for="EmpSex2">男</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpBirth" class="control-label"></label>
+                <input asp-for="EmpBirth" class="form-control" />
+                <span asp-validation-for="EmpBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpTel" class="control-label"></label>
+                <input asp-for="EmpTel" class="form-control" />
+                <span asp-validation-for="EmpTel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HireDate" class="control-label"></label>
+                <input asp-for="HireDate" class="form-control" />
+                <span asp-validation-for="HireDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="EmpAccountState1" name="EmpAccountState" value="0">
+                  <label class="form-check-label" for="EmpAccountState1">停用</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="EmpAccountState2" name="EmpAccountState" value="1" checked>
+                  <label class="form-check-label" for="EmpAccountState2">啟用</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="新增" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
