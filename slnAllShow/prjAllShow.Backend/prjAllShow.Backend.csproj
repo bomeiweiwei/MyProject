@@ -13,15 +13,14 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Factory\Data\" />
     <Folder Include="Areas\Factory\Models\" />
-    <Folder Include="Areas\WebApi\Controllers\" />
     <Folder Include="Areas\WebApi\Data\" />
     <Folder Include="Areas\WebApi\Models\" />
     <Folder Include="Areas\WebApi\Views\" />
-    <Folder Include="Helper\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="IdentityModel" Version="5.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
@@ -41,6 +40,10 @@
     <PackageReference Include="NLog" Version="4.7.13" />
     <PackageReference Include="NLog.Config" Version="4.7.10" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AllShowService\AllShowService.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using prjAllShow.Backend.Data;
-using prjAllShow.Backend.Models;
+using AllShow.Data;
+using AllShow.Models;
 
 namespace prjAllShow.Backend.Controllers
 {

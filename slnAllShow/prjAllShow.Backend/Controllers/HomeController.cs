@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using prjAllShow.Backend.Models;
+using AllShow.Models.ViewModels;
 using prjAllShow.Backend.Resources;
 using System.Diagnostics;
 using System.Security.Claims;

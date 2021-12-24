@@ -1,13 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AllShowDTO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace prjAllShow.Backend.Models.ViewModels
+namespace AllShow.Models.ViewModels
 {
-    public class EmployeeViewModel : EmployeeSetting
+    public class EmployeeViewModel : EmployeeSettingDTO
     {
         public int AuserId { get; set; }
 
         [Display(Name = "Employee.EmpSex")]
-        public string EmpSexDesc {
+        public string EmpSexDesc
+        {
             get
             {
                 if (EmpSex == "1")
@@ -21,7 +28,8 @@ namespace prjAllShow.Backend.Models.ViewModels
             }
         }
         [Display(Name = "Employee.EmpAccountState")]
-        public string EmpAccountStateDesc {
+        public string EmpAccountStateDesc
+        {
             get
             {
                 if (EmpAccountState == "1")

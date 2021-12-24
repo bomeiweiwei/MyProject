@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using prjAllShow.Backend.Data;
-using prjAllShow.Backend.Models;
-using prjAllShow.Backend.Models.Identity;
-using prjAllShow.Backend.Models.ViewModels;
+using AllShow.Data;
+using AllShow.Models;
+using AllShow.Models.Identity;
+using AllShow.Models.ViewModels;
 using System.Transactions;
 
 namespace prjAllShow.Backend.Areas.Admin.Controllers
@@ -78,7 +78,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(EmployeeSetting model)
+        public async Task<IActionResult> CreateAsync(EmployeeViewModel model)
         {
             ModelState.Remove("Id");
             ModelState.Remove("EmpAccount");
@@ -128,8 +128,15 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                 {
                     try
                     {
-                        model.EmpAccount = model.EmpEmail;
-                        _context.EmployeeSetting.Add(model);
+                        var config = new MapperConfiguration(cfg =>
+                        {
+                            cfg.CreateMap<EmployeeViewModel, EmployeeSetting>();
+                        });
+                        IMapper mapper = config.CreateMapper();
+                        EmployeeSetting sModel = mapper.Map<EmployeeViewModel, EmployeeSetting>(model);
+
+                        sModel.EmpAccount = model.EmpEmail;
+                        _context.EmployeeSetting.Add(sModel);
                         int result = _context.SaveChanges();
                         if (result == 1)
                         {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using prjAllShow.Backend.Data;
-using prjAllShow.Backend.Models;
-using prjAllShow.Backend.Models.Identity;
+using AllShow.Data;
+using AllShow.Models;
+using AllShow.Models.Identity;
 
 namespace prjAllShow.Backend.Seed
 {

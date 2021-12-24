@@ -1,3 +1,7 @@
+using AllShow;
+using AllShow.Interface;
+using AllShowService;
+using AllShowService.Interface;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,10 +12,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
-using prjAllShow.Backend.Data;
-using prjAllShow.Backend.Models.Identity;
+using AllShow.Data;
+using AllShow.Models.Identity;
 using prjAllShow.Backend.Resources;
 using prjAllShow.Backend.Seed;
+//using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +27,10 @@ builder.Services.AddDbContext<AllShowDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AllShowDBContext")));
 builder.Services.AddDbContext<IdentityDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDBContext")));
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
+builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
         .AddEntityFrameworkStores<IdentityDBContext>()
