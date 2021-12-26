@@ -39,3 +39,7 @@ https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-us
 
 5. [ASP.NET Core]ASP.net Core API 分層設計
 https://dotblogs.com.tw/bda605/2019/07/17/121029
+
+6. 模擬寄信
+http://www.binaryintellect.net/articles/6c463905-ed70-4b61-a05d-94083bfbec66.aspx
+https://docs.microsoft.com/en-us/aspnet/identity/overview/features-api/account-confirmation-and-password-recovery-with-aspnet-identity#examine-the-code-in-app_startidentityconfigcs

@@ -13,6 +13,11 @@
         .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    var qs = Context.Request.QueryString;
+    if (qs.HasValue)
+    {
+        returnUrl = returnUrl + qs.Value;
+    }
 }
 
 <div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">

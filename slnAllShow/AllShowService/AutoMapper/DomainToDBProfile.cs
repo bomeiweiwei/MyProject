@@ -14,6 +14,7 @@ namespace AllShowService.AutoMapper
         public DomainToDBProfile()
         {
             CreateMap<EmployeeSettingDTO, EmployeeSetting>();
+            CreateMap<ShopSettingDTO, ShopSetting>();
         }
     }
 }

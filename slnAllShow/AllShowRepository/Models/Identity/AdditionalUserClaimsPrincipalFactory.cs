@@ -33,7 +33,7 @@ namespace AllShow.Models.Identity
                     //claims.Add(new Claim(ClaimTypes.Role, "Admin"));
                 }
                 else
-                {
+                {                   
                     claims.Add(new Claim(JwtClaimTypes.Role, "factory"));
                     //claims.Add(new Claim(ClaimTypes.Role, "Factory"));
                 }

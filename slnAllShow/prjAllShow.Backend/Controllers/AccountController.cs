@@ -10,6 +10,9 @@ using prjAllShow.Backend.Resources;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Transactions;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using AllShow.Data;
+using AllShow.Models;
 
 namespace prjAllShow.Backend.Controllers
 {
@@ -18,18 +21,23 @@ namespace prjAllShow.Backend.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly IdentityDBContext _dbContext;
+        private readonly AllShowDBContext _context;
         private readonly ILogger<HomeController> _logger;
         IStringLocalizer<SharedResources> _localizer;
-        public AccountController(UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
+        public AccountController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
-            IStringLocalizer<SharedResources> localizer, 
+            IStringLocalizer<SharedResources> localizer,
+            IdentityDBContext dbContext,
+            AllShowDBContext context,
             ILogger<HomeController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
-
+            _dbContext = dbContext;
+            _context = context;
             _localizer = localizer;
             _logger = logger;
         }
@@ -59,7 +67,7 @@ namespace prjAllShow.Backend.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
-                    IsAdmin = true,
+                    IsAdmin = false,
                 };
                 var hashedPassword = passwordHasher.HashPassword(user, model.Password);
                 user.PasswordHash = hashedPassword;
@@ -83,9 +91,23 @@ namespace prjAllShow.Backend.Controllers
                             //將使用者加入該角色
                             await _userManager.AddToRoleAsync(user, roleName);
 
+                            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            //var callbackUrl = Url.Action(
+                            //   "ConfirmEmail", "Account",
+                            //   new { userId = user.Id, code = code },
+                            //   protocol: Request.Url.Scheme);
+
+                            //await _userManager.SendEmailAsync(user.Id,
+                            //   "Confirm your account",
+                            //   "Please confirm your account by clicking this link: <a href=\""
+                            //                                   + callbackUrl + "\">link</a>");
+                            // ViewBag.Link = callbackUrl;   // Used only for initial demo.
+
+                            //return View("DisplayEmail");
+
                             scope.Complete();
                             //return RedirectToAction("Index", "Home", new { area = "Admin" });
-                            return RedirectToAction("Welcome");
+                            return RedirectToAction("Welcome", "Home");
                         }
                     }
                     catch (Exception ex)
@@ -223,6 +245,95 @@ namespace prjAllShow.Backend.Controllers
         public IActionResult AccessDenied()
         {
             return View();
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userid, string token)
+        {            
+            if (userid == null || token == null)
+            {
+                ViewData["Message"] = "ConfirmEmail failed";
+                return RedirectToAction("Error", "Home");
+            }
+            var user = await _userManager.FindByIdAsync(userid);
+            IdentityResult result;
+            try
+            {
+                if (!user.EmailConfirmed)
+                {
+                    result = await _userManager.ConfirmEmailAsync(user, token);
+                }
+                else
+                {
+                    ViewData["Message"] = "Email already Confirm,U can use shop function";
+                    //ViewBag.ShowMsg = "Email Confirm,U can use shop function";
+                    return View();
+                }
+            }
+            catch (InvalidOperationException ioe)
+            {
+                // ConfirmEmailAsync throws when the userId is not found.
+                ViewData["Message"] = ioe.Message;
+                return RedirectToAction("Error", "Home");
+            }
+
+            if (result.Succeeded)
+            {
+                var hashedPassword = user.PasswordHash;
+                try
+                {
+                    //取得登入者所有的role name
+                    var roleNameList = await _userManager.GetRolesAsync(user);
+                    if (!roleNameList.Contains("Factory"))
+                    {
+                        IdentityUserRole<int> ur = new IdentityUserRole<int>
+                        {
+                            RoleId = 3,
+                            UserId = Convert.ToInt32(userid),
+                        };
+
+                        _dbContext.UserRoles.Add(ur);
+                        _dbContext.SaveChanges();
+                    }
+
+                    ShopSetting shop = new ShopSetting
+                    {
+                        EmpNo = 1,
+                        ShName = "ShopName",
+                        ShAccount = user.Email,
+                        ShPwd = hashedPassword,
+                        ShBoss = "Boss",
+                        ShContact = "Contact",
+                        ShAddress = "Address",
+                        ShTel = "00-0000000",
+                        ShEmail = user.Email,
+                        ShAbout = "About",
+                        ShAdState = "0",
+                        ShPopShop = "1",
+                        ShCheckState = "1",
+                        ShPwdState = "1",
+                        ShStartDate = DateTime.Now,
+                        ShEndDate = DateTime.Now.AddYears(1),
+                        ShCheckDate = DateTime.Now,
+                        ShThePic = "",
+                        ShLogoPic = "",
+                        ShUrl = "",
+                        ShAdTitle = "",
+                        ShAdPic = "",
+                    };
+                    _context.ShopSetting.Add(shop);
+                    _context.SaveChanges();
+                    ViewData["Message"] = "Email Confirm,U can use shop function";
+                    return View();
+                }
+                catch (Exception ex)
+                {
+                    ViewData["Message"] = "ConfirmEmail failed";
+                    return RedirectToAction("Error", "Home");
+                }
+            }
+
+            ViewData["Message"] = "ConfirmEmail failed";
+            return RedirectToAction("Error", "Home");
         }
     }
 }

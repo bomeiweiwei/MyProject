@@ -8,6 +8,7 @@ using AllShow.Models;
 using AllShow.Models.Identity;
 using AllShow.Models.ViewModels;
 using System.Transactions;
+using AllShowDTO;
 
 namespace prjAllShow.Backend.Areas.Admin.Controllers
 {
@@ -33,7 +34,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             
             var query = from item1 in user
                         join item2 in emp on item1.Email equals item2.EmpEmail
-                        select new EmployeeViewModel
+                        select new EmployeeSettingDTO
                         {
                             AuserId = item1.Id,
                             Id = item2.Id,
@@ -64,10 +65,10 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<EmployeeSetting, EmployeeViewModel>();
+                cfg.CreateMap<EmployeeSetting, EmployeeSettingDTO>();
             });
             IMapper mapper = config.CreateMapper();
-            EmployeeViewModel viewModel = mapper.Map<EmployeeSetting, EmployeeViewModel>(employee);
+            EmployeeSettingDTO viewModel = mapper.Map<EmployeeSetting, EmployeeSettingDTO>(employee);
             viewModel.AuserId = auser.Id;
             return View(viewModel);
         }
@@ -78,7 +79,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(EmployeeViewModel model)
+        public async Task<IActionResult> CreateAsync(EmployeeSettingDTO model)
         {
             ModelState.Remove("Id");
             ModelState.Remove("EmpAccount");
@@ -130,10 +131,10 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                     {
                         var config = new MapperConfiguration(cfg =>
                         {
-                            cfg.CreateMap<EmployeeViewModel, EmployeeSetting>();
+                            cfg.CreateMap<EmployeeSettingDTO, EmployeeSetting>();
                         });
                         IMapper mapper = config.CreateMapper();
-                        EmployeeSetting sModel = mapper.Map<EmployeeViewModel, EmployeeSetting>(model);
+                        EmployeeSetting sModel = mapper.Map<EmployeeSettingDTO, EmployeeSetting>(model);
 
                         sModel.EmpAccount = model.EmpEmail;
                         _context.EmployeeSetting.Add(sModel);
@@ -168,16 +169,16 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
 
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<EmployeeSetting, EmployeeViewModel>();
+                cfg.CreateMap<EmployeeSetting, EmployeeSettingDTO>();
             });
             IMapper mapper = config.CreateMapper();
-            EmployeeViewModel viewModel = mapper.Map<EmployeeSetting, EmployeeViewModel>(employee);
+            EmployeeSettingDTO viewModel = mapper.Map<EmployeeSetting, EmployeeSettingDTO>(employee);
             viewModel.AuserId = auser.Id;
             return View(viewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditAsync(EmployeeViewModel model)
+        public async Task<IActionResult> EditAsync(EmployeeSettingDTO model)
         {
             ModelState.Remove("Authorities");
             ModelState.Remove("Advertisement");
@@ -212,11 +213,11 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             {
                                 if (model.ChangePwd.HasValue && model.ChangePwd.Value)
                                 {
-                                    cfg.CreateMap<EmployeeViewModel, EmployeeSetting>();
+                                    cfg.CreateMap<EmployeeSettingDTO, EmployeeSetting>();
                                 }
                                 else
                                 {
-                                    cfg.CreateMap<EmployeeViewModel, EmployeeSetting>().ForMember(x => x.EmpPwd, opt => opt.Ignore());
+                                    cfg.CreateMap<EmployeeSettingDTO, EmployeeSetting>().ForMember(x => x.EmpPwd, opt => opt.Ignore());
                                 }
                             });
                             IMapper mapper = config.CreateMapper();

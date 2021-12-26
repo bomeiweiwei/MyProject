@@ -1,0 +1,35 @@
+﻿@model AllShowDTO.ShopSettingDTO
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-12 col-md-4 mb-2">
+    <div class="card" style="width:100%;">
+        <div class="card-body">
+            <h5 class="card-title">詳細資料</h5>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShName)：@Html.DisplayFor(model => model.ShName)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShAccount)：@Html.DisplayFor(model => model.ShAccount)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShBoss)：@Html.DisplayFor(model => model.ShBoss)</p> 
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShContact)：@Html.DisplayFor(model => model.ShContact)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShEmail)：@Html.DisplayFor(model => model.ShEmail)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShAddress)：@Html.DisplayFor(model => model.ShAddress)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShTel)：@Html.DisplayFor(model => model.ShTel)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShUrl)：@Html.DisplayFor(model => model.ShUrl)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShPopShopDesc)：@Html.DisplayFor(model => model.ShPopShopDesc)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShCheckStateDesc)：@Html.DisplayFor(model => model.ShCheckStateDesc)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShPwdStateDesc)：@Html.DisplayFor(model => model.ShPwdStateDesc)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShCheckDate)：@Html.DisplayFor(model => model.ShCheckDate)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShStartDate)：@Html.DisplayFor(model => model.ShStartDate)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShEndDate)：@Html.DisplayFor(model => model.ShEndDate)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShStopRightStartDate)：@Html.DisplayFor(model => model.ShStopRightStartDate)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShStopRightEnddate)：@Html.DisplayFor(model => model.ShStopRightEnddate)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpName)：@Html.DisplayFor(model => model.EmpName)</p>  
+            <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@Model.AuserId" asp-route-eId="@Model.Id" class="btn btn-warning">編輯</a> |
+            <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.AuserId)
+        </div>
+    </div>
+</div>

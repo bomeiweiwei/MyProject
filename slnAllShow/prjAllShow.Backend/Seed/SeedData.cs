@@ -351,7 +351,7 @@ namespace prjAllShow.Backend.Seed
                             ShAdState = "0",
                             ShPopShop = "1",
                             ShCheckState = "1",
-                            ShPwdState = "0",
+                            ShPwdState = "1",
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
@@ -377,7 +377,7 @@ namespace prjAllShow.Backend.Seed
                             ShAdState = "0",
                             ShPopShop = "1",
                             ShCheckState = "1",
-                            ShPwdState = "0",
+                            ShPwdState = "1",
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
@@ -403,7 +403,7 @@ namespace prjAllShow.Backend.Seed
                             ShAdState = "0",
                             ShPopShop = "1",
                             ShCheckState = "1",
-                            ShPwdState = "0",
+                            ShPwdState = "1",
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
@@ -429,7 +429,7 @@ namespace prjAllShow.Backend.Seed
                             ShAdState = "0",
                             ShPopShop = "1",
                             ShCheckState = "1",
-                            ShPwdState = "0",
+                            ShPwdState = "1",
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
@@ -647,7 +647,7 @@ namespace prjAllShow.Backend.Seed
                 members = context.MemberSetting.ToList();
                 for (int i = 0; i < members.Count(); i++)
                 {
-                    appUserDict.Add(appUserId, 4);
+                    appUserDict.Add(appUserId, 5);
                     appUserId++;
                 }
                 //customerIds = members.Select(m => m.Id).ToList();                
@@ -695,6 +695,14 @@ namespace prjAllShow.Backend.Seed
                              Name = "Customer",
                              NormalizedName = "CUSTOMER"
 
+                         },
+                         new ApplicationRole
+                         {
+                             //Id = 5,
+                             Description = "This Is Member",
+                             Name = "Member",
+                             NormalizedName = "MEMBER"
+
                          });
 
                     context.SaveChanges();
@@ -715,7 +723,8 @@ namespace prjAllShow.Backend.Seed
                             PasswordHash = hashedPassword,
                             LockoutEnabled = true,
                             SecurityStamp = Guid.NewGuid().ToString(),
-                            IsAdmin = true
+                            IsAdmin = true,
+                            EmailConfirmed =true
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
@@ -728,12 +737,13 @@ namespace prjAllShow.Backend.Seed
                             PhoneNumber = item.ShTel,
                             UserName = item.ShContact,
                             NormalizedUserName = item.ShContact.ToUpper(),
-                            Email = item.ShEmail,
-                            NormalizedEmail = item.ShEmail.ToUpper(),
+                            Email = item.ShAccount,
+                            NormalizedEmail = item.ShAccount.ToUpper(),
                             PasswordHash = hashedPassword,
                             LockoutEnabled = true,
                             SecurityStamp = Guid.NewGuid().ToString(),
-                            IsAdmin = false
+                            IsAdmin = false,
+                            EmailConfirmed = true
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
@@ -751,7 +761,8 @@ namespace prjAllShow.Backend.Seed
                             PasswordHash = hashedPassword,
                             LockoutEnabled = true,
                             SecurityStamp = Guid.NewGuid().ToString(),
-                            IsAdmin = false
+                            IsAdmin = false,
+                            EmailConfirmed = true
                         };
                         context.Users.Add(user);
                         context.SaveChanges();

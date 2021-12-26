@@ -17,115 +17,73 @@ namespace AllShow.Models
         [Display(Name = "Shop.ShNo")]
         public override int Id { get; set; }
 
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.EmpNo")]
         public Nullable<int> EmpNo { get; set; }
 
-        [MaxLength(1000, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShThePic")]
+        [MaxLength(1000)]
         public string ShThePic { get; set; }
 
-        [MaxLength(20, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShName")]
+        [MaxLength(20)]
         public string ShName { get; set; }
 
         //[Required(ErrorMessage = "Field_Required")]
         //[Display(Name = "Shop.ShClassNo")]
         //public int ShClassNo { get; set; } 
 
-        [MaxLength(256, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShAccount")]
+        [MaxLength(256)]
         public string ShAccount { get; set; }
 
-        [Required(ErrorMessage = "Field_Required")]
-        [DataType(DataType.Password)]
-        [Display(Name = "Shop.ShPwd")]
         public string ShPwd { get; set; }
 
-        [MaxLength(10, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShBoss")]
+        [MaxLength(10)]
         public string ShBoss { get; set; }
 
-        [MaxLength(10, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShContact")]
+        [MaxLength(10)]
         public string ShContact { get; set; }
 
-        [MaxLength(30, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShAddress")]
+        [MaxLength(30)]
         public string ShAddress { get; set; }
 
-        [MaxLength(10, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShTel")]
+        [MaxLength(10)]
         public string ShTel { get; set; }
 
-        [MaxLength(256, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShEmail")]
+        [MaxLength(256)]
         public string ShEmail { get; set; }
 
-        [MaxLength(300, ErrorMessage = "Field_MaxLength")]
-        [Display(Name = "Shop.ShAbout")]
+        [MaxLength(300)]
         public string ShAbout { get; set; }
 
-        [MaxLength(1000, ErrorMessage = "Field_MaxLength")]
-        [Display(Name = "Shop.ShLogoPic")]
+        [MaxLength(1000)]
         public string ShLogoPic { get; set; }
 
-        [MaxLength(50, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShUrl")]
+        [MaxLength(50)]
         public string ShUrl { get; set; }
 
-        [MaxLength(1, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShAdState")]
+        [MaxLength(1)]
         public string ShAdState { get; set; }
 
-        [MaxLength(20, ErrorMessage = "Field_MaxLength")]
-        [Display(Name = "Shop.ShAdTitle")]
+        [MaxLength(20)]
         public string ShAdTitle { get; set; }
 
-        [MaxLength(1000, ErrorMessage = "Field_MaxLength")]
-        [Display(Name = "Shop.ShAdPic")]
+        [MaxLength(1000)]
         public string ShAdPic { get; set; }
 
-        [MaxLength(1, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShPopShop")]
+        [MaxLength(1)]
         public string ShPopShop { get; set; }
 
-        [MaxLength(1, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShCheckState")]
+        [MaxLength(1)]
         public string ShCheckState { get; set; }
 
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShStartDate")]
         public Nullable<System.DateTime> ShStartDate { get; set; }
 
-        [Display(Name = "Shop.ShEndDate")]
         public Nullable<System.DateTime> ShEndDate { get; set; }
 
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShCheckDate")]
         public Nullable<System.DateTime> ShCheckDate { get; set; }
 
-        [MaxLength(1, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
-        [Display(Name = "Shop.ShPwdState")]
+        [MaxLength(1)]
         public string ShPwdState { get; set; }
 
-        [Display(Name = "Shop.ShStopRightStartDate")]
         public Nullable<System.DateTime> ShStopRightStartDate { get; set; }
 
-        [Display(Name = "Shop.ShStopRightEnddate")]
         public Nullable<System.DateTime> ShStopRightEnddate { get; set; }
 
         [ForeignKey("EmpNo")]

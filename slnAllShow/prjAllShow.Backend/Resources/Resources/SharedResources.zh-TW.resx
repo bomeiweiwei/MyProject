@@ -123,6 +123,9 @@
   <data name="EmailPWDError" xml:space="preserve">
     <value>信箱或密碼錯誤</value>
   </data>
+  <data name="Employee.ApproveEmpName" xml:space="preserve">
+    <value>核准人員</value>
+  </data>
   <data name="Employee.EmpAccount" xml:space="preserve">
     <value>員工帳號</value>
   </data>
@@ -182,6 +185,81 @@
   </data>
   <data name="RegisterViewModel.Password" xml:space="preserve">
     <value>密碼</value>
+  </data>
+  <data name="Shop.EmpNo" xml:space="preserve">
+    <value>審核人編號</value>
+  </data>
+  <data name="Shop.ShAbout" xml:space="preserve">
+    <value>關於我們</value>
+  </data>
+  <data name="Shop.ShAccount" xml:space="preserve">
+    <value>廠商帳號</value>
+  </data>
+  <data name="Shop.ShAddress" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="Shop.ShAdPic" xml:space="preserve">
+    <value>店內廣告圖片</value>
+  </data>
+  <data name="Shop.ShAdState" xml:space="preserve">
+    <value>店內廣告狀態</value>
+  </data>
+  <data name="Shop.ShAdTitle" xml:space="preserve">
+    <value>店內廣告標題</value>
+  </data>
+  <data name="Shop.ShBoss" xml:space="preserve">
+    <value>負責人</value>
+  </data>
+  <data name="Shop.ShCheckDate" xml:space="preserve">
+    <value>審核通過日</value>
+  </data>
+  <data name="Shop.ShCheckState" xml:space="preserve">
+    <value>審核狀態</value>
+  </data>
+  <data name="Shop.ShContact" xml:space="preserve">
+    <value>聯絡人</value>
+  </data>
+  <data name="Shop.ShEmail" xml:space="preserve">
+    <value>聯絡人信箱</value>
+  </data>
+  <data name="Shop.ShEndDate" xml:space="preserve">
+    <value>營業結束日</value>
+  </data>
+  <data name="Shop.ShLogoPic" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="Shop.ShName" xml:space="preserve">
+    <value>商店名稱</value>
+  </data>
+  <data name="Shop.ShNo" xml:space="preserve">
+    <value>廠商編號</value>
+  </data>
+  <data name="Shop.ShPopShop" xml:space="preserve">
+    <value>熱門商店</value>
+  </data>
+  <data name="Shop.ShPwd" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="Shop.ShPwdState" xml:space="preserve">
+    <value>廠商帳號狀態</value>
+  </data>
+  <data name="Shop.ShStartDate" xml:space="preserve">
+    <value>營業起始日</value>
+  </data>
+  <data name="Shop.ShStopRightEnddate" xml:space="preserve">
+    <value>停權結束日</value>
+  </data>
+  <data name="Shop.ShStopRightStartDate" xml:space="preserve">
+    <value>停權起始日</value>
+  </data>
+  <data name="Shop.ShTel" xml:space="preserve">
+    <value>電話</value>
+  </data>
+  <data name="Shop.ShThePic" xml:space="preserve">
+    <value>佈景主題</value>
+  </data>
+  <data name="Shop.ShUrl" xml:space="preserve">
+    <value>URL</value>
   </data>
   <data name="SysBulidBy" xml:space="preserve">
     <value>系統維護建置by</value>

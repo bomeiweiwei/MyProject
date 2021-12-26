@@ -1,0 +1,84 @@
+﻿@model IEnumerable<AllShowDTO.ShopSettingDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">新增廠商</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ShLogoPic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShBoss)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShContact)
+            </th>           
+            <th>
+                @Html.DisplayNameFor(model => model.ShTel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShPopShopDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShCheckStateDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShPwdStateDesc)
+            </th>           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <img width="100" height="100" src="@item.ShLogoPic">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShBoss)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShContact)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.ShTel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShPopShopDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShCheckStateDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShPwdStateDesc)
+            </td>           
+            <td>
+                <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-warning">編輯</a> |
+                <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-info">詳細</a> |
+                <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

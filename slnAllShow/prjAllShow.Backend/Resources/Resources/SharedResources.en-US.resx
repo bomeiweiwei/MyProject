@@ -123,6 +123,9 @@
   <data name="EmailPWDError" xml:space="preserve">
     <value>Email or Password Error</value>
   </data>
+  <data name="Employee.ApproveEmpName" xml:space="preserve">
+    <value>Approve Name</value>
+  </data>
   <data name="Employee.EmpAccount" xml:space="preserve">
     <value>Account</value>
   </data>
@@ -182,6 +185,81 @@
   </data>
   <data name="RegisterViewModel.Password" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="Shop.EmpNo" xml:space="preserve">
+    <value>Emp No</value>
+  </data>
+  <data name="Shop.ShAbout" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Shop.ShAccount" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Shop.ShAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Shop.ShAdPic" xml:space="preserve">
+    <value>Ad Pic</value>
+  </data>
+  <data name="Shop.ShAdState" xml:space="preserve">
+    <value>Ad State</value>
+  </data>
+  <data name="Shop.ShAdTitle" xml:space="preserve">
+    <value>Ad Title</value>
+  </data>
+  <data name="Shop.ShBoss" xml:space="preserve">
+    <value>Boss</value>
+  </data>
+  <data name="Shop.ShCheckDate" xml:space="preserve">
+    <value>Check Date</value>
+  </data>
+  <data name="Shop.ShCheckState" xml:space="preserve">
+    <value>Check State</value>
+  </data>
+  <data name="Shop.ShContact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Shop.ShEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Shop.ShEndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="Shop.ShLogoPic" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="Shop.ShName" xml:space="preserve">
+    <value>Shop Name</value>
+  </data>
+  <data name="Shop.ShNo" xml:space="preserve">
+    <value>ShNo</value>
+  </data>
+  <data name="Shop.ShPopShop" xml:space="preserve">
+    <value>Pop Shop</value>
+  </data>
+  <data name="Shop.ShPwd" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Shop.ShPwdState" xml:space="preserve">
+    <value>Pwd State</value>
+  </data>
+  <data name="Shop.ShStartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="Shop.ShStopRightEnddate" xml:space="preserve">
+    <value>Stop EndDate</value>
+  </data>
+  <data name="Shop.ShStopRightStartDate" xml:space="preserve">
+    <value>Stop StartDate</value>
+  </data>
+  <data name="Shop.ShTel" xml:space="preserve">
+    <value>Telephone</value>
+  </data>
+  <data name="Shop.ShThePic" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="Shop.ShUrl" xml:space="preserve">
+    <value>Url</value>
   </data>
   <data name="SysBulidBy" xml:space="preserve">
     <value>System Bulid By</value>
