@@ -32,10 +32,19 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
 builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
+            options.User.AllowedUserNameCharacters = null;
+            options.User.RequireUniqueEmail = true;
+        })
         .AddEntityFrameworkStores<IdentityDBContext>()
         .AddDefaultUI()
         .AddDefaultTokenProviders();
+/*
+ services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+    options.User.AllowedUserNameCharacters = "allowed characters here";
+    options.User.RequireUniqueEmail = true/false;
+});
+ */
 
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
         AdditionalUserClaimsPrincipalFactory>();

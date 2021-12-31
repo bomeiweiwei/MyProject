@@ -1,0 +1,247 @@
+﻿@model ShopSettingDTO
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <div id="app">
+        <div class="img-thumbnail clearfix col-md-6 col-12" style="padding:20px">
+            <h4 class="bg-primary rounded text-center text-white" style="padding:10px">編輯商店</h4>
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    @Html.DisplayNameFor(m => m.EmpName)
+                    @Html.DropDownList("EmpNo", ViewBag.ApproveEmp, "請選擇", new { id = "EmpNo", @class = "form-control", required = "required" })
+                    <span asp-validation-for="EmpNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShLogoPic" class="control-label"></label>
+                    <div>
+                        <img v-if="ShLogoPicImg" :src="ShLogoPicImg" width="300" />
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" id="File_ShLogoPic" name="File_ShLogoPic" class="custom-file-label" v-on:change="handelFileUpload2" />
+                        <label for="File_ShLogoPic" class="custom-file-label">@Html.DisplayNameFor(model => model.ShLogoPic)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShThePic" class="control-label"></label>
+                    <div>
+                        <img v-if="ShThePicImg" :src="ShThePicImg" width="300" />
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" id="File_ShThePic" name="File_ShThePic" class="custom-file-label" v-on:change="handelFileUpload" />
+                        <label for="File_ShThePic" class="custom-file-label">@Html.DisplayNameFor(model => model.ShThePic)</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShName" class="control-label"></label>
+                    <input asp-for="ShName" class="form-control" />
+                    <span asp-validation-for="ShName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShPwd" class="control-label"></label>
+                    <input asp-for="ShPwd" class="form-control" />
+                    <span asp-validation-for="ShPwd" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="form-check form-switch">
+                       <input type="checkbox" class="form-check-input" id="ChangePwd" name="ChangePwd" value="true" 
+                               @{
+                                   if (Model.ChangePwd.HasValue && Model.ChangePwd.Value)
+                                   {
+                                       @:checked
+                                   }
+                               }/>
+                        <label for="ChangePwd" class="form-check-label">修改密碼</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShBoss" class="control-label"></label>
+                    <input asp-for="ShBoss" class="form-control" />
+                    <span asp-validation-for="ShBoss" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShContact" class="control-label"></label>
+                    <input asp-for="ShContact" class="form-control" />
+                    <span asp-validation-for="ShContact" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShAddress" class="control-label"></label>
+                    <input asp-for="ShAddress" class="form-control" />
+                    <span asp-validation-for="ShAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShTel" class="control-label"></label>
+                    <input asp-for="ShTel" class="form-control" />
+                    <span asp-validation-for="ShTel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShEmail" class="control-label"></label>
+                    <input asp-for="ShEmail" class="form-control" />
+                    <span asp-validation-for="ShEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShAbout" class="control-label"></label>
+                    <input asp-for="ShAbout" class="form-control" />
+                    <span asp-validation-for="ShAbout" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShUrl" class="control-label"></label>
+                    <input asp-for="ShUrl" class="form-control" />
+                    <span asp-validation-for="ShUrl" class="text-danger"></span>
+                </div>
+            
+                <div class="form-group">
+                    <label asp-for="ShPopShop" class="control-label"></label>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShPopShop1" name="ShPopShop" value="0" 
+                      @if(Model.ShPopShop=="0")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShPopShop1">否</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShPopShop2" name="ShPopShop" value="1"
+                      @if(Model.ShPopShop=="1")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShPopShop2">是</label>
+                    </div>
+                    <span asp-validation-for="ShPopShop" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShCheckState" class="control-label"></label>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShCheckState1" name="ShCheckState" value="0" 
+                      @if(Model.ShCheckState=="0")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShCheckState1">未審查</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShCheckState2" name="ShCheckState" value="1"
+                      @if(Model.ShCheckState=="1")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShCheckState2">通過審查</label>
+                    </div>
+                    <span asp-validation-for="ShCheckState" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShStartDate" class="control-label"></label>
+                    <input asp-for="ShStartDate" class="form-control" />
+                    <span asp-validation-for="ShStartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShEndDate" class="control-label"></label>
+                    <input asp-for="ShEndDate" class="form-control" />
+                    <span asp-validation-for="ShEndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShCheckDate" class="control-label"></label>
+                    <input asp-for="ShCheckDate" class="form-control" />
+                    <span asp-validation-for="ShCheckDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShPwdState" class="control-label"></label>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShPwdState1" name="ShPwdState" value="0" 
+                      @if(Model.ShPwdState=="0")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShPwdState1">停用</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShPwdState2" name="ShPwdState" value="1"
+                      @if(Model.ShPwdState=="1")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShPwdState2">啟用</label>
+                    </div>
+                    <span asp-validation-for="ShPwdState" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShStopRightStartDate" class="control-label"></label>
+                    <input asp-for="ShStopRightStartDate" class="form-control" />
+                    <span asp-validation-for="ShStopRightStartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShStopRightEnddate" class="control-label"></label>
+                    <input asp-for="ShStopRightEnddate" class="form-control" />
+                    <span asp-validation-for="ShStopRightEnddate" class="text-danger"></span>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label asp-for="ShAdState" class="control-label"></label>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShAdState1" name="ShAdState" value="0" 
+                      @if(Model.ShAdState=="0")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShAdState1">未顯示</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ShAdState2" name="ShAdState" value="1"
+                      @if(Model.ShAdState=="1")
+                      {
+                        @:checked
+                      }
+                      >
+                      <label class="form-check-label" for="ShAdState2">顯示</label>
+                    </div>
+                    <span asp-validation-for="ShAdState" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShAdTitle" class="control-label"></label>
+                    <input asp-for="ShAdTitle" class="form-control" value="aaa"/>
+                    <span asp-validation-for="ShAdTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShAdPic" class="control-label"></label>
+                    <div>
+                        <img v-if="ShAdPicImg" :src="ShAdPicImg" width="300" />
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" id="File_ShAdPic" name="File_ShAdPic" class="custom-file-label" v-on:change="handelFileUpload3" />
+                        <label for="File_ShAdPic" class="custom-file-label">@Html.DisplayNameFor(model => model.ShAdPic)</label>
+                    </div>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.AuserId)
+                    @Html.HiddenFor(m => m.ShAccount)
+                    @Html.HiddenFor(m => m.ShThePic)
+                    @Html.HiddenFor(m => m.ShLogoPic)
+                    @Html.HiddenFor(m => m.ShAdPic)
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="儲存" class="btn btn-primary" />
+                    <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/scripts/Admin/Shop/Edit.js"></script>
+}

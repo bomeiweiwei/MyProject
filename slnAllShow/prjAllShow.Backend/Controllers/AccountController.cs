@@ -68,6 +68,8 @@ namespace prjAllShow.Backend.Controllers
                     Email = model.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     IsAdmin = false,
+                    CreatedDateTime = DateTime.Now,
+                    UpdatedDateTime = DateTime.Now,
                 };
                 var hashedPassword = passwordHasher.HashPassword(user, model.Password);
                 user.PasswordHash = hashedPassword;
@@ -221,6 +223,7 @@ namespace prjAllShow.Backend.Controllers
                 var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
                 user.UserName = model.UserName;
                 user.PhoneNumber= model.PhoneNumber;
+                user.UpdatedDateTime = DateTime.Now;
                 if (model.ChangePwd.HasValue && model.ChangePwd.Value)
                 {
                     var hashedPassword = passwordHasher.HashPassword(user, model.Password);
@@ -314,11 +317,11 @@ namespace prjAllShow.Backend.Controllers
                         ShStartDate = DateTime.Now,
                         ShEndDate = DateTime.Now.AddYears(1),
                         ShCheckDate = DateTime.Now,
-                        ShThePic = "",
-                        ShLogoPic = "",
+                        ShThePic = "0",
+                        ShLogoPic = "0",
                         ShUrl = "",
                         ShAdTitle = "",
-                        ShAdPic = "",
+                        ShAdPic = "0",
                     };
                     _context.ShopSetting.Add(shop);
                     _context.SaveChanges();

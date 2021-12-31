@@ -21,7 +21,7 @@ namespace AllShowDTO
         public Nullable<int> EmpNo { get; set; }
 
         [MaxLength(1000, ErrorMessage = "Field_MaxLength")]
-        [Required(ErrorMessage = "Field_Required")]
+        //[Required(ErrorMessage = "Field_Required")]
         [Display(Name = "Shop.ShThePic")]
         public string ShThePic { get; set; }
 
@@ -106,29 +106,35 @@ namespace AllShowDTO
         public string ShCheckState { get; set; }
 
         [Required(ErrorMessage = "Field_Required")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Shop.ShStartDate")]
         public Nullable<System.DateTime> ShStartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Shop.ShEndDate")]
         public Nullable<System.DateTime> ShEndDate { get; set; }
 
         [Required(ErrorMessage = "Field_Required")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Shop.ShCheckDate")]
         public Nullable<System.DateTime> ShCheckDate { get; set; }
 
         [MaxLength(1, ErrorMessage = "Field_MaxLength")]
         [Required(ErrorMessage = "Field_Required")]
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Shop.ShPwdState")]
         public string ShPwdState { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Shop.ShStopRightStartDate")]
         public Nullable<System.DateTime> ShStopRightStartDate { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Shop.ShStopRightEnddate")]
         public Nullable<System.DateTime> ShStopRightEnddate { get; set; }
@@ -201,5 +207,7 @@ namespace AllShowDTO
 
         [Display(Name = "Employee.ApproveEmpName")]
         public string EmpName { get; set; }
+
+        public bool? ChangePwd { get; set; }
     }
 }

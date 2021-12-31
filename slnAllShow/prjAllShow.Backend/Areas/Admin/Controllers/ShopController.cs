@@ -65,7 +65,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             Id = item1.Id,
                             EmpNo = item1.Id,
                             EmpName = item1.EmpName,
-                            ShLogoPic = "/Files/ShowImages?id=" + item1.ShLogoPic,
+                            ShLogoPic = item1.ShLogoPic,
                             ShName = item1.ShName,
                             ShBoss = item1.ShBoss,
                             ShContact = item1.ShContact,
@@ -77,7 +77,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             return View(query);
         }
 
-        public async Task<IActionResult> Details(int AuserId, int eId)
+        public async Task<IActionResult> Details(int AuserId, int sId)
         {
             var auser = await _userManager.FindByIdAsync(Convert.ToString(AuserId));
             if (auser == null)
@@ -85,7 +85,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                 return NotFound();
             }
             var shop = await _context.ShopSetting
-                .FirstOrDefaultAsync(m => m.Id == eId);
+                .FirstOrDefaultAsync(m => m.Id == sId);
             if (shop == null)
             {
                 return NotFound();
@@ -169,6 +169,208 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                 ViewBag.ShowErrorMsg = "不具有升級廠商身分";
                 return View();
             }
+        }
+
+        public async Task<IActionResult> Edit(int AuserId, int sId)
+        {
+            var auser = await _userManager.FindByIdAsync(Convert.ToString(AuserId));
+            if (auser == null)
+            {
+                return NotFound();
+            }
+            var shop = await _context.ShopSetting
+                .FirstOrDefaultAsync(m => m.Id == sId);
+            if (shop == null)
+            {
+                return NotFound();
+            }
+
+            SetApproveEmpItems();
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ShopSetting, ShopSettingDTO>();
+            });
+            IMapper mapper = config.CreateMapper();
+            ShopSettingDTO viewModel = mapper.Map<ShopSetting, ShopSettingDTO>(shop);
+            viewModel.AuserId = auser.Id;
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ShopSettingDTO model, IFormFile File_ShLogoPic, IFormFile File_ShThePic, IFormFile File_ShAdPic)
+        {
+            ModelState.Remove("EmpName");
+            ModelState.Remove("ShLogoPic");
+            ModelState.Remove("ShThePic");
+            ModelState.Remove("ShAdPic");
+            ModelState.Remove("File_ShLogoPic");
+            ModelState.Remove("File_ShThePic");
+            ModelState.Remove("File_ShAdPic");
+            if (!(model.ChangePwd.HasValue && model.ChangePwd.Value))
+            {
+                ModelState.Remove("ShPwd");
+            }
+            if (ModelState.IsValid)
+            {
+                if (File_ShLogoPic != null)
+                {
+                    if (File_ShLogoPic.Length > 0)
+                    {
+                        model.ShLogoPic = SaveImg(File_ShLogoPic).ToString();
+                    }
+                }
+                if (File_ShThePic != null)
+                {
+                    if (File_ShThePic.Length > 0)
+                    {
+                        model.ShThePic = SaveImg(File_ShThePic).ToString();
+                    }
+                }
+                if (File_ShAdPic != null)
+                {
+                    if (File_ShAdPic.Length > 0)
+                    {
+                        model.ShAdPic = SaveImg(File_ShAdPic).ToString();
+                    }
+                }
+                var user = await _userManager.FindByIdAsync(Convert.ToString(model.AuserId));
+                if (user != null)
+                {
+                    var passwordHasher = new PasswordHasher<ApplicationUser>();
+
+                    user.UserName = model.ShContact;
+                    user.PhoneNumber = model.ShTel;
+                    user.UpdatedDateTime = DateTime.Now;
+
+                    if (model.ChangePwd.HasValue && model.ChangePwd.Value)
+                    {
+                        var hashedPassword = passwordHasher.HashPassword(user, model.ShPwd);
+                        user.PasswordHash = hashedPassword;
+                        model.ShPwd = hashedPassword;
+                        user.SecurityStamp = Guid.NewGuid().ToString();
+                    }
+
+                    try
+                    {
+                        var result = await _userManager.UpdateAsync(user);
+                        if (result.Succeeded)
+                        {
+                            var config = new MapperConfiguration(cfg =>
+                            {
+                                if (model.ChangePwd.HasValue && model.ChangePwd.Value)
+                                {
+                                    cfg.CreateMap<ShopSettingDTO, ShopSetting>();
+                                }
+                                else
+                                {
+                                    cfg.CreateMap<ShopSettingDTO, ShopSetting>().ForMember(x => x.ShPwd, opt => opt.Ignore());
+                                }
+                            });
+                            IMapper mapper = config.CreateMapper();
+                            var shop = await _context.ShopSetting.FirstOrDefaultAsync(m => m.Id == model.Id);
+                            if (shop != null)
+                            {
+                                shop = mapper.Map(model, shop);
+                                _context.SaveChanges();
+                                return RedirectToAction("Index");
+                                
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = ex.Message;
+                    }
+                }
+            }
+            SetApproveEmpItems();
+            return View(model);
+        }
+        public async Task<IActionResult> DeleteAsync(int AuserId, int sId)
+        {
+            bool deleteFlag = true;
+            var auser = await _userManager.FindByIdAsync(Convert.ToString(AuserId));
+            if (auser == null)
+            {
+                deleteFlag = false;
+                return NotFound();
+            }
+
+            var setting = await _context.ShopSetting
+                .FirstOrDefaultAsync(m => m.Id == sId);
+            if (setting == null)
+            {
+                deleteFlag = false;
+                return NotFound();
+            }
+
+            if (deleteFlag)
+            {
+                _dbContext.Remove(auser);
+                _dbContext.SaveChanges();
+                _context.Remove(setting);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+        /// <summary>
+        /// 設定核准人員下拉選項
+        /// </summary>
+        private void SetApproveEmpItems()
+        {
+            IEnumerable<SelectListItem> items =
+                                       from value in _context.EmployeeSetting
+                                       select new SelectListItem
+                                       {
+                                           Text = value.EmpName.ToString(),
+                                           Value = value.Id.ToString(),
+                                            // Selected = value.Id == selectedMovie,
+                                        };
+
+            ViewBag.ApproveEmp = items;
+        }
+
+        private int SaveImg(IFormFile formFile)
+        {
+            byte[] buffer = new byte[formFile.Length];
+            var resultInBytes = ConvertToBytes(formFile);
+            Array.Copy(resultInBytes, buffer, resultInBytes.Length);
+
+            DbFiles dbFiles = new DbFiles()
+            {
+                Name = Path.GetRandomFileName(),
+                MimeType = formFile.ContentType,
+                Size = (int)formFile.Length,
+                Contnet = buffer
+            };
+            try
+            {
+                int newId=SaveDbFiles(dbFiles);
+                return newId;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private byte[] ConvertToBytes(IFormFile formFile)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                formFile.OpenReadStream().CopyTo(memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+        
+        private int SaveDbFiles(DbFiles dbFiles)
+        {
+            _context.Add(dbFiles);
+            _context.SaveChanges();
+
+            int id = dbFiles.Id;
+            return id;
         }
     }
 }

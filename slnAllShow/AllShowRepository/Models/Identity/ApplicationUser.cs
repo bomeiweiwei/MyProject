@@ -10,5 +10,7 @@ namespace AllShow.Models.Identity
     public class ApplicationUser : IdentityUser<int>
     {
         public bool IsAdmin { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+        public DateTime? UpdatedDateTime { get; set; }
     }
 }

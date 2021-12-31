@@ -83,10 +83,10 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         {
             ModelState.Remove("Id");
             ModelState.Remove("EmpAccount");
-            ModelState.Remove("Authorities");
-            ModelState.Remove("Advertisement");
-            ModelState.Remove("Announcement");
-            ModelState.Remove("Shop");
+            //ModelState.Remove("Authorities");
+            //ModelState.Remove("Advertisement");
+            //ModelState.Remove("Announcement");
+            //ModelState.Remove("Shop");
             if (ModelState.IsValid)
             {
                 var passwordHasher = new PasswordHasher<ApplicationUser>();
@@ -180,10 +180,10 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> EditAsync(EmployeeSettingDTO model)
         {
-            ModelState.Remove("Authorities");
-            ModelState.Remove("Advertisement");
-            ModelState.Remove("Announcement");
-            ModelState.Remove("Shop");
+            //ModelState.Remove("Authorities");
+            //ModelState.Remove("Advertisement");
+            //ModelState.Remove("Announcement");
+            //ModelState.Remove("Shop");
             if (!(model.ChangePwd.HasValue && model.ChangePwd.Value))
             {
                 ModelState.Remove("EmpPwd");
@@ -196,12 +196,15 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                     var passwordHasher = new PasswordHasher<ApplicationUser>();
 
                     user.UserName = model.EmpName;
-                    user.PhoneNumber = model.EmpTel;                    
+                    user.PhoneNumber = model.EmpTel;
+                    user.UpdatedDateTime = DateTime.Now;
+
                     if (model.ChangePwd.HasValue && model.ChangePwd.Value)
                     {       
                         var hashedPassword = passwordHasher.HashPassword(user, model.EmpPwd);               
                         user.PasswordHash = hashedPassword;
                         model.EmpPwd = hashedPassword;
+                        user.SecurityStamp = Guid.NewGuid().ToString();
                     }
 
                     try
@@ -225,11 +228,9 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             if (employee != null)
                             {
                                 employee = mapper.Map(model, employee);
-                                int _result = _context.SaveChanges();
-                                if (_result == 1)
-                                {
-                                    return RedirectToAction("Index");
-                                }
+                                _context.SaveChanges();
+                                return RedirectToAction("Index");
+                                
                             }
                         }
                     }

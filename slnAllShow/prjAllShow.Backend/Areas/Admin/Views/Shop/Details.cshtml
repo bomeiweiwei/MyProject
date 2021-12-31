@@ -26,7 +26,7 @@
             <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShStopRightStartDate)：@Html.DisplayFor(model => model.ShStopRightStartDate)</p>  
             <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.ShStopRightEnddate)：@Html.DisplayFor(model => model.ShStopRightEnddate)</p>  
             <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.EmpName)：@Html.DisplayFor(model => model.EmpName)</p>  
-            <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@Model.AuserId" asp-route-eId="@Model.Id" class="btn btn-warning">編輯</a> |
+            <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@Model.AuserId" asp-route-sId="@Model.Id" class="btn btn-warning">編輯</a> |
             <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
             @Html.HiddenFor(m => m.Id)
             @Html.HiddenFor(m => m.AuserId)

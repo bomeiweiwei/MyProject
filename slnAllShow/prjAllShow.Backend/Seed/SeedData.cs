@@ -355,11 +355,11 @@ namespace prjAllShow.Backend.Seed
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
-                            ShThePic = "",
-                            ShLogoPic = "",
+                            ShThePic = "0",
+                            ShLogoPic = "0",
                             ShUrl = "",
                             ShAdTitle = "",
-                            ShAdPic = "",
+                            ShAdPic = "0",
                         },
                         new ShopSetting
                         {
@@ -381,11 +381,11 @@ namespace prjAllShow.Backend.Seed
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
-                            ShThePic = "",
-                            ShLogoPic = "",
+                            ShThePic = "0",
+                            ShLogoPic = "0",
                             ShUrl = "",
                             ShAdTitle = "",
-                            ShAdPic = "",
+                            ShAdPic = "0",
                         },
                         new ShopSetting
                         {
@@ -407,11 +407,11 @@ namespace prjAllShow.Backend.Seed
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
-                            ShThePic = "",
-                            ShLogoPic = "",
+                            ShThePic = "0",
+                            ShLogoPic = "0",
                             ShUrl = "",
                             ShAdTitle = "",
-                            ShAdPic = "",
+                            ShAdPic = "0",
                         },
                         new ShopSetting
                         {
@@ -433,11 +433,11 @@ namespace prjAllShow.Backend.Seed
                             ShStartDate = DateTime.Now,
                             ShEndDate = DateTime.Now.AddYears(1),
                             ShCheckDate = DateTime.Now,
-                            ShThePic = "",
-                            ShLogoPic = "",
+                            ShThePic = "0",
+                            ShLogoPic = "0",
                             ShUrl = "",
                             ShAdTitle = "",
-                            ShAdPic = "",
+                            ShAdPic = "0",
                         }
                     );
                     context.SaveChanges();
@@ -707,6 +707,18 @@ namespace prjAllShow.Backend.Seed
 
                     context.SaveChanges();
                 }
+                else
+                {
+                    //context.Roles.AddRange(
+                    //    new ApplicationRole
+                    //    {
+                    //        //Id = 1,
+                    //        Description = "This Is Member",
+                    //        Name = "Member",
+                    //        NormalizedName = "MEMBER"
+                    //    });
+                    //context.SaveChanges();
+                }
                 #endregion
                 #region Users
                 if (!context.Users.Any())
@@ -724,7 +736,9 @@ namespace prjAllShow.Backend.Seed
                             LockoutEnabled = true,
                             SecurityStamp = Guid.NewGuid().ToString(),
                             IsAdmin = true,
-                            EmailConfirmed =true
+                            EmailConfirmed =true,
+                            CreatedDateTime = DateTime.Now,
+                            UpdatedDateTime = DateTime.Now,
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
@@ -743,7 +757,9 @@ namespace prjAllShow.Backend.Seed
                             LockoutEnabled = true,
                             SecurityStamp = Guid.NewGuid().ToString(),
                             IsAdmin = false,
-                            EmailConfirmed = true
+                            EmailConfirmed = true,
+                            CreatedDateTime = DateTime.Now,
+                            UpdatedDateTime = DateTime.Now,
                         };
                         context.Users.Add(user);
                         context.SaveChanges();
@@ -762,7 +778,9 @@ namespace prjAllShow.Backend.Seed
                             LockoutEnabled = true,
                             SecurityStamp = Guid.NewGuid().ToString(),
                             IsAdmin = false,
-                            EmailConfirmed = true
+                            EmailConfirmed = true,
+                            CreatedDateTime = DateTime.Now,
+                            UpdatedDateTime = DateTime.Now,
                         };
                         context.Users.Add(user);
                         context.SaveChanges();

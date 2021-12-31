@@ -35,7 +35,10 @@ https://damienbod.com/2018/10/30/implementing-user-management-with-asp-net-core-
 *以原則為基礎的角色檢查
 https://docs.microsoft.com/zh-tw/aspnet/core/security/authorization/roles?view=aspnetcore-6.0#policy-based-role-checks
 *other
+Get user id
 https://stackoverflow.com/questions/30701006/how-to-get-the-current-logged-in-user-id-in-asp-net-core
+碰到變更UserName無法輸入中文
+https://stackoverflow.com/questions/47988003/how-to-customize-asp-net-identity-core-username-to-allow-special-characters-and/47989334
 
 5. [ASP.NET Core]ASP.net Core API 分層設計
 https://dotblogs.com.tw/bda605/2019/07/17/121029

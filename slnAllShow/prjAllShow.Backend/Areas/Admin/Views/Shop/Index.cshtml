@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<h1>商店列表</h1>
 
 <p>
     <a asp-area="Admin" asp-action="Create" class="btn btn-primary">新增廠商</a>
@@ -45,9 +45,12 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                <img width="100" height="100" src="@item.ShLogoPic">
+            <tr>
+                <td>
+                    @{
+                        string imgUrl = Url.Action("ShowImages", "FilesUpload", new { Area = "", id = item.ShLogoPic });
+                    }
+                <img width="100" height="100" src="@imgUrl">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ShName)
@@ -74,9 +77,9 @@
                 @Html.DisplayFor(modelItem => item.ShPwdStateDesc)
             </td>           
             <td>
-                <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-warning">編輯</a> |
-                <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-info">詳細</a> |
-                <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
+                <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-sId="@item.Id" class="btn btn-warning">編輯</a> |
+                <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-sId="@item.Id" class="btn btn-info">詳細</a> |
+                <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-sId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
             </td>
         </tr>
 }
