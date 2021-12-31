@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Test WeatherForecast</h1>
+
+<div id="app">
+    <table class="table table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th>date</th>
+                <th>temperatureC</th>
+                <th>temperatureF</th>
+                <th>summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in WeatherList">
+                <td>{{item.date}}</td>
+                <td>{{item.temperatureC}}</td>
+                <td>{{item.temperatureF}}</td>
+                <td>{{item.summary}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            WeatherList: null
+        },
+        mounted() {
+            baseInstance.get('http://localhost:5154/WeatherForecast')
+                .then(response => {
+                    this.WeatherList = response.data;
+                });
+        }
+    });
+</script>
