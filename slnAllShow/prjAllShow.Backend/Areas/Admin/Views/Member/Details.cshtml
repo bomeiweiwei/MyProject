@@ -1,0 +1,25 @@
+﻿@model AllShowDTO.MemberSettingDTO
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="col-12 col-md-4 mb-2">
+    <div class="card" style="width:100%;">
+        <div class="card-body">
+            <h5 class="card-title">詳細資料</h5>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemEmail)：@Html.DisplayFor(model => model.MemEmail)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemDiminutive)：@Html.DisplayFor(model => model.MemDiminutive)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemName)：@Html.DisplayFor(model => model.MemName)</p> 
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemSex)：@Html.DisplayFor(model => model.MemSexDesc)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemTel)：@Html.DisplayFor(model => model.MemTel)</p>  
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemAddress)：@Html.DisplayFor(model => model.MemAddress)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemAccountState)：@Html.DisplayFor(model => model.MemAccountStateDesc)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemBirth)：@Html.DisplayFor(model => model.MemBirth)</p>
+            <p class="card-text text-secondary">@Html.DisplayNameFor(model => model.MemCreateDate)：@Html.DisplayFor(model => model.MemCreateDate)</p>  
+            <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@Model.AuserId" asp-route-mId="@Model.Id" class="btn btn-warning">編輯</a> |
+            <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
+        </div>
+    </div>
+</div>

@@ -171,6 +171,48 @@
   <data name="Logout" xml:space="preserve">
     <value>登出</value>
   </data>
+  <data name="Member.MemAccountState" xml:space="preserve">
+    <value>帳號狀態</value>
+  </data>
+  <data name="Member.MemAddress" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="Member.MemBirth" xml:space="preserve">
+    <value>生日</value>
+  </data>
+  <data name="Member.MemCheckNumber" xml:space="preserve">
+    <value>驗證碼</value>
+  </data>
+  <data name="Member.MemCreateDate" xml:space="preserve">
+    <value>新增日期</value>
+  </data>
+  <data name="Member.MemDiminutive" xml:space="preserve">
+    <value>暱稱</value>
+  </data>
+  <data name="Member.MemEmail" xml:space="preserve">
+    <value>信箱</value>
+  </data>
+  <data name="Member.MemName" xml:space="preserve">
+    <value>姓名</value>
+  </data>
+  <data name="Member.MemNo" xml:space="preserve">
+    <value>會員編號</value>
+  </data>
+  <data name="Member.MemPic" xml:space="preserve">
+    <value>照片</value>
+  </data>
+  <data name="Member.MemPwd" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="Member.MemSex" xml:space="preserve">
+    <value>性別</value>
+  </data>
+  <data name="Member.MemTel" xml:space="preserve">
+    <value>電話</value>
+  </data>
+  <data name="Member.MemUpdateDate" xml:space="preserve">
+    <value>更新日期</value>
+  </data>
   <data name="Register.Login" xml:space="preserve">
     <value>登入</value>
   </data>

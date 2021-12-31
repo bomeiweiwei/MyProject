@@ -1,0 +1,81 @@
+﻿@model IEnumerable<AllShowDTO.MemberSettingDTO>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>會員列表</h1>
+
+<p>
+    <a asp-area="Admin" asp-action="Create" class="btn btn-primary">新增會員</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MemPic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemDiminutive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemSex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MemTel)
+            </th>         
+            <th>
+                @Html.DisplayNameFor(model => model.MemAccountState)
+            </th>           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               @{
+                    string imgUrl = Url.Action("ShowImages", "FilesUpload", new { Area = "", id = item.MemPic });
+                }
+                <img width="100" height="100" src="@imgUrl">
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemDiminutive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemSexDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemTel)
+            </td>         
+            <td>
+                @Html.DisplayFor(modelItem => item.MemAccountStateDesc)
+            </td>                   
+            <td>
+                <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-mId="@item.Id" class="btn btn-warning">編輯</a> |
+                <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-mId="@item.Id" class="btn btn-info">詳細</a> |
+                <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-mId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

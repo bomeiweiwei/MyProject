@@ -1,0 +1,89 @@
+﻿@model MemberSettingDTO
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h4>新增會員</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4" id="app">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="MemEmail" class="control-label"></label>
+                <input asp-for="MemEmail" class="form-control" />
+                <span asp-validation-for="MemEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemPwd" class="control-label"></label>
+                <input asp-for="MemPwd" class="form-control" />
+                <span asp-validation-for="MemPwd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemName" class="control-label"></label>
+                <input asp-for="MemName" class="form-control" />
+                <span asp-validation-for="MemName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemBirth" class="control-label"></label>
+                <input asp-for="MemBirth" class="form-control" />
+                <span asp-validation-for="MemBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="MemSex1" name="MemSex" value="0" checked>
+                  <label class="form-check-label" for="MemSex1">女</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="MemSex2" name="MemSex" value="1">
+                  <label class="form-check-label" for="MemSex2">男</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemTel" class="control-label"></label>
+                <input asp-for="MemTel" class="form-control" />
+                <span asp-validation-for="MemTel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemAddress" class="control-label"></label>
+                <input asp-for="MemAddress" class="form-control" />
+                <span asp-validation-for="MemAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MemPic" class="control-label"></label>
+                <div>
+                    <img v-if="MemPicImg" :src="MemPicImg" width="300" />
+                </div>
+                <div class="custom-file">
+                    <input type="file" id="File_MemPic" name="File_MemPic" class="custom-file-label" v-on:change="handelFileUpload" />
+                    <label for="File_MemPic" class="custom-file-label">@Html.DisplayNameFor(model => model.MemPic)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="MemAccountState1" name="MemAccountState" value="0">
+                  <label class="form-check-label" for="MemAccountState1">停用</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="MemAccountState2" name="MemAccountState" value="1" checked>
+                  <label class="form-check-label" for="MemAccountState">啟用</label>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="新增" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-area="Admin" asp-action="Index" class="btn btn-light">回到列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/scripts/Admin/Member/Create.js"></script>
+}

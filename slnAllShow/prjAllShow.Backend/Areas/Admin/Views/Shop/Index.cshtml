@@ -45,11 +45,11 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @{
-                        string imgUrl = Url.Action("ShowImages", "FilesUpload", new { Area = "", id = item.ShLogoPic });
-                    }
+        <tr>
+            <td>
+                @{
+                    string imgUrl = Url.Action("ShowImages", "FilesUpload", new { Area = "", id = item.ShLogoPic });
+                }
                 <img width="100" height="100" src="@imgUrl">
             </td>
             <td>

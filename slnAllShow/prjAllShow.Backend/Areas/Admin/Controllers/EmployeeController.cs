@@ -96,6 +96,8 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                     Email = model.EmpEmail,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     IsAdmin = true,
+                    CreatedDateTime = DateTime.Now,
+                    UpdatedDateTime = DateTime.Now
                 };
                 var hashedPassword = passwordHasher.HashPassword(user, model.EmpPwd);
                 user.PasswordHash = hashedPassword;

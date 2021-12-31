@@ -171,6 +171,48 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="Member.MemAccountState" xml:space="preserve">
+    <value>Account State</value>
+  </data>
+  <data name="Member.MemAddress" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Member.MemBirth" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="Member.MemCheckNumber" xml:space="preserve">
+    <value>Check Number</value>
+  </data>
+  <data name="Member.MemCreateDate" xml:space="preserve">
+    <value>Create Date</value>
+  </data>
+  <data name="Member.MemDiminutive" xml:space="preserve">
+    <value>Diminutive</value>
+  </data>
+  <data name="Member.MemEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Member.MemName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Member.MemNo" xml:space="preserve">
+    <value>Member No</value>
+  </data>
+  <data name="Member.MemPic" xml:space="preserve">
+    <value>Picture</value>
+  </data>
+  <data name="Member.MemPwd" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Member.MemSex" xml:space="preserve">
+    <value>Sex</value>
+  </data>
+  <data name="Member.MemTel" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Member.MemUpdateDate" xml:space="preserve">
+    <value>Update Date</value>
+  </data>
   <data name="Register.Login" xml:space="preserve">
     <value>Login</value>
   </data>
