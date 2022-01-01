@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using NLog.Web;
+//using NLog.Web;
 using AllShow.Data;
 using AllShow.Models.Identity;
 using prjAllShow.Backend.Resources;
@@ -99,11 +99,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
-builder.Host.ConfigureLogging(logging=>
-{ 
-    logging.ClearProviders();
-    logging.SetMinimumLevel(LogLevel.Trace);
-}).UseNLog();
+//builder.Host.ConfigureLogging(logging=>
+//{ 
+//    logging.ClearProviders();
+//    logging.SetMinimumLevel(LogLevel.Trace);
+//}).UseNLog();
 
 var app = builder.Build();
 
@@ -128,7 +128,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {

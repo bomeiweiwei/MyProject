@@ -37,14 +37,13 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
-    <PackageReference Include="NLog" Version="4.7.13" />
-    <PackageReference Include="NLog.Config" Version="4.7.10" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AllShowRepository\AllShowRepository.csproj" />
     <ProjectReference Include="..\AllShowService\AllShowService.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
