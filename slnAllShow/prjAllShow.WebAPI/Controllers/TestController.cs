@@ -18,7 +18,7 @@ namespace prjAllShow.WebAPI.Controllers
         {
             _service = service;
         }
-        [Authorize]
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public ApiReponse<List<UserDTO>> List()
         {
