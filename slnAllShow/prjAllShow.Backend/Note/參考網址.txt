@@ -50,6 +50,8 @@ https://docs.microsoft.com/en-us/aspnet/identity/overview/features-api/account-c
 7. JWT
 https://www.c-sharpcorner.com/article/asp-net-core-web-api-5-0-authentication-using-jwtjson-base-token/
 https://www.codemag.com/Article/2105051/Implementing-JWT-Authentication-in-ASP.NET-Core-5
+token過期設定=>ClockSkew = TimeSpan.Zero
+https://stackoverflow.com/questions/55150099/jwt-token-expiration-time-failing-net-core
 
 8. other
 https://dotblogs.com.tw/shadow/2019/01/16/105615

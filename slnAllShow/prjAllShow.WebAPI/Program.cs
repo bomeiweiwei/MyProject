@@ -21,9 +21,9 @@ builder.Services.AddDbContext<IdentityDBContext>(options =>
 builder.Services.AddTransient<IUnitOfWorksPlus, UnitOfWorkPlus>();
 builder.Services.AddTransient<IApplicationUserService, ApplicationUserService>();
 
-double LoginExpireMinute = builder.Configuration.GetValue<double>("LoginExpireMinute");
+double minute = builder.Configuration.GetValue<double>("EXPIRY_DURATION_MINUTES");
 //builder.Services.AddTransient<ITokenService, TokenService>();
-builder.Services.AddSingleton<ITokenService>(new TokenService(LoginExpireMinute));
+builder.Services.AddSingleton<ITokenService>(new TokenService(minute));
 builder.Services.AddAuthentication(auth =>
 {
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -48,7 +48,8 @@ builder.Services.AddAuthentication(auth =>
         ValidateIssuerSigningKey = true,
         //ValidIssuer = builder.Configuration["Jwt:Issuer"],
         //ValidAudience = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
+        ClockSkew = TimeSpan.Zero
     };
 });
 //builder.Services.AddHttpContextAccessor();
