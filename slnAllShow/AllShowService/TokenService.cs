@@ -13,7 +13,11 @@ namespace AllShowService
 {
     public class TokenService: ITokenService
     {
-        private const double EXPIRY_DURATION_MINUTES = 60;
+        private double EXPIRY_DURATION_MINUTES = 60;
+        public TokenService(double LoginExpireMinute)
+        {
+            EXPIRY_DURATION_MINUTES = LoginExpireMinute;
+        }
         public string BuildToken(string key, ApplicationUser user, string[] roleNames)
         {
             List<Claim> claimLists = new List<Claim>();
@@ -36,7 +40,7 @@ namespace AllShowService
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(EXPIRY_DURATION_MINUTES),
+                Expires = DateTime.Now +TimeSpan.FromMinutes(EXPIRY_DURATION_MINUTES),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };

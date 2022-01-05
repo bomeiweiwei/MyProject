@@ -20,7 +20,10 @@ builder.Services.AddDbContext<IdentityDBContext>(options =>
 
 builder.Services.AddTransient<IUnitOfWorksPlus, UnitOfWorkPlus>();
 builder.Services.AddTransient<IApplicationUserService, ApplicationUserService>();
-builder.Services.AddTransient<ITokenService, TokenService>();
+
+double LoginExpireMinute = builder.Configuration.GetValue<double>("LoginExpireMinute");
+//builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddSingleton<ITokenService>(new TokenService(LoginExpireMinute));
 builder.Services.AddAuthentication(auth =>
 {
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
