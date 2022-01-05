@@ -27,13 +27,15 @@
 </div>
 
 <script>
+    var apiUrl='https://localhost:7154/WeatherForecast';
+    //var apiUrl='https://localhost:44393/WeatherForecast';
     new Vue({
         el: '#app',
         data: {
             WeatherList: null
         },
         mounted() {
-            baseInstance.get('http://localhost:5154/WeatherForecast')
+            baseInstance.get(apiUrl)
                 .then(response => {
                     this.WeatherList = response.data;
                 });

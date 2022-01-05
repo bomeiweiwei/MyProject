@@ -10,6 +10,8 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Identity;
 using AllShow.Models.Identity;
 using AllShow.Extensions;
+using AllShowRepository.Utility;
+using System.Security.Cryptography;
 
 namespace prjAllShow.Backend.Controllers
 {
@@ -43,6 +45,14 @@ namespace prjAllShow.Backend.Controllers
                     {
                         var userId = User.GetLoggedInUserId<int>();
                         var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
+
+                        //https://docs.microsoft.com/zh-tw/dotnet/api/system.security.cryptography.aescryptoserviceprovider?view=net-6.0
+                        using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider())
+                        {
+                            // Encrypt the string 
+                            string encrypted = PasswordUtility.AESEncryptor(user.PasswordHash, aes.Key, aes.IV);
+                        }
+
                         //取得登入者所有的role name
                         var roleNameList = await _userManager.GetRolesAsync(user);
                         //將登入者所有的role name全部轉小寫
@@ -52,7 +62,7 @@ namespace prjAllShow.Backend.Controllers
                         {
                             userRoles.Add(r.ToLowerInvariant());
                         }
-                        //role name全部轉小寫是否有包含area的小寫字串，有則帶進area/Home/Index，沒有則帶進Home/Welcome
+                        //role name全部轉小寫是否有包含area的小寫字串，有則帶進area/Home/Index，沒有則帶進Home/Welcome(因為註冊時是Customer，還沒有正式變成Factory，要去信件點連結)
                         if (userRoles.Any(m => m == area.ToLowerInvariant()))
                             return RedirectToAction("Index", "Home", new { Area = area });
                         else

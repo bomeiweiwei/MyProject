@@ -9,7 +9,7 @@ namespace AllShow.Interface
 {
     public interface IUnitOfWorks
     {
-        IGenericRepository<EmployeeSetting> EmployeeRepository { get; }
+        IGenericRepository<EmployeeSetting> EmployeeRepository { get; }       
 
         void SaveChanges();
     }
