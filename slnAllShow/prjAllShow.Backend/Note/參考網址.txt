@@ -46,3 +46,10 @@ https://dotblogs.com.tw/bda605/2019/07/17/121029
 6. 模擬寄信
 http://www.binaryintellect.net/articles/6c463905-ed70-4b61-a05d-94083bfbec66.aspx
 https://docs.microsoft.com/en-us/aspnet/identity/overview/features-api/account-confirmation-and-password-recovery-with-aspnet-identity#examine-the-code-in-app_startidentityconfigcs
+
+7. JWT
+https://www.c-sharpcorner.com/article/asp-net-core-web-api-5-0-authentication-using-jwtjson-base-token/
+https://www.codemag.com/Article/2105051/Implementing-JWT-Authentication-in-ASP.NET-Core-5
+
+8. other
+https://dotblogs.com.tw/shadow/2019/01/16/105615

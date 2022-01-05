@@ -13,10 +13,10 @@ namespace AllShowService
 {
     public class TokenService: ITokenService
     {
-        private const double EXPIRY_DURATION_MINUTES = 30;
+        private const double EXPIRY_DURATION_MINUTES = 60;
         public string BuildToken(string key, ApplicationUser user, string[] roleNames)
         {
-            List<Claim> claimLists=new List<Claim>();
+            List<Claim> claimLists = new List<Claim>();
             claimLists.Add(new Claim(ClaimTypes.Name, user.UserName));
             claimLists.Add(new Claim(ClaimTypes.Email, user.Email));
             claimLists.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));

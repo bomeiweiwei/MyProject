@@ -10,7 +10,7 @@ namespace AllShow.Models.ViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Field_Required")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Plz input Email")]
         [Display(Name = "RegisterViewModel.Email")]
         public string Email { get; set; }
 

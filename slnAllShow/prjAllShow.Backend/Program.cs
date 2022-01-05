@@ -16,6 +16,7 @@ using AllShow.Data;
 using AllShow.Models.Identity;
 using prjAllShow.Backend.Resources;
 using prjAllShow.Backend.Seed;
+using Microsoft.AspNetCore.Mvc;
 //using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,16 +72,20 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
-});
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Default SignIn settings.
     options.SignIn.RequireConfirmedEmail = false;
     options.SignIn.RequireConfirmedPhoneNumber = false;
 });
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+//    // Default SignIn settings.
+//    options.SignIn.RequireConfirmedEmail = false;
+//    options.SignIn.RequireConfirmedPhoneNumber = false;
+//});
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-builder.Services.AddMvc()
+builder.Services.AddMvc(options => {
+        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    })
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
     .AddDataAnnotationsLocalization(options =>
     {
@@ -89,13 +94,16 @@ builder.Services.AddMvc()
     });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddMvc();
+//builder.Services.AddMvc();
 
+double LoginExpireMinute = builder.Configuration.GetValue<double>("LoginExpireMinute");
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Account/Login";
     options.LogoutPath = $"/Account/Logout";
     options.AccessDeniedPath = $"/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(LoginExpireMinute);
+    options.SlidingExpiration = false;
 });
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 

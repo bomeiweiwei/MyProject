@@ -16,6 +16,7 @@ using AllShow.Models;
 
 namespace prjAllShow.Backend.Controllers
 {
+    [ResponseCache(NoStore = true)]
     public class AccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -124,6 +125,7 @@ namespace prjAllShow.Backend.Controllers
         /// 登入
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
@@ -134,6 +136,7 @@ namespace prjAllShow.Backend.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
@@ -178,6 +181,7 @@ namespace prjAllShow.Backend.Controllers
         ///     PhoneNumber 用 _userManager.FindByIdAsync 取 PhoneNumber，User.FindFirstValue好像沒有PhoneNumber
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> Details()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -195,6 +199,7 @@ namespace prjAllShow.Backend.Controllers
         /// 編輯
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         public async Task<IActionResult> Edit()
         {
             var userId = User.GetLoggedInUserId<int>();
@@ -209,6 +214,7 @@ namespace prjAllShow.Backend.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (!(model.ChangePwd.HasValue && model.ChangePwd.Value))
