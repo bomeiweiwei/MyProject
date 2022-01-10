@@ -32,6 +32,7 @@ builder.Services.AddDbContext<IdentityDBContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
 builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
             options.User.AllowedUserNameCharacters = null;

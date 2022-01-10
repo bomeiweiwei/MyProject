@@ -14,6 +14,9 @@ namespace AllShowService
     public class TokenService: ITokenService
     {
         private double EXPIRY_DURATION_MINUTES = 30;
+        public TokenService()
+        {
+        }
         public TokenService(double minute)
         {
             EXPIRY_DURATION_MINUTES = minute;

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AllShow.Data;
 using AllShow.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace prjAllShow.Backend.Controllers
 {
+    [Authorize]
     public class FilesUploadController : Controller
     {
         private string _path;

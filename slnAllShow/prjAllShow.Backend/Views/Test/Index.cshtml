@@ -1,11 +1,17 @@
-﻿
+﻿@inject IConfiguration _config;
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Test WeatherForecast</h1>
-
+<form method="post">
+<!-- form markup -->
+</form>
 <div id="app">
+    <button v-on:click="GetAuth()" class="btn btn-warning">驗證</button>
+    <button v-on:click="CheckAuth()" class="btn btn-primary">重新檢查</button>
+    <button v-on:click="PageReload()" class="btn btn-info">重新整理</button>   
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
@@ -27,18 +33,82 @@
 </div>
 
 <script>
-    var apiUrl='https://localhost:7154/WeatherForecast';
+    var authUrl='api/GetAuth';
+    var apiUrl='@(_config.GetSection("WebAPIUrl").Value)WeatherForecast';
+    var apiCheck='/api/GetAuth/checktokenvalid';
     //var apiUrl='https://localhost:44393/WeatherForecast';
     new Vue({
         el: '#app',
         data: {
             WeatherList: null
-        },
+        },      
         mounted() {
-            baseInstance.get(apiUrl)
+            //baseInstance.get(apiUrl)
+            //    .then(response => {
+            //        this.WeatherList = response.data;
+            //    });
+            const defaultOptions = {
+                baseURL: apiUrl,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              };
+
+              // Create instance
+              let instance = axios.create(defaultOptions);
+
+              // Set the AUTH token for any request
+              instance.interceptors.request.use(function (config) {
+                const token = window.localStorage.getItem("token");
+                config.headers.Authorization =  token ? `Bearer ${token}` : '';
+                return config;
+              });
+              instance.get(apiUrl)
                 .then(response => {
                     this.WeatherList = response.data;
                 });
+        },
+        filters: {
+            dateFormat: function (value, myFormat) {
+                return moment(value).format(myFormat || 'YYYY-MM-DD, HH:mm:ss');
+            }
+        },
+        methods: {        
+            GetAuth() {
+                //alert(authUrl);
+                $.ajax({
+                    url: authUrl,
+                    type: 'GET',
+                    success: function (obj, textStatus, xhr) {
+                        //console.log(obj.data);
+                        window.localStorage.setItem("token", obj.data); 
+                        alert('驗證完成');
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert('Error');
+                    }
+                });
+            },
+            CheckAuth() {
+                var data = { "Token": window.localStorage.getItem("token") };
+                //alert($('input:hidden[name="__RequestVerificationToken"]').val());
+                $.ajax({
+                    type: "POST",
+                    url: apiCheck,
+                    headers:{
+					    'RequestVerificationToken':$('input:hidden[name="__RequestVerificationToken"]').val()
+				    },
+                    data: JSON.stringify(data),
+                    contentType : 'application/json;',
+                }).done(function( data ) {
+                    alert(data.message);
+                }).fail(function() {
+                    alert( "error" );
+                });               
+            },
+            PageReload(){
+                window.location.reload();
+            }
         }
     });
 </script>
