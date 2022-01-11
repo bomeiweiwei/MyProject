@@ -1,3 +1,4 @@
+using AllShow;
 using AllShow.Data;
 using AllShow.Interface;
 using AllShow.Models.Identity;
@@ -18,39 +19,41 @@ builder.Services.AddDbContext<AllShowDBContext>(options =>
 builder.Services.AddDbContext<IdentityDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IdentityDBContext")));
 
+builder.Services.AddTransient<IUnitOfWorks, UnitOfWork>();
 builder.Services.AddTransient<IUnitOfWorksPlus, UnitOfWorkPlus>();
 builder.Services.AddTransient<IApplicationUserService, ApplicationUserService>();
+builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();
 
 double minute = builder.Configuration.GetValue<double>("EXPIRY_DURATION_MINUTES");
-//builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddSingleton<ITokenService>(new TokenService(minute));
+//builder.Services.AddTransient<ITokenService, TokenService>();
+
+var tokenValidationParameters = new TokenValidationParameters
+{
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    RequireExpirationTime = false,
+    //ValidIssuer = builder.Configuration["Jwt:Issuer"],
+    //ValidAudience = builder.Configuration["Jwt:Issuer"],
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
+    ClockSkew = TimeSpan.Zero
+};
+
+builder.Services.AddSingleton(tokenValidationParameters);
+
 builder.Services.AddAuthentication(auth =>
 {
     auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    auth.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    //options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    //options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-    //{
-    //    ValidateIssuerSigningKey = true,
-    //    ValidateIssuer = false,
-    //    ValidateAudience = false,
-    //    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]))
-    //};
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        //ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        //ValidAudience = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
-        ClockSkew = TimeSpan.Zero
-    };
+    options.TokenValidationParameters = tokenValidationParameters;
 });
 //builder.Services.AddHttpContextAccessor();
 //builder.Services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

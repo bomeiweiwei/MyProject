@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllShowRepository
+namespace AllShow
 {
     public class GenericRepositoryPlus<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {

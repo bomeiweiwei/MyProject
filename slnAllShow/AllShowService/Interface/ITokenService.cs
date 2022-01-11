@@ -9,7 +9,7 @@ namespace AllShowService.Interface
 {
     public interface ITokenService
     {
-        string BuildToken(string key, ApplicationUser user, string[] roleNames);
+        AuthResult BuildToken(string key, ApplicationUser user, string[] roleNames);
         bool IsTokenValid(string key, string token);
     }
 }

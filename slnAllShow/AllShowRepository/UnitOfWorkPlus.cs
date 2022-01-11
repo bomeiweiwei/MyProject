@@ -2,6 +2,7 @@
 using AllShow.Data;
 using AllShow.Interface;
 using AllShow.Models.Identity;
+using AllShow.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllShowRepository
+namespace AllShow
 {
     public class UnitOfWorkPlus : IUnitOfWorksPlus
     {
@@ -17,6 +18,7 @@ namespace AllShowRepository
         private GenericRepositoryPlus<ApplicationUser> _applicationUserRepository;
         private GenericRepositoryPlus<ApplicationRole> _applicationRoleRepository;
         private GenericRepositoryPlus<IdentityUserRole<int>> _IdentityUserRoleRepository;
+        private GenericRepositoryPlus<RefreshToken> _refreshTokenRepository;
         public UnitOfWorkPlus(IdentityDBContext context)
         {
             _context = context;
@@ -56,6 +58,23 @@ namespace AllShowRepository
                 }
                 return _IdentityUserRoleRepository;
             }
+        }
+
+        public IGenericRepository<RefreshToken> RefreshTokenRepository
+        {
+            get
+            {
+                if (this._refreshTokenRepository == null)
+                {
+                    this._refreshTokenRepository = new GenericRepositoryPlus<RefreshToken>(_context);
+                }
+                return _refreshTokenRepository;
+            }
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }

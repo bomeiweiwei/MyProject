@@ -1,4 +1,6 @@
-﻿using AllShow.Models.Identity;
+﻿using AllShow.Interface;
+using AllShow.Models;
+using AllShow.Models.Identity;
 using AllShowService.Interface;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,7 +15,8 @@ namespace AllShowService
 {
     public class TokenService: ITokenService
     {
-        private double EXPIRY_DURATION_MINUTES = 30;
+        private double EXPIRY_DURATION_MINUTES = 15;
+        //private readonly IUnitOfWorksPlus _unitOfWork;
         public TokenService()
         {
         }
@@ -21,12 +24,22 @@ namespace AllShowService
         {
             EXPIRY_DURATION_MINUTES = minute;
         }
-        public string BuildToken(string key, ApplicationUser user, string[] roleNames)
+        //public TokenService(IUnitOfWorksPlus unitOfWork)
+        //{
+        //    _unitOfWork = unitOfWork;
+        //}
+        public AuthResult BuildToken(string key, ApplicationUser user, string[] roleNames)
         {
             List<Claim> claimLists = new List<Claim>();
             claimLists.Add(new Claim(ClaimTypes.Name, user.UserName));
             claimLists.Add(new Claim(ClaimTypes.Email, user.Email));
             claimLists.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+
+            //claimLists.Add(new Claim("Id", user.Id.ToString()));
+            //claimLists.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+            //claimLists.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Email));
+            claimLists.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+
             foreach (var role in roleNames)
             {
                 claimLists.Add(new Claim(ClaimTypes.Role, role));
@@ -39,11 +52,12 @@ namespace AllShowService
             // 2. Create Private Key to Encrypted
             var tokenKey = Encoding.ASCII.GetBytes(key);
 
+            var dt = DateTime.UtcNow;
             //3. Create JETdescriptor
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddMinutes(EXPIRY_DURATION_MINUTES),
+                Expires = dt.AddMinutes(EXPIRY_DURATION_MINUTES),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature),
             };
@@ -51,7 +65,31 @@ namespace AllShowService
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             // 5. Return Token from method
-            return tokenHandler.WriteToken(token);
+            var jwtToken = tokenHandler.WriteToken(token);
+
+            var refreshToken = new RefreshToken()
+            {
+                JwtId = token.Id,
+                UserId = user.Id,
+                AddedDate = dt,
+                ExpiryDate = tokenDescriptor.Expires.Value,
+                Token = RandomString(25) + Guid.NewGuid()
+            };
+            //_refreshService.CreateRefreshToken(refreshToken);
+            //await _context.RefreshTokens.AddAsync(refreshToken);
+            //await _context.SaveChangesAsync();
+            //_unitOfWork.RefreshTokenRepository.Insert(refreshToken);
+            //_unitOfWork.SaveChanges();
+
+            AuthResult result = new AuthResult
+            {
+                JwtId = refreshToken.JwtId,//JwtRegisteredClaimNames.Jti
+                CreatedTime = refreshToken.AddedDate,
+                ExpireTime = refreshToken.ExpiryDate,
+                Token = jwtToken,
+                RefreshToken = refreshToken.Token
+            };
+            return result;
         }
 
         public bool IsTokenValid(string key, string token)
@@ -77,6 +115,14 @@ namespace AllShowService
                 return false;
             }
             return true;
+        }
+
+        public string RandomString(int length)
+        {
+            var random = new Random();
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }

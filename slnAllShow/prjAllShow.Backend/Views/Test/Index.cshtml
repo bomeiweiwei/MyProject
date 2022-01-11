@@ -79,9 +79,9 @@
                 $.ajax({
                     url: authUrl,
                     type: 'GET',
-                    success: function (obj, textStatus, xhr) {
-                        //console.log(obj.data);
-                        window.localStorage.setItem("token", obj.data); 
+                    success: function (obj, textStatus, xhr) {                       
+                        window.localStorage.setItem("token", obj.data.token); 
+                        window.localStorage.setItem("refreshtoken", obj.data.refreshToken); 
                         alert('驗證完成');
                     },
                     error: function (xhr, textStatus, errorThrown) {
@@ -90,7 +90,10 @@
                 });
             },
             CheckAuth() {
-                var data = { "Token": window.localStorage.getItem("token") };
+                var data = { 
+                    "Token": window.localStorage.getItem("token"),
+                    "RefreshToken": window.localStorage.getItem("refreshtoken")
+                };
                 //alert($('input:hidden[name="__RequestVerificationToken"]').val());
                 $.ajax({
                     type: "POST",
@@ -100,8 +103,16 @@
 				    },
                     data: JSON.stringify(data),
                     contentType : 'application/json;',
-                }).done(function( data ) {
-                    alert(data.message);
+                }).done(function( obj ) {
+                    console.log(obj);
+                    if(obj.success == true){
+                        window.localStorage.setItem("token", obj.data.token); 
+                        window.localStorage.setItem("refreshtoken", obj.data.refreshToken); 
+                        alert('重新驗證完成');
+                    }else{
+                        alert(obj.message);
+                    }
+                    
                 }).fail(function() {
                     alert( "error" );
                 });               

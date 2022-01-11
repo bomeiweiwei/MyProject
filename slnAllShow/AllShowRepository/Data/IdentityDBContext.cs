@@ -1,4 +1,5 @@
-﻿using AllShow.Models.Identity;
+﻿using AllShow.Models;
+using AllShow.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -61,5 +62,7 @@ namespace AllShow.Data
                 entity.ToTable("AllShowUserRoles"/*, schema: schema*/);
             });
         }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

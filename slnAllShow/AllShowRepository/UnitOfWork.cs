@@ -1,6 +1,8 @@
 ﻿using AllShow.Data;
 using AllShow.Interface;
 using AllShow.Models;
+using AllShow.Models.Identity;
+using AllShowRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,7 @@ namespace AllShow
                 }
                 return _employeeRepository;
             }
-        }
+        }        
 
         public void SaveChanges()
         {

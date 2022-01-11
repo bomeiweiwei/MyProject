@@ -31,7 +31,11 @@ builder.Services.AddDbContext<IdentityDBContext>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWorksPlus, UnitOfWorkPlus>();
 builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
+
+//double minute = builder.Configuration.GetValue<double>("EXPIRY_DURATION_MINUTES");
+//builder.Services.AddSingleton<ITokenService>(new TokenService(minute));
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => {

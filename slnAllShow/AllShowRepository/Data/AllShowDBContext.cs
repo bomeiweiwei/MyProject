@@ -1,4 +1,5 @@
 ﻿using AllShow.Models;
+using AllShow.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,6 @@ namespace AllShow.Data
         public DbSet<ShopSetting> ShopSetting { get; set; }
         public DbSet<ShClassList> ShClassList { get; set; }
         public DbSet<ShopOrder> ShopOrder { get; set; }
-        public DbSet<DbFiles> DbFiles { get; set; }
+        public DbSet<DbFiles> DbFiles { get; set; }       
     }
 }

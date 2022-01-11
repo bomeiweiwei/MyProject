@@ -1,4 +1,5 @@
 ﻿using AllShow.Interface;
+using AllShow.Models;
 using AllShow.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -14,5 +15,7 @@ namespace AllShow.Interface
         IGenericRepository<ApplicationUser> ApplicationUserRepository { get; }
         IGenericRepository<ApplicationRole> ApplicationRoleRepository { get; }
         IGenericRepository<IdentityUserRole<int>> IdentityUserRoleRepository { get; }
+        IGenericRepository<RefreshToken> RefreshTokenRepository { get; }
+        void SaveChanges();
     }
 }

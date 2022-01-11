@@ -1,4 +1,5 @@
 ﻿using AllShow.Models.Identity;
+using AllShowDTO;
 using AllShowService.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -31,12 +32,13 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<ApiReponse<string>> GetAuthTokenAsync()
+        public async Task<ApiReponse<AuthResult>> GetAuthTokenAsync()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
             string tokenStr;
+            string retokenStr;
             //The data that needs to be sent. Any object works.
             var pocoObject = new
             {
@@ -58,8 +60,10 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             var response = await client.PostAsync(url, data);
 
             //It would be better to make sure this request actually made it through
-            tokenStr = await response.Content.ReadAsStringAsync();
-
+            //tokenStr = await response.Content.ReadAsStringAsync();
+            AuthResult res = JsonConvert.DeserializeObject<AuthResult>(await response.Content.ReadAsStringAsync());
+            tokenStr = res.Token;
+            retokenStr = res.RefreshToken;
             //close out the client
             client.Dispose();
             //using (HttpClient client = new HttpClient())
@@ -80,25 +84,67 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             //        }
             //    }
             //}
-            return new ApiReponse<string>(tokenStr);
+            return new ApiReponse<AuthResult>(
+                new AuthResult()
+                {
+                    Token = res.Token,
+                    Success = true,
+                    RefreshToken = res.RefreshToken,
+                });
         }
 
         [Authorize]
         [HttpPost("checktokenvalid")]
-        public ApiReponse<string> CheckTokenValid([FromBody] ViewData view)
+        public async Task<ApiReponse<AuthResult>> CheckTokenValidAsync([FromBody] TokenRequest request)
         {
-            bool check = _tokenService.IsTokenValid(this.key, view.Token);
+            //bool check = _tokenService.IsTokenValid(this.key, view.Token);
 
-            if (!check)
-                return new ApiReponse<string>("驗證失敗", "check Token Valid", false);
+            //if (!check)
+            //    return new ApiReponse<string>("驗證失敗", "check Token Valid", false);
+            //else
+            //    return new ApiReponse<string>("驗證成功", "check Token Valid", true);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //The data that needs to be sent. Any object works.
+            var pocoObject = new
+            {
+                Token = request.Token,
+                RefreshToken = request.RefreshToken,
+                UserId = userId
+            };
+
+            //Converting the object to a json string. NOTE: Make sure the object doesn't contain circular references.
+            string json = JsonConvert.SerializeObject(pocoObject);
+
+            //Needed to setup the body of the request
+            StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            //The url to post to.
+            var url = apiUrl + @"GetAuth/refreshtoken";
+            var client = new HttpClient();
+
+            //Pass in the full URL and the json string content
+            var response = await client.PostAsync(url, data);
+
+            //It would be better to make sure this request actually made it through
+            AuthResult res = JsonConvert.DeserializeObject<AuthResult>(await response.Content.ReadAsStringAsync());
+
+            //close out the client
+            client.Dispose();
+            if (res.Success)
+            {
+                return new ApiReponse<AuthResult>(
+                    new AuthResult()
+                    {
+                        Token = res.Token,
+                        Success = true,
+                        RefreshToken = res.RefreshToken,
+                    });
+            }
             else
-                return new ApiReponse<string>("驗證成功", "check Token Valid", true);
+            {
+                return new ApiReponse<AuthResult>(res.Errors[0], res, false);
+            }
         }
     }
-
-    public class ViewData
-    {
-        public string Token { get; set; }
-    }
-
 }
