@@ -36,6 +36,10 @@
         </div>
     </div>
 }
+<div>
+    <span class="text-danger">@ViewBag.ShowErrorMsg</span>
+</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

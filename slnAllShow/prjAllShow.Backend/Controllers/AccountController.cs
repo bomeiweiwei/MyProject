@@ -72,13 +72,13 @@ namespace prjAllShow.Backend.Controllers
                     CreatedDateTime = DateTime.Now,
                     UpdatedDateTime = DateTime.Now,
                 };
-                var hashedPassword = passwordHasher.HashPassword(user, model.Password);
-                user.PasswordHash = hashedPassword;
+                //var hashedPassword = passwordHasher.HashPassword(user, model.Password);
+                //user.PasswordHash = hashedPassword;
                 using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
                 {
                     try
                     {
-                        var result = await _userManager.CreateAsync(user);
+                        var result = await _userManager.CreateAsync(user, model.Password);
                         if (result.Succeeded)
                         {
                             //角色名稱
@@ -111,6 +111,10 @@ namespace prjAllShow.Backend.Controllers
                             scope.Complete();
                             //return RedirectToAction("Index", "Home", new { area = "Admin" });
                             return RedirectToAction("Welcome", "Home");
+                        }
+                        else
+                        {
+                            ViewBag.ShowErrorMsg = "使用者新增失敗";
                         }
                     }
                     catch (Exception ex)
