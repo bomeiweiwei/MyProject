@@ -52,6 +52,10 @@ https://www.c-sharpcorner.com/article/asp-net-core-web-api-5-0-authentication-us
 https://www.codemag.com/Article/2105051/Implementing-JWT-Authentication-in-ASP.NET-Core-5
 token過期設定=>ClockSkew = TimeSpan.Zero
 https://stackoverflow.com/questions/55150099/jwt-token-expiration-time-failing-net-core
+RefreshToken
+=>RefreshToken過期時間!=Token過期時間，這樣新的RefreshToken才可加入，舊的RefreshToken isUse才會變true
+https://iter01.com/631466.html
+https://dev.to/moe23/refresh-jwt-with-refresh-tokens-in-asp-net-core-5-rest-api-step-by-step-3en5
 
 8. other
 https://dotblogs.com.tw/shadow/2019/01/16/105615
