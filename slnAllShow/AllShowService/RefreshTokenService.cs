@@ -1,5 +1,6 @@
 ﻿using AllShow.Interface;
 using AllShow.Models;
+using AllShow.Models.Identity;
 using AllShowService.Interface;
 using AutoMapper;
 using System;

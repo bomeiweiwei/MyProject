@@ -18,36 +18,36 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
     {
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ITokenService _tokenService;
+        //private readonly ITokenService _tokenService;
         private readonly string apiUrl;
-        private readonly string key;
-        public GetAuthController(IConfiguration config, UserManager<ApplicationUser> userManager, ITokenService tokenService)
+        //private readonly string key;
+        public GetAuthController(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _config = config;
             _userManager = userManager;
-            _tokenService = tokenService;
+
             this.apiUrl = _config.GetSection("WebAPIUrl").Value;
-            this.key = _config.GetValue<string>("Jwt:Key");
+            //this.key = _config.GetValue<string>("Jwt:Key");
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<ApiReponse<AuthResult>> GetAuthTokenAsync()
+        public async Task<IActionResult> GetAuthTokenAsync()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
-            string tokenStr;
-            string retokenStr;
+            //string tokenStr;
+            //string retokenStr;
             //The data that needs to be sent. Any object works.
-            var pocoObject = new
+            var sendObject = new
             {
                 userEmail = userEmail,
                 password = user.PasswordHash
             };
 
             //Converting the object to a json string. NOTE: Make sure the object doesn't contain circular references.
-            string json = JsonConvert.SerializeObject(pocoObject);
+            string json = JsonConvert.SerializeObject(sendObject);
 
             //Needed to setup the body of the request
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -61,41 +61,46 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
 
             //It would be better to make sure this request actually made it through
             //tokenStr = await response.Content.ReadAsStringAsync();
-            AuthResult res = JsonConvert.DeserializeObject<AuthResult>(await response.Content.ReadAsStringAsync());
-            tokenStr = res.Token;
-            retokenStr = res.RefreshToken;
+            TokenResult res = JsonConvert.DeserializeObject<TokenResult>(await response.Content.ReadAsStringAsync());
+            //tokenStr = res.Token;
+            //retokenStr = res.RefreshToken;
             //close out the client
             client.Dispose();
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", { ServiceCredentialID: ServiceCredentialSecret });
 
-            //    var formContent = new FormUrlEncodedContent(new[]
-            //    {
-            //        new KeyValuePair<string, string>("grant_type", "client_credentials")
-            //    });
-
-            //    using (HttpResponseMessage res = await client.PostAsync(apiUrl+ @"GetAuth/authentication", formContent))
-            //    {
-
-            //        using (HttpContent content = res.Content)
-            //        {
-            //            tokenStr = await content.ReadAsStringAsync();
-            //        }
-            //    }
-            //}
-            return new ApiReponse<AuthResult>(
-                new AuthResult()
+            if (res != null)
+            {
+                if (res.Success)
                 {
-                    Token = res.Token,
-                    Success = true,
-                    RefreshToken = res.RefreshToken,
-                });
+                    return Ok(
+                        new TokenResponse()
+                        {
+                            AccessToken = res.AccessToken,
+                            TokenType = "Bearer",
+                            RefreshToken = res.RefreshToken
+                        });
+                }
+                else
+                {
+                    return BadRequest(
+                        new FailedResponse()
+                        {
+                            Errors = res.Errors
+                        });
+                }
+            }
+            else
+            {
+                return BadRequest(
+                        new FailedResponse()
+                        {
+                            Errors = new [] { "Get token failed" }
+                        });
+            }
         }
 
         [Authorize]
         [HttpPost("checktokenvalid")]
-        public async Task<ApiReponse<AuthResult>> CheckTokenValidAsync([FromBody] TokenRequest request)
+        public async Task<IActionResult> CheckTokenValidAsync([FromBody] TokenRequest request)
         {
             //bool check = _tokenService.IsTokenValid(this.key, view.Token);
 
@@ -106,7 +111,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //The data that needs to be sent. Any object works.
-            var pocoObject = new
+            var sendObject = new
             {
                 Token = request.Token,
                 RefreshToken = request.RefreshToken,
@@ -114,7 +119,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             };
 
             //Converting the object to a json string. NOTE: Make sure the object doesn't contain circular references.
-            string json = JsonConvert.SerializeObject(pocoObject);
+            string json = JsonConvert.SerializeObject(sendObject);
 
             //Needed to setup the body of the request
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -123,28 +128,30 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             var url = apiUrl + @"GetAuth/refreshtoken";
             var client = new HttpClient();
 
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + request.Token);
             //Pass in the full URL and the json string content
             var response = await client.PostAsync(url, data);
 
             //It would be better to make sure this request actually made it through
-            AuthResult res = JsonConvert.DeserializeObject<AuthResult>(await response.Content.ReadAsStringAsync());
+            TokenResult result = JsonConvert.DeserializeObject<TokenResult>(await response.Content.ReadAsStringAsync());
 
             //close out the client
             client.Dispose();
-            if (res.Success)
+            if (!result.Success)
             {
-                return new ApiReponse<AuthResult>(
-                    new AuthResult()
-                    {
-                        Token = res.Token,
-                        Success = true,
-                        RefreshToken = res.RefreshToken,
-                    });
+                return Unauthorized(new FailedResponse()
+                {
+                    Errors = result.Errors
+                });
             }
-            else
+
+            return Ok(new TokenResponse
             {
-                return new ApiReponse<AuthResult>(res.Errors[0], res, false);
-            }
+                AccessToken = result.AccessToken,
+                TokenType = result.TokenType,
+                ExpiresIn = result.ExpiresIn,
+                RefreshToken = result.RefreshToken
+            });
         }
     }
 }

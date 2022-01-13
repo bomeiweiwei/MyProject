@@ -6,7 +6,7 @@
 
 <h1>Test WeatherForecast</h1>
 <form method="post">
-<!-- form markup -->
+    <!-- form markup -->
 </form>
 <div id="app">
     <button v-on:click="GetAuth()" class="btn btn-warning">驗證</button>
@@ -52,18 +52,19 @@
                 headers: {
                   'Content-Type': 'application/json',
                 },
-              };
+            };
 
-              // Create instance
-              let instance = axios.create(defaultOptions);
+            // Create instance
+            let instance = axios.create(defaultOptions);
 
-              // Set the AUTH token for any request
-              instance.interceptors.request.use(function (config) {
+            // Set the AUTH token for any request
+            instance.interceptors.request.use(function (config) {
                 const token = window.localStorage.getItem("token");
                 config.headers.Authorization =  token ? `Bearer ${token}` : '';
                 return config;
-              });
-              instance.get(apiUrl)
+            });
+
+            instance.get(apiUrl)
                 .then(response => {
                     this.WeatherList = response.data;
                 });
@@ -75,17 +76,18 @@
         },
         methods: {        
             GetAuth() {
-                //alert(authUrl);
                 $.ajax({
                     url: authUrl,
                     type: 'GET',
-                    success: function (obj, textStatus, xhr) {                       
-                        window.localStorage.setItem("token", obj.data.token); 
-                        window.localStorage.setItem("refreshtoken", obj.data.refreshToken); 
+                    success: function (obj, textStatus, xhr) {   
+                        window.localStorage.setItem("token", obj.access_token); 
+                        window.localStorage.setItem("refreshtoken", obj.refresh_token); 
                         alert('驗證完成');
                     },
                     error: function (xhr, textStatus, errorThrown) {
-                        alert('Error');
+                        var jsonResponse = JSON.parse(xhr.responseText);
+                        var errors = jsonResponse.errors;
+                        alert(errors[0]);
                     }
                 });
             },
@@ -94,7 +96,6 @@
                     "Token": window.localStorage.getItem("token"),
                     "RefreshToken": window.localStorage.getItem("refreshtoken")
                 };
-                //alert($('input:hidden[name="__RequestVerificationToken"]').val());
                 $.ajax({
                     type: "POST",
                     url: apiCheck,
@@ -103,18 +104,21 @@
 				    },
                     data: JSON.stringify(data),
                     contentType : 'application/json;',
-                }).done(function( obj ) {
-                    console.log(obj);
-                    if(obj.success == true){
-                        window.localStorage.setItem("token", obj.data.token); 
-                        window.localStorage.setItem("refreshtoken", obj.data.refreshToken); 
-                        alert('重新驗證完成');
-                    }else{
-                        alert(obj.message);
+                    statusCode: {
+                        401: function(xhr, status, error) {
+                             var jsonResponse = JSON.parse(xhr.responseText);
+                             var errors = jsonResponse.errors;
+                             alert('Error happened: ' + errors[0]);
+                        }
                     }
-                    
-                }).fail(function() {
-                    alert( "error" );
+                }).done(function( obj ) {
+                    window.localStorage.setItem("token", obj.access_token); 
+                    window.localStorage.setItem("refreshtoken", obj.refresh_token); 
+                    alert('重新驗證完成');                   
+                }).fail(function(xhr, status, error) {
+                     //var jsonResponse = JSON.parse(xhr.responseText);
+                     //var errors = jsonResponse.errors;
+                     //alert(errors[0]);
                 });               
             },
             PageReload(){

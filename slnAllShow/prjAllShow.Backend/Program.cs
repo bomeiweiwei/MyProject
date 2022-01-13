@@ -36,14 +36,22 @@ builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
 
 //double minute = builder.Configuration.GetValue<double>("EXPIRY_DURATION_MINUTES");
 //builder.Services.AddSingleton<ITokenService>(new TokenService(minute));
-builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
             options.User.AllowedUserNameCharacters = null;
             options.User.RequireUniqueEmail = true;
-        })
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequiredLength = 6;
+            options.Password.RequiredUniqueChars = 1;
+            options.SignIn.RequireConfirmedEmail = false;
+            options.SignIn.RequireConfirmedPhoneNumber = false;
+})
         .AddEntityFrameworkStores<IdentityDBContext>()
-        .AddDefaultUI()
+        //.AddDefaultUI()
         .AddDefaultTokenProviders();
 /*
  services.AddIdentity<ApplicationUser, IdentityRole>(options => {
@@ -68,18 +76,18 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireFactoryRole", policy => policy.RequireRole("Factory")/*.RequireClaim(JwtClaimTypes.Role, "factory")*/);
 });
 
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Default Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
-    options.SignIn.RequireConfirmedEmail = false;
-    options.SignIn.RequireConfirmedPhoneNumber = false;
-});
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+//    // Default Password settings.
+//    options.Password.RequireDigit = true;
+//    options.Password.RequireLowercase = true;
+//    options.Password.RequireNonAlphanumeric = true;
+//    options.Password.RequireUppercase = true;
+//    options.Password.RequiredLength = 6;
+//    options.Password.RequiredUniqueChars = 1;
+//    options.SignIn.RequireConfirmedEmail = false;
+//    options.SignIn.RequireConfirmedPhoneNumber = false;
+//});
 //builder.Services.Configure<IdentityOptions>(options =>
 //{
 //    // Default SignIn settings.
