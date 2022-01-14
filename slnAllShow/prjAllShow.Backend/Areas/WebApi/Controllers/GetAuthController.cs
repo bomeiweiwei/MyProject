@@ -53,7 +53,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
 
             //The url to post to.
-            var url = apiUrl + @"GetAuth/authentication";
+            var url = apiUrl + @"/GetAuth/authentication";
             var client = new HttpClient();
 
             //Pass in the full URL and the json string content
@@ -125,7 +125,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             StringContent data = new StringContent(json, Encoding.UTF8, "application/json");
 
             //The url to post to.
-            var url = apiUrl + @"GetAuth/refreshtoken";
+            var url = apiUrl + @"/GetAuth/refreshtoken";
             var client = new HttpClient();
 
             client.DefaultRequestHeaders.Add("Authorization", "Bearer " + request.Token);

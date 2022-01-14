@@ -1,4 +1,7 @@
 ﻿@inject IHtmlLocalizer<SharedResources> _localizer
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
 
 <!DOCTYPE html>
 
@@ -14,10 +17,15 @@
     <script src="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.js"></script>
     <script src="~/vendor/axios/dist/axios.js"></script>
     <script>
-        var baseInstance = axios.create({
-            baseURL: window.location.origin
-        });
+        const defaultOptions = {
+                baseURL: window.location.origin,
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+            };
+        var baseInstance = axios.create(defaultOptions);
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 </head>
 <body>
     <header>
@@ -37,6 +45,22 @@
 
     <div class="container mt-3">
         <main role="main" class="pb-3">
+            <form method="post">
+                <!-- form markup -->
+            </form>
+            <script>
+                baseInstance.interceptors.request.use(function (config) {
+                    config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <text>
+                            const token = window.localStorage.getItem("token");
+                            config.headers.Authorization =  token ? `Bearer ${token}` : '';
+                        </text>                       
+                    }
+                    return config;
+                });
+            </script>
             @RenderBody()
         </main>
     </div>
