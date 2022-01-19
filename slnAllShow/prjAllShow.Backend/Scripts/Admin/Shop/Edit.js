@@ -1,9 +1,16 @@
-﻿var vm = new Vue({
-    el: '#app',
-    data: {
-        ShThePicImg: '',
-        ShLogoPicImg: '',
-        ShAdPicImg: ''
+﻿const vm = Vue.createApp({
+    //el: '#app',
+    //data: {
+    //    ShThePicImg: '',
+    //    ShLogoPicImg: '',
+    //    ShAdPicImg: ''
+    //},
+    data() {
+        return {
+            ShThePicImg: '',
+            ShLogoPicImg: '',
+            ShAdPicImg: ''
+        }
     },
     methods: {
         handelFileUpload(event) {
@@ -43,7 +50,7 @@
             this.ShAdPicImg = event.target.result;
         }
     }
-});
+}).mount('#app');
 
 $(document).ready(function () {
     if ($('#ChangePwd').is(":checked")) {

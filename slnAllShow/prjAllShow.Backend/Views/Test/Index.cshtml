@@ -13,7 +13,8 @@
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
-                <th>date</th>
+                <th>date1</th>
+                <th>date2</th>
                 <th>temperatureC</th>
                 <th>temperatureF</th>
                 <th>summary</th>
@@ -21,7 +22,8 @@
         </thead>
         <tbody>
             <tr v-for="(item,index) in WeatherList">
-                <td>{{item.date | dateFormat('YYYY-MM-DD')}}</td>
+                <td>{{dateFormat}}</td>
+                <td>{{SetDateFormat('YYYY-MM-DD HH:mm:ss')}}</td>
                 <td>{{item.temperatureC}}</td>
                 <td>{{item.temperatureF}}</td>
                 <td>{{item.summary}}</td>
@@ -35,22 +37,32 @@
     var apiUrl='@(_config.GetSection("WebAPIUrl").Value)/WeatherForecast';
     var apiCheck='/api/GetAuth/checktokenvalid';
     //var apiUrl='https://localhost:44393/WeatherForecast';
-    new Vue({
-        el: '#app',
-        data: {
-            WeatherList: null
-        },      
+    const vm = Vue.createApp({
+        //el: '#app',
+        data() {
+            return {
+                WeatherList: null
+            }
+        },
+        //data: {
+        //    WeatherList: null
+        //},      
         mounted() {
             baseInstance.get(apiUrl)
             .then(response => {
                 this.WeatherList = response.data;
             });
         },
-        filters: {
-            dateFormat: function (value, myFormat) {
-                return moment(value).format(myFormat || 'YYYY-MM-DD, HH:mm:ss');
-            }
+        computed: {
+          dateFormat() {
+            return moment(this.date).format('YYYY-MM-DD');
+          }
         },
+        //filters: {
+        //    dateFormat: function (value, myFormat) {
+        //        return moment(value).format(myFormat || 'YYYY-MM-DD, HH:mm:ss');
+        //    }
+        //},
         methods: {        
             GetAuth() {
                 baseInstance.get(authUrl)
@@ -132,7 +144,11 @@
             },
             PageReload(){
                 window.location.reload();
+            },
+            SetDateFormat(format) {
+                return moment(this.date).format(format);
+                //return `${salut} ${this.firstName} ${this.lastName}`
             }
         }
-    });
+    }).mount('#app');
 </script>

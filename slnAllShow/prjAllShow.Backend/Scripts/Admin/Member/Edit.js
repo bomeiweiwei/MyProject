@@ -1,7 +1,12 @@
-﻿var vm = new Vue({
-    el: '#app',
-    data: {
-        MemPicImg: '',
+﻿const vm = Vue.createApp({
+    //el: '#app',
+    //data: {
+    //    MemPicImg: '',
+    //},
+    data() {
+        return {
+            MemPicImg: '',
+        }
     },
     methods: {
         handelFileUpload(event) {
@@ -18,7 +23,7 @@
         }
 
     }
-});
+}).mount('#app');
 
 $(document).ready(function () {
     if ($('#ChangePwd').is(":checked")) {
