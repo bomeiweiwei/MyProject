@@ -17,6 +17,7 @@ using AllShow.Models.Identity;
 using prjAllShow.Backend.Resources;
 using prjAllShow.Backend.Seed;
 using Microsoft.AspNetCore.Mvc;
+using AllShow.Helper;
 //using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -150,6 +151,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseHttpsRedirection();
+
+//app.Use(async (context, next) =>
+//{
+//    var token = context.Session.GetString("Token");
+//    if (!string.IsNullOrEmpty(token))
+//    {
+//        context.Request.Headers.Add("Authorization", "Bearer " + token);
+//    }
+//    await next();
+//});
+JWTClaimHelper.JWTClaimHelperConfigure(app.Services.GetService<IHttpContextAccessor>());
+
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {

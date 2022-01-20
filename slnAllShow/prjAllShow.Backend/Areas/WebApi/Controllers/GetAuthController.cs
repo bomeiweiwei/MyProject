@@ -1,4 +1,5 @@
-﻿using AllShow.Models.Identity;
+﻿using AllShow.Helper;
+using AllShow.Models.Identity;
 using AllShowDTO;
 using AllShowService.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -71,12 +72,25 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             {
                 if (res.Success)
                 {
+                    Response.Cookies.Append("AccessToken", res.AccessToken, new CookieOptions()
+                    {
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        HttpOnly = true
+                    });
+                    Response.Cookies.Append("RefreshToken", res.RefreshToken, new CookieOptions()
+                    {
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        HttpOnly = true
+                    });
+
                     return Ok(
                         new TokenResponse()
                         {
-                            AccessToken = res.AccessToken,
+                            //AccessToken = res.AccessToken,
                             TokenType = "Bearer",
-                            RefreshToken = res.RefreshToken
+                            //RefreshToken = res.RefreshToken
                         });
                 }
                 else
@@ -108,13 +122,21 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             //    return new ApiReponse<string>("驗證失敗", "check Token Valid", false);
             //else
             //    return new ApiReponse<string>("驗證成功", "check Token Valid", true);
+            if (!Request.Cookies.TryGetValue("AccessToken", out string Token))
+            {
+                Token = "null";
+            }
+            if (!Request.Cookies.TryGetValue("RefreshToken", out string RefreshToken))
+            {
+                RefreshToken = "null";
+            }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //The data that needs to be sent. Any object works.
             var sendObject = new
             {
-                Token = request.Token,
-                RefreshToken = request.RefreshToken,
+                Token = Token,
+                RefreshToken = RefreshToken,
                 UserId = userId
             };
 
@@ -144,13 +166,30 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
                     Errors = result.Errors
                 });
             }
+            else
+            {
+                Response.Cookies.Delete("AccessToken");
+                Response.Cookies.Delete("RefreshToken");
+                Response.Cookies.Append("AccessToken", result.AccessToken, new CookieOptions()
+                {
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    HttpOnly = true
+                });
+                Response.Cookies.Append("RefreshToken", result.RefreshToken, new CookieOptions()
+                {
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    HttpOnly = true
+                });
+            }
 
             return Ok(new TokenResponse
             {
-                AccessToken = result.AccessToken,
+                //AccessToken = result.AccessToken,
                 TokenType = result.TokenType,
                 ExpiresIn = result.ExpiresIn,
-                RefreshToken = result.RefreshToken
+                //RefreshToken = result.RefreshToken
             });
         }
     }
