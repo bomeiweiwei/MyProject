@@ -1,6 +1,5 @@
-﻿using AllShow.Data;
-using AllShow.Models;
-using AllShow.Models.Identity;
+﻿using System.Security.Cryptography;
+using AllShowCommon;
 using AllShowDTO;
 using AllShowService.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -18,26 +17,38 @@ namespace prjAllShow.WebAPI.Controllers
     [ApiController]
     public class GetAuthController : ControllerBase
     {
+        private readonly IConfiguration _config;
         private readonly IApplicationUserService _service;
         private readonly ITokenService _tokenService;
         private readonly Jwt _jwtSettings;
         private string generatedToken = null;
-        public GetAuthController(IApplicationUserService service, ITokenService tokenService, Jwt jwtSettings)
+        private readonly string aesKey;
+        public GetAuthController(IApplicationUserService service, ITokenService tokenService, Jwt jwtSettings, IConfiguration config)
         {
             _service = service;
             _tokenService = tokenService;
             _jwtSettings = jwtSettings;
+            _config = config;
+            this.aesKey = _config.GetSection("AES_Key").Value;
         }       
 
         [AllowAnonymous]
         [HttpPost("authentication")]
         public async Task<IActionResult> AuthenticationAsync([FromBody] UserCredential userCredential)
         {
-            var user = _service.Authentication(userCredential.UserEmail, userCredential.Password);
+            string aesEmail = AESUtility.AESDecryptor(userCredential.UserEmail, aesKey);
+            string aesPWD = AESUtility.AESDecryptor(userCredential.Password, aesKey);
+
+            var user = _service.Authentication(aesEmail, aesPWD);
             if (user == null)
             {
                 //return Unauthorized();
-                return Ok(new TokenResult { Errors = new [] { "User not exist" } });
+                return Unauthorized(
+                        new TokenResult()
+                        {
+                            Errors = new[] { "User not exist" }
+                        });
+                //return Ok(new TokenResult { Errors = new [] { "User not exist" } });
             }
             else
             {
@@ -74,7 +85,21 @@ namespace prjAllShow.WebAPI.Controllers
         [HttpPost("refreshtoken")]
         public async Task<IActionResult> RefreshTokenAsync([FromBody] TokenRequest tokenRequest)
         {
-            var result = await _tokenService.RefreshTokenAsync(tokenRequest.Token, tokenRequest.RefreshToken, tokenRequest.UserId);//VerifyToken(tokenRequest);
+            string aesEmail = AESUtility.AESDecryptor(tokenRequest.UserEmail, aesKey);
+            string aesPWD = AESUtility.AESDecryptor(tokenRequest.Password, aesKey);
+
+            var user = _service.Authentication(aesEmail, aesPWD);
+            if(user == null)
+            {
+                //return Unauthorized();
+                return Unauthorized(
+                        new TokenResult()
+                        {
+                            Errors = new[] { "User not exist" }
+                        });
+            }
+
+            var result = await _tokenService.RefreshTokenAsync(tokenRequest.Token, tokenRequest.RefreshToken, user.Id);//VerifyToken(tokenRequest);
             if (!result.Success)
             {
                 return Unauthorized(

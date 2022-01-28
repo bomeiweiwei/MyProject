@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AllShowCommon\AllShowCommon.csproj" />
     <ProjectReference Include="..\AllShowDTO\AllShowDTO.csproj" />
   </ItemGroup>
 

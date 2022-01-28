@@ -33,8 +33,9 @@
 </div>
 
 <script>
-    var authUrl='api/GetAuth';
-    var apiUrl='@(_config.GetSection("WebAPIUrl").Value)/WeatherForecast';
+    var authUrl='api/GetAuth/getauthtoken';
+    //var apiUrl='@(_config.GetSection("WebAPIUrl").Value)/WeatherForecast';
+    var apiUrl='/api/Weather';
     var apiCheck='/api/GetAuth/checktokenvalid';
     //var apiUrl='https://localhost:44393/WeatherForecast';
     const vm = Vue.createApp({
@@ -95,7 +96,8 @@
                     "RefreshToken": window.localStorage.getItem("refreshtoken")
                 };
 
-                baseInstance.post(apiCheck, data)
+                //baseInstance.post(apiCheck, data)
+                baseInstance.get(apiCheck)
                 .then( (response) => {
                     //window.localStorage.setItem("token", response.data.access_token); 
                     //window.localStorage.setItem("refreshtoken", response.data.refresh_token); 

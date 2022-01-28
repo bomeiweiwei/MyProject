@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AllShowCommon\AllShowCommon.csproj" />
     <ProjectReference Include="..\AllShowDTO\AllShowDTO.csproj" />
     <ProjectReference Include="..\AllShowRepository\AllShowRepository.csproj" />
   </ItemGroup>

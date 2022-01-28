@@ -36,11 +36,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Owin" Version="4.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AllShowCommon\AllShowCommon.csproj" />
     <ProjectReference Include="..\AllShowRepository\AllShowRepository.csproj" />
     <ProjectReference Include="..\AllShowService\AllShowService.csproj" />
   </ItemGroup>

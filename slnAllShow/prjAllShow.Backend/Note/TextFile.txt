@@ -1,0 +1,11 @@
+﻿var myClaims = await _userManager.GetClaimsAsync(user);
+var oldClaim = myClaims.Where(o => o.Type.Equals("_JwtToken")).FirstOrDefault();
+if (oldClaim != null)
+{
+    await _userManager.RemoveClaimAsync(user, oldClaim);
+}
+
+var clubClaim = new Claim("_JwtToken", res.AccessToken);
+await _userManager.AddClaimAsync(user, clubClaim);
+
+await _signInManager.RefreshSignInAsync(user);

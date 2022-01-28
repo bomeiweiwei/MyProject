@@ -1,4 +1,5 @@
-﻿using AllShow.Helper;
+﻿using System.Security.Cryptography;
+using AllShowCommon;
 using AllShow.Models.Identity;
 using AllShowDTO;
 using AllShowService.Interface;
@@ -21,6 +22,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         //private readonly ITokenService _tokenService;
         private readonly string apiUrl;
+        private readonly string aesKey;
         //private readonly string key;
         public GetAuthController(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
@@ -28,23 +30,25 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             _userManager = userManager;
 
             this.apiUrl = _config.GetSection("WebAPIUrl").Value;
-            //this.key = _config.GetValue<string>("Jwt:Key");
+            this.aesKey = _config.GetSection("AES_Key").Value;
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("getauthtoken")]
         public async Task<IActionResult> GetAuthTokenAsync()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
-            //string tokenStr;
-            //string retokenStr;
+
+            string aesEmail = AESUtility.AESEncryptor(userEmail, aesKey);
+            string aesPWD = AESUtility.AESEncryptor(user.PasswordHash, aesKey);
+
             //The data that needs to be sent. Any object works.
             var sendObject = new
             {
-                userEmail = userEmail,
-                password = user.PasswordHash
+                userEmail = aesEmail,
+                password = aesPWD
             };
 
             //Converting the object to a json string. NOTE: Make sure the object doesn't contain circular references.
@@ -71,7 +75,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             if (res != null)
             {
                 if (res.Success)
-                {
+                {                    
                     Response.Cookies.Append("AccessToken", res.AccessToken, new CookieOptions()
                     {
                         Secure = true,
@@ -113,8 +117,8 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
         }
 
         [Authorize]
-        [HttpPost("checktokenvalid")]
-        public async Task<IActionResult> CheckTokenValidAsync([FromBody] TokenRequest request)
+        [HttpGet("checktokenvalid")]
+        public async Task<IActionResult> CheckTokenValidAsync()
         {
             //bool check = _tokenService.IsTokenValid(this.key, view.Token);
 
@@ -132,12 +136,18 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
+
+            string aesEmail = AESUtility.AESEncryptor(userEmail, aesKey);
+            string aesPWD = AESUtility.AESEncryptor(user.PasswordHash, aesKey);
             //The data that needs to be sent. Any object works.
             var sendObject = new
             {
                 Token = Token,
                 RefreshToken = RefreshToken,
-                UserId = userId
+                UserEmail = aesEmail,
+                Password = aesPWD
             };
 
             //Converting the object to a json string. NOTE: Make sure the object doesn't contain circular references.
@@ -150,7 +160,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             var url = apiUrl + @"/GetAuth/refreshtoken";
             var client = new HttpClient();
 
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + request.Token);
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Token);
             //Pass in the full URL and the json string content
             var response = await client.PostAsync(url, data);
 

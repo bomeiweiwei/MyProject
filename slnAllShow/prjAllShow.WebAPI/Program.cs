@@ -85,37 +85,59 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "Allshow.WebApi",
         Version = "v1",
         Description = "Allshow.WebApi Swagger Doc"
     });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        Description = "Input the JWT like: Bearer {your token}",
         Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
         BearerFormat = "JWT",
-        Scheme = "Bearer"
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme."
     });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement {
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme {
+                    Reference = new Microsoft.OpenApi.Models.OpenApiReference {
+                        Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                    }
+                },
+                new string[] {}
         }
     });
+    //options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    //{
+    //    Description = "Input the JWT like: Bearer {your token}",
+    //    Name = "Authorization",
+    //    In = ParameterLocation.Header,
+    //    Type = SecuritySchemeType.ApiKey,
+    //    BearerFormat = "JWT",
+    //    Scheme = "Bearer"
+    //});
+
+    //options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    //{
+    //    {
+    //        new OpenApiSecurityScheme
+    //        {
+    //            Reference = new OpenApiReference
+    //            {
+    //                Type = ReferenceType.SecurityScheme,
+    //                Id = "Bearer"
+    //            }
+    //        },
+    //        Array.Empty<string>()
+    //    }
+    //});
+
 });
 
 var app = builder.Build();

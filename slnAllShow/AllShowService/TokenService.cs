@@ -195,7 +195,7 @@ namespace AllShowService
             await _context.SaveChangesAsync();
 
             var user = _context.Users.Where(m => m.Id == userId).FirstOrDefault();
-            var query= _service.GetUserRoles(userId).Select(m => m.Role).ToArray();
+            var query = _service.GetUserRoles(userId).Select(m => m.Role).ToArray();
             AuthResult result = await BuildToken(_jwtSettings.Key, user, query);
 
             return result;

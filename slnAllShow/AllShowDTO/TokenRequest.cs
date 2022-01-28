@@ -14,6 +14,8 @@ namespace AllShowDTO
         [Required]
         public string RefreshToken { get; set; }
 
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
+        public string UserEmail { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AllShowCommon\AllShowCommon.csproj" />
     <ProjectReference Include="..\AllShowRepository\AllShowRepository.csproj" />
     <ProjectReference Include="..\AllShowService\AllShowService.csproj" />
   </ItemGroup>

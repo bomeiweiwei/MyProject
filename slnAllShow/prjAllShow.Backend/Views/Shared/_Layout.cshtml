@@ -54,14 +54,14 @@
                     config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        if (!Context.Request.Cookies.TryGetValue("AccessToken", out string Token))
-                        {
-                            Token = "null";
-                        }
-                        <text>
-                            const token = '@Token';//window.localStorage.getItem("token");
-                            config.headers.Authorization =  token ? `Bearer ${token}` : '';
-                        </text>                       
+                        //if (!Context.Request.Cookies.TryGetValue("AccessToken", out string Token))
+                        //{
+                        //    Token = "null";
+                        //}
+                        //<text>
+                        //    const token = '@Token';//window.localStorage.getItem("token");
+                        //    config.headers.Authorization =  token ? `Bearer ${token}` : '';
+                        //</text>                       
                     }
                     return config;
                 });
