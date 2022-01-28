@@ -17,16 +17,8 @@
     @*<script src="~/vendor/vue/dist/vue.js"></script>
     <script src="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.js"></script>*@
     <script src="~/vendor/axios/dist/axios.js"></script>
-    <script>
-        const defaultOptions = {
-                baseURL: window.location.origin,
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-            };
-        var baseInstance = axios.create(defaultOptions);
-    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="~/scripts/Shared.js"></Script>
 </head>
 <body>
     <header>
@@ -50,21 +42,30 @@
                 <!-- form markup -->
             </form>
             <script>
+                const defaultOptions = {
+                        baseURL: window.location.origin,
+                        headers: {
+                          'Content-Type': 'application/json'
+                        },
+                    };
+                var baseInstance = axios.create(defaultOptions);
+                //axios 設定
                 baseInstance.interceptors.request.use(function (config) {
                     config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        //if (!Context.Request.Cookies.TryGetValue("AccessToken", out string Token))
-                        //{
-                        //    Token = "null";
-                        //}
-                        //<text>
-                        //    const token = '@Token';//window.localStorage.getItem("token");
-                        //    config.headers.Authorization =  token ? `Bearer ${token}` : '';
-                        //</text>                       
-                    }
+                    //const token = window.localStorage.getItem("token");
+                    //config.headers.Authorization =  token ? `Bearer ${token}` : '';                     
+
                     return config;
                 });
+            </script>
+            <script>
+                //檢查是否刷新token
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <text>
+                        checktoken();
+                    </text>
+                }
             </script>
             @RenderBody()
         </main>

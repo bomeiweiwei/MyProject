@@ -32,7 +32,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             this.apiUrl = _config.GetSection("WebAPIUrl").Value;
             this.aesKey = _config.GetSection("AES_Key").Value;
         }
-
+        /*
         [Authorize]
         [HttpGet("getauthtoken")]
         public async Task<IActionResult> GetAuthTokenAsync()
@@ -115,7 +115,7 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
                         });
             }
         }
-
+        */
         [Authorize]
         [HttpGet("checktokenvalid")]
         public async Task<IActionResult> CheckTokenValidAsync()
@@ -158,49 +158,86 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
 
             //The url to post to.
             var url = apiUrl + @"/GetAuth/refreshtoken";
-            var client = new HttpClient();
-
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Token);
-            //Pass in the full URL and the json string content
-            var response = await client.PostAsync(url, data);
-
-            //It would be better to make sure this request actually made it through
-            TokenResult result = JsonConvert.DeserializeObject<TokenResult>(await response.Content.ReadAsStringAsync());
-
-            //close out the client
-            client.Dispose();
-            if (!result.Success)
+            TokenResult result = null;
+            using (var client = new HttpClient())
             {
-                return Unauthorized(new FailedResponse()
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Token);
+                //Pass in the full URL and the json string content
+                var response = await client.PostAsync(url, data);
+
+                //It would be better to make sure this request actually made it through
+                result = JsonConvert.DeserializeObject<TokenResult>(await response.Content.ReadAsStringAsync());
+
+                //close out the client
+            }
+            if (result != null)
+            {
+                if (!result.Success)
                 {
-                    Errors = result.Errors
-                });
+                    return Unauthorized(new FailedResponse()
+                    {
+                        Errors = result.Errors
+                    });
+                }
+                else
+                {
+                    DateTime loginDt = DateTime.UtcNow;
+
+                    Response.Cookies.Delete("AccessToken");
+                    Response.Cookies.Delete("RefreshToken");
+                    Response.Cookies.Append("AccessToken", result.AccessToken, new CookieOptions()
+                    {
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        HttpOnly = true
+                    });
+                    Response.Cookies.Append("RefreshToken", result.RefreshToken, new CookieOptions()
+                    {
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        HttpOnly = true
+                    });
+                    DateTime dt = loginDt.AddSeconds(result.ExpiresIn);
+                    string dts = dt.Ticks.ToString();
+                    Response.Cookies.Append("Expires", dts, new CookieOptions()
+                    {
+                        Secure = true,
+                        SameSite = SameSiteMode.Strict,
+                        HttpOnly = true
+                    });
+                    return Ok();
+                }
             }
             else
+                return BadRequest();
+        }
+
+        [Authorize]
+        [HttpGet("checktokenexpires")]
+        public async Task<IActionResult> CheckTokenExpires()
+        {
+            if (!Request.Cookies.TryGetValue("Expires", out string Expires))
             {
-                Response.Cookies.Delete("AccessToken");
-                Response.Cookies.Delete("RefreshToken");
-                Response.Cookies.Append("AccessToken", result.AccessToken, new CookieOptions()
-                {
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    HttpOnly = true
-                });
-                Response.Cookies.Append("RefreshToken", result.RefreshToken, new CookieOptions()
-                {
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    HttpOnly = true
-                });
+                Expires = "null";
             }
 
-            return Ok(new TokenResponse
+            if (Expires != "null")
             {
-                //AccessToken = result.AccessToken,
-                TokenType = result.TokenType,
-                ExpiresIn = result.ExpiresIn,
-                //RefreshToken = result.RefreshToken
-            });
+                DateTime dateTime = DateTime.UtcNow;
+                long exl = Convert.ToInt64(Expires);
+                DateTime expiryDate = new DateTime(exl);
+                if (expiryDate < dateTime)
+                {
+                    var res = await CheckTokenValidAsync();
+                    return res;
+                }
+                else
+                {
+                    return Ok();
+                }
+            }
+            else
+                return BadRequest();
         }
     }
 }
