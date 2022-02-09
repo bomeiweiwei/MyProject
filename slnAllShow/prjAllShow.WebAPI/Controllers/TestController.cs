@@ -1,10 +1,10 @@
 ﻿using AllShow.Models.Identity;
 using AllShowDTO;
+using AllShowDTO.Infrastructure;
 using AllShowService.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using prjAllShow.WebAPI.Infrastructure;
 
 namespace prjAllShow.WebAPI.Controllers
 {

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using prjAllShow.WebAPI.Infrastructure;
 using prjAllShow.WebAPI.Models;
 using System.IdentityModel.Tokens.Jwt;
 

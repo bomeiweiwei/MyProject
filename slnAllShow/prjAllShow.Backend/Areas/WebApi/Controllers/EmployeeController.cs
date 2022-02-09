@@ -1,9 +1,9 @@
 ﻿using AllShowDTO;
+using AllShowDTO.Infrastructure;
 using AllShowService.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using prjAllShow.Backend.Infrastructure;
 
 namespace prjAllShow.Backend.Areas.WebApi.Controllers
 {

@@ -1,4 +1,5 @@
 ﻿using AllShowDTO;
+using AllShowDTO.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,10 +40,11 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
             var content = await response.Content.ReadAsStringAsync();
             if (content != null)
             {
-                List<WeatherForecastDTO> res = JsonConvert.DeserializeObject<List<WeatherForecastDTO>>(content);
+                var apiRes = JsonConvert.DeserializeObject<ApiReponse<List<WeatherForecastDTO>>>(content);
+                List<WeatherForecastDTO> res = apiRes.ResultData;// JsonConvert.DeserializeObject<List<WeatherForecastDTO>>(content);
                 if (res != null)
                 { 
-                    return Ok(res.ToArray()); 
+                    return Ok(apiRes); 
                 }
                 else
                 {
