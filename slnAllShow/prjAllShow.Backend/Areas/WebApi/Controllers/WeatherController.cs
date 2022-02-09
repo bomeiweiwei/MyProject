@@ -23,9 +23,9 @@ namespace prjAllShow.Backend.Areas.WebApi.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetWeatherAsync()
+        public async Task<IActionResult> GetWeatherAsync(int? page = 1)
         {
-            var url = apiUrl + @"/WeatherForecast";
+            var url = apiUrl + $"/WeatherForecast?page={page.Value}";
             var client = new HttpClient();
 
             if (!Request.Cookies.TryGetValue("AccessToken", out string token))

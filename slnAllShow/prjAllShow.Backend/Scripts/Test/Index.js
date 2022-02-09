@@ -67,9 +67,9 @@ const app = {
     mounted() {
         baseInstance.get(apiUrl)
             .then(response => {
-                //console.log(response);
+                //console.log(response.data.resultData);
                 this.WeatherList = response.data.resultData;
-                this.pagination(this.WeatherList, 1);
+                this.pagination(this.WeatherList, 1, response.data.totalDataCount);
             });
     },
     computed: {
@@ -163,13 +163,13 @@ const app = {
         PageReload() {
             window.location.reload();
         },
-        SetDateFormat(format) {
-            return moment(this.date).format(format);
+        SetDateFormat(date, format) {
+            return moment(date).format(format);
             //return `${salut} ${this.firstName} ${this.lastName}`
         },
-        pagination(Data, page) {
+        pagination(Data, page, totalCount) {
             this.WeatherListData = [];
-            const dataTotal = Data.length;
+            const dataTotal = totalCount;//Data.length;
             const perPage = 10;//15;
             const showPage = 10;
             const pageTotal = Math.ceil(dataTotal / perPage);
@@ -177,14 +177,17 @@ const app = {
             if (currentPage > pageTotal) {
                 currentPage = pageTotal;
             }
-            const minData = currentPage * perPage - perPage + 1;
-            const maxData = currentPage * perPage;
+            //const minData = currentPage * perPage - perPage + 1;
+            //const maxData = currentPage * perPage;
 
+            //Data.forEach((item, index) => {
+            //    const num = index + 1;
+            //    if (num >= minData && num <= maxData) {
+            //        this.WeatherListData.push(item);
+            //    }
+            //});
             Data.forEach((item, index) => {
-                const num = index + 1;
-                if (num >= minData && num <= maxData) {
-                    this.WeatherListData.push(item);
-                }
+                this.WeatherListData.push(item);
             });
 
             //分頁一頁顯示十筆頁碼
@@ -216,7 +219,12 @@ const app = {
             };
         },
         toPage(page) {
-            this.pagination(this.WeatherList, page);
+            baseInstance.get(apiUrl +"?page="+page)
+                .then(response => {
+                    this.WeatherList = response.data.resultData;
+                    this.pagination(this.WeatherList, page, response.data.totalDataCount);
+                });
+            //this.pagination(this.WeatherList, page);
         }
     }
 };

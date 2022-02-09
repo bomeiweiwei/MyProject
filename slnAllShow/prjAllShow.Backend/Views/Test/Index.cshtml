@@ -13,8 +13,8 @@
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
+                @*<th>date</th>*@
                 <th>date</th>
-                @*<th>date2</th>*@
                 <th>temperatureC</th>
                 <th>temperatureF</th>
                 <th>summary</th>
@@ -22,8 +22,9 @@
         </thead>
         <tbody>
             <tr v-for="(item,index) in WeatherListData">
-                <td>{{dateFormat}}</td>
-               @* <td>{{SetDateFormat('YYYY-MM-DD HH:mm:ss')}}</td>*@
+                @*<td>{{dateFormat}}</td>*@
+                @*<td>{{SetDateFormat(item.date,'YYYY-MM-DD HH:mm:ss')}}</td>*@
+                <td>{{SetDateFormat(item.date,'YYYY-MM-DD')}}</td>
                 <td>{{item.temperatureC}}</td>
                 <td>{{item.temperatureF}}</td>
                 <td>{{item.summary}}</td>

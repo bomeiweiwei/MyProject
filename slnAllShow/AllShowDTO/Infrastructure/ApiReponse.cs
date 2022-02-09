@@ -26,6 +26,8 @@ namespace AllShowDTO.Infrastructure
         }
 
         public T ResultData { get; set; }
+
+        /*
         public int TotalCount
         {
             get
@@ -46,7 +48,8 @@ namespace AllShowDTO.Infrastructure
                 }
             }
         }
+        */
+        public int TotalDataCount { get; set; }
         public int TotalPageCount { get; set; }
-        public int CurrentPageIndex { get; set; }
     }
 }
