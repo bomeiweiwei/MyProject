@@ -9,6 +9,7 @@ using AllShow.Models.Identity;
 using AllShow.Models.ViewModels;
 using System.Transactions;
 using AllShowDTO;
+using AllShow;
 
 namespace prjAllShow.Backend.Areas.Admin.Controllers
 {
@@ -27,12 +28,29 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string currentFilter,
+                                                string searchString,
+                                                int? pageNumber)
         {
-            var user = await (from item in _dbContext.Users select item).ToListAsync();
-            var emp = await (from item in _context.EmployeeSetting select item).ToListAsync();
-            
-            var query = from item1 in user
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
+            var user = await (from item in _dbContext.Users select item).AsNoTracking().ToListAsync();
+            var emp = await (from item in _context.EmployeeSetting select item).AsNoTracking().ToListAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                emp = emp.Where(s => s.EmpName.Contains(searchString)).ToList();
+            }
+
+            var query = (from item1 in user
                         join item2 in emp on item1.Email equals item2.EmpEmail
                         select new EmployeeSettingDTO
                         {
@@ -45,8 +63,11 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             HireDate = item2.HireDate,
                             LeaveDate = item2.LeaveDate,
                             EmpAccountState = (item2.EmpAccountState ?? "0")
-                        };
-            return View(query);
+                        }).ToList();
+
+            int pageSize = 5;
+            var result = PaginatedList<EmployeeSettingDTO>.Create(query, pageNumber ?? 1, pageSize);
+            return View(result);
         }
 
         public async Task<IActionResult> Details(int AuserId,int eId)

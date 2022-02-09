@@ -1,4 +1,5 @@
-﻿using AllShow.Data;
+﻿using AllShow;
+using AllShow.Data;
 using AllShow.Models;
 using AllShow.Models.Identity;
 using AllShowDTO;
@@ -26,12 +27,29 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string currentFilter,
+                                                string searchString,
+                                                int? pageNumber)
         {
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
             var user = await(from item in _dbContext.Users select item).ToListAsync();
             var mem = await(from item in _context.MemberSetting select item).ToListAsync();
 
-            var query = from item1 in user
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                mem = mem.Where(s => s.MemName.Contains(searchString)).ToList();
+            }
+
+            var query = (from item1 in user
                         join item2 in mem on item1.Email equals item2.MemEmail
                         select new MemberSettingDTO
                         {
@@ -49,8 +67,10 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             MemBirth = item2.MemBirth,
                             MemCreateDate = item2.MemCreateDate,
                             MemUpdateDate = item2.MemUpdateDate
-                        };
-            return View(query);
+                        }).ToList();
+            int pageSize = 5;
+            var result = PaginatedList<MemberSettingDTO>.Create(query, pageNumber ?? 1, pageSize);
+            return View(result);
         }
 
         public async Task<IActionResult> Details(int AuserId, int mId)

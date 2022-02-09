@@ -78,14 +78,14 @@ namespace prjAllShow.WebAPI.Controllers
             //    TemperatureC = Random.Shared.Next(-20, 55),
             //    Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             //}).ToList();
-            int pageIndex = page.Value-1;
+            int pageIndex = page.Value - 1;
             int pageSize = 10;
             var list = weathers.Skip(pageIndex * pageSize).Take(pageSize).ToList();
 
             var response = new ApiReponse<List<WeatherForecast>>(list);
 
             response.TotalDataCount = weathers.Count();
-            response.TotalPageCount = (int)Math.Ceiling((decimal)response.TotalDataCount / 10);//pageCount;
+            response.TotalPageCount = (int)Math.Ceiling((decimal)response.TotalDataCount / 10);
 
             return Ok(response);
         }

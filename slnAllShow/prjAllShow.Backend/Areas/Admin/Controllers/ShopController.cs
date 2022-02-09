@@ -1,4 +1,5 @@
-﻿using AllShow.Data;
+﻿using AllShow;
+using AllShow.Data;
 using AllShow.Models;
 using AllShow.Models.Identity;
 using AllShowDTO;
@@ -35,8 +36,20 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             _emailSender = emailSender;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string currentFilter,
+                                                string searchString,
+                                                int? pageNumber)
         {
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewData["CurrentFilter"] = searchString;
+
             var user = await (from item in _dbContext.Users select item).ToListAsync();
             var shop = await (
                         from item1 in _context.ShopSetting
@@ -57,7 +70,12 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             ShPwdState = item1.ShPwdState
                         }).ToListAsync();
 
-            var query = from item2 in user
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                shop = shop.Where(s => s.ShName.Contains(searchString)).ToList();
+            }
+
+            var query = (from item2 in user
                         join item1 in shop on item2.Email equals item1.ShAccount
                         select new ShopSettingDTO
                         {
@@ -73,8 +91,10 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             ShPopShop = item1.ShPopShop,
                             ShCheckState = item1.ShCheckState,
                             ShPwdState = item1.ShPwdState
-                        };
-            return View(query);
+                        }).ToList();
+            int pageSize = 5;
+            var result = PaginatedList<ShopSettingDTO>.Create(query, pageNumber ?? 1, pageSize);
+            return View(result);
         }
 
         public async Task<IActionResult> Details(int AuserId, int sId)

@@ -1,41 +1,79 @@
-﻿@model IEnumerable<AllShowDTO.MemberSettingDTO>
+﻿@*@model IEnumerable<AllShowDTO.MemberSettingDTO>*@
+@model PaginatedList<MemberSettingDTO>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>會員列表</h1>
+
+<style>
+    .numberCircle {
+      display: inline-block;
+      line-height: 0px;
+      border-radius: 50%;
+      border: 2px solid;
+      font-size: 20px;
+      background-color: rgb(255,255,255);
+    }
+
+    .numberCircle span {
+      display: inline-block;
+      padding-top: 50%;
+      padding-bottom: 50%;
+      margin-left: 8px;
+      margin-right: 8px;
+      color:black;
+    }
+
+    .numberCircle:hover span {
+      display: inline-block;
+      padding-top: 50%;
+      padding-bottom: 50%;
+      margin-left: 8px;
+      margin-right: 8px;
+      color:gray;
+      cursor: pointer;
+    }
+</style>
 
 <p>
     <a asp-area="Admin" asp-action="Create" class="btn btn-primary">新增會員</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            姓名: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="搜尋" class="btn btn-secondary" />
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.MemPic)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemPic)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemEmail)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemEmail)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemDiminutive)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemDiminutive)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemBirth)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemBirth)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemSex)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemSex)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MemTel)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemTel)
             </th>         
             <th>
-                @Html.DisplayNameFor(model => model.MemAccountState)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MemAccountState)
             </th>           
             <th></th>
         </tr>
@@ -79,3 +117,71 @@
 }
     </tbody>
 </table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+    asp-route-pageNumber="@(Model.PageIndex - 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-default @prevDisabled">
+    Previous
+</a>
+
+@{
+    int showPage = 10;
+    int pageTotal = Model.TotalPages;
+    int currentPage = Model.PageIndex;
+    if (currentPage > pageTotal) {
+        currentPage = pageTotal;
+    }
+
+    int currentPageTag = (int)Math.Ceiling((decimal)currentPage / showPage);
+    List<int> pageCurrentItem = new List<int>();
+    int minPage = currentPageTag * showPage - showPage + 1;
+    int maxPage = currentPageTag * showPage;
+
+    for (int i = 1; i < pageTotal + 1; i++) {
+        if (i >= minPage && i <= maxPage) {
+            pageCurrentItem.Add(i);
+        }
+    }
+
+    int index = 0;
+    foreach (var num in pageCurrentItem)
+    {
+        index++;
+        //<a asp-action="Index"
+        //    asp-route-pageNumber="@(num)"
+        //    asp-route-currentFilter="@ViewData["CurrentFilter"]">
+        //    @num
+        //</a>
+        <span class="numberCircle" name="sapnCircle" id="sapnCircle_@index"><span name="spanNum">@num</span></span>
+    }
+}
+
+ <a asp-action="Index"
+    asp-route-pageNumber="@(Model.PageIndex + 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-default @nextDisabled">
+    Next
+</a>
+<script>
+    $("[name='sapnCircle']").on('click', function(){
+      var num = $(this).find("span").text();
+      //console.log(num);
+      @{
+          string _url = Url.Action("Index");
+      }
+      location.href = '@_url'+"?currentFilter=@ViewData["CurrentFilter"]&pageNumber="+num;
+    });
+    $("[name='sapnCircle'] span").each(function( index ) {
+      //console.log( index + ": " + $( this ).text() );
+      //var num = $(this).find("span").text();
+      var num = $(this).text();
+      if(num == "@Model.PageIndex") {
+          $( this ).css('color','#2263B7');
+      }
+    });
+</script>
