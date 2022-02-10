@@ -6,47 +6,14 @@
     Layout = "_LayoutAdmin";
 }
 
-<style>
-    .numberCircle {
-      display: inline-block;
-      line-height: 0px;
-      border-radius: 50%;
-      border: 2px solid;
-      font-size: 20px;
-      background-color: rgb(255,255,255);
-    }
-
-    .numberCircle span {
-      display: inline-block;
-      padding-top: 50%;
-      padding-bottom: 50%;
-      margin-left: 8px;
-      margin-right: 8px;
-      color:black;
-    }
-
-    .numberCircle:hover span {
-      display: inline-block;
-      padding-top: 50%;
-      padding-bottom: 50%;
-      margin-left: 8px;
-      margin-right: 8px;
-      color:gray;
-      cursor: pointer;
-    }
-</style>
-
 <p>
     <a asp-area="Admin" asp-action="Create" class="btn btn-primary">新增員工</a>
 </p>
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            姓名: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="搜尋" class="btn btn-secondary" />
-        </p>
-    </div>
-</form>
+@await Html.PartialAsync("_AdminSearchDataPartial",
+                                new ViewDataDictionary(ViewData)
+                                {
+                                    { "Act", "Employee" }
+                                })
 <table class="table">
     <thead>
         <tr>
@@ -102,79 +69,18 @@
                 <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-warning">編輯</a> |
                 <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" class="btn btn-info">詳細</a> |
                 <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-eId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
-                @*@Html.ActionLink("Edit", "Edit", new { aId = item.AuserId, eId = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { aId = item.AuserId, eId = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { aId = item.AuserId, eId = item.Id })*@
             </td>
         </tr>
 }
     </tbody>
 </table>
-@{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-}
 
-<a asp-action="Index"
-    asp-route-pageNumber="@(Model.PageIndex - 1)"
-    asp-route-currentFilter="@ViewData["CurrentFilter"]"
-    class="btn btn-default @prevDisabled">
-    Previous
-</a>
-
-@{
-    int showPage = 10;
-    int pageTotal = Model.TotalPages;
-    int currentPage = Model.PageIndex;
-    if (currentPage > pageTotal) {
-        currentPage = pageTotal;
-    }
-
-    int currentPageTag = (int)Math.Ceiling((decimal)currentPage / showPage);
-    List<int> pageCurrentItem = new List<int>();
-    int minPage = currentPageTag * showPage - showPage + 1;
-    int maxPage = currentPageTag * showPage;
-
-    for (int i = 1; i < pageTotal + 1; i++) {
-        if (i >= minPage && i <= maxPage) {
-            pageCurrentItem.Add(i);
-        }
-    }
-
-    int index = 0;
-    foreach (var num in pageCurrentItem)
-    {
-        index++;
-        //<a asp-action="Index"
-        //    asp-route-pageNumber="@(num)"
-        //    asp-route-currentFilter="@ViewData["CurrentFilter"]">
-        //    @num
-        //</a>
-        <span class="numberCircle" name="sapnCircle" id="sapnCircle_@index"><span name="spanNum">@num</span></span>
-    }
-}
-
- <a asp-action="Index"
-    asp-route-pageNumber="@(Model.PageIndex + 1)"
-    asp-route-currentFilter="@ViewData["CurrentFilter"]"
-    class="btn btn-default @nextDisabled">
-    Next
-</a>
-<script>
-    $("[name='sapnCircle']").on('click', function(){
-      var num = $(this).find("span").text();
-      //console.log(num);
-      @{
-          string _url = Url.Action("Index");
-      }
-      location.href = '@_url'+"?currentFilter=@ViewData["CurrentFilter"]&pageNumber="+num;
-    });
-    $("[name='sapnCircle'] span").each(function( index ) {
-      //console.log( index + ": " + $( this ).text() );
-      //var num = $(this).find("span").text();
-      var num = $(this).text();
-      if(num == "@Model.PageIndex") {
-          $( this ).css('color','#2263B7');
-      }
-    });
-</script>
+@await Html.PartialAsync("_PageNumPartial",
+                                new ViewDataDictionary(ViewData)
+                                {
+                                    { "HasPreviousPage", Model.HasPreviousPage },
+                                    { "HasNextPage", Model.HasNextPage },
+                                    { "PageIndex", Model.PageIndex },
+                                    { "TotalPages", Model.TotalPages },
+                                })
+<script src="~/scripts/Admin/Employee/Index.js"></script>

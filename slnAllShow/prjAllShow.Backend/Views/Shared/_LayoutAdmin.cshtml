@@ -11,6 +11,37 @@
     <title>@ViewData["Title"] - AllShow</title>
     <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.css" /> 
+
+    <style>
+        .numberCircle {
+          display: inline-block;
+          line-height: 0px;
+          border-radius: 50%;
+          border: 2px solid;
+          font-size: 20px;
+          background-color: rgb(255,255,255);
+        }
+
+        .numberCircle span {
+          display: inline-block;
+          padding-top: 50%;
+          padding-bottom: 50%;
+          margin-left: 8px;
+          margin-right: 8px;
+          color:black;
+        }
+
+        .numberCircle:hover span {
+          display: inline-block;
+          padding-top: 50%;
+          padding-bottom: 50%;
+          margin-left: 8px;
+          margin-right: 8px;
+          color:gray;
+          cursor: pointer;
+        }
+    </style>
+
     <script src="~/vendor/jquery/dist/jquery.js"></script>
     <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>  
     <script src="https://unpkg.com/vue@next"></script>

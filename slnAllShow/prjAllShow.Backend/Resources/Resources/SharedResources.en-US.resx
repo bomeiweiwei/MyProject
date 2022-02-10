@@ -213,6 +213,12 @@
   <data name="Member.MemUpdateDate" xml:space="preserve">
     <value>Update Date</value>
   </data>
+  <data name="Page.Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Page.Previous" xml:space="preserve">
+    <value>Previous</value>
+  </data>
   <data name="Register.Login" xml:space="preserve">
     <value>Login</value>
   </data>
