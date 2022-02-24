@@ -1,0 +1,31 @@
+﻿@model ShClass
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4" id="app">
+        <form id="shclassForm" asp-action="Edit" v-on:submit.prevent="handleSubmit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ShClassName" class="control-label"></label>
+                <input asp-for="ShClassName" class="form-control"/>
+                <span asp-validation-for="ShClassName" class="text-danger"></span>
+            </div>
+            
+            <input asp-for="Id" type="hidden"/>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">編輯</button>
+            </div>
+        </form>       
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/scripts/Admin/ShClass/Edit.js"></script>
+}
+

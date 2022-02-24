@@ -1,0 +1,64 @@
+﻿@inject IHtmlLocalizer<SharedResources> _localizer
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<ApplicationUser> SignInManager
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"] - AllShow</title>
+    <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.css" /> 
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>  
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="~/vendor/axios/dist/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="~/scripts/Shared.js"></script>
+</head>
+<body>
+    <header>
+    </header>
+
+    <div class="container mt-3">
+        <main role="main" class="pb-3">
+            <form method="post">
+                <!-- form markup -->
+            </form>
+            <script>
+                const defaultOptions = {
+                        baseURL: window.location.origin,
+                        headers: {
+                          'Content-Type': 'application/json;charset=utf-8'
+                        },
+                    };
+                var baseInstance = axios.create(defaultOptions);
+                //axios 設定
+                baseInstance.interceptors.request.use(function (config) {
+                    config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    config.headers.put['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    config.headers.delete['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    return config;
+                });
+            </script>
+            <script>
+                //檢查是否刷新token
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <text>
+                        checktoken();
+                    </text>
+                }
+            </script>
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+    </footer>
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

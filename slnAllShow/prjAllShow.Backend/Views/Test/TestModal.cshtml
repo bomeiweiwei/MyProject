@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewData["Title"] = "TestModal";
+}
+
+<style>
+    .modal .modal-dialog {
+        max-width: 95%;
+        width: 90%;
+    }
+</style>
+
+<div id="app">
+    <button class="btn btn-primary" type="button" v-on:click="showPopupModal(999)">點開視窗</button>
+    <modal_popup ref="serviceModal" v-on:emit-hide="hidePopupModal"/>
+</div>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+
+<script>
+const modal_popup = {
+    //props: ["parentTitle", "parentTxt", "parentVersion"],
+    methods: {
+        hidemodelInner() {
+            console.log("close");
+            this.$emit("emit-hide");
+        }
+    },
+    template: ` 
+        <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="serviceModalLabel">買書吧</h3>
+                <button type="button" class="btn-close" @@click="hidemodelInner()" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>`           
+};
+
+const app = {
+    //el: '#app',
+    data() {
+        return {            
+            tModal: null
+        }
+    },      
+    mounted() {        
+        this.tModal = new bootstrap.Modal(this.$refs.serviceModal.$el);
+    },
+    components: {
+        modal_popup
+    },
+    methods: {       
+        showPopupModal(id) {
+            //this.tModal.show();
+            var url = "/Test/Index_Popup/"+id; //or anyother html page
+            var pageContent = String.format("<iframe width=\"100%\" height=\"{1}\" frameborder=\"0\"  allowtransparency=\"true\" src=\"{0}\"></iframe>", url, $(window).innerHeight());
+            $(".modal-body").html(pageContent);
+            this.tModal.show();
+        },        
+        hidePopupModal() {
+            this.tModal.hide();
+        }
+    }
+};
+
+const vm = Vue.createApp(app).mount('#app');
+</script>

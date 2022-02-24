@@ -73,6 +73,9 @@
                             <a class="nav-link" asp-area="Admin"  asp-controller="Member" asp-action="Index">會員管理</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin"  asp-controller="ShClass" asp-action="Index">商店類別管理</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" asp-area=""  asp-controller="Test" asp-action="Index">測試JWT</a>
                         </li>
                     </ul>               
@@ -97,6 +100,8 @@
                 //axios 設定
                 baseInstance.interceptors.request.use(function (config) {
                     config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    config.headers.put['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+                    config.headers.delete['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
                     //const token = window.localStorage.getItem("token");
                     //config.headers.Authorization =  token ? `Bearer ${token}` : '';                     
 

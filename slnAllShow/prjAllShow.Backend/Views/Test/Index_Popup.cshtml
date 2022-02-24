@@ -1,0 +1,56 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+
+
+@ViewBag.Id
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-12 text-right">
+            <button class="btn btn-light">
+                你還有<span class="badge bg-danger">99</span>筆未付款
+            </button>
+            <button type="button" class="btn btn-primary position-relative">
+                郵件
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                99+
+                <span class="visually-hidden">unread messages</span>
+                </span>
+            </button>
+        </div>
+        <div style="margin-top:20px;" class="col-12 col-md-4">
+            <h5 class="bg-success text-white rounded text-center" style="padding:10px">書籍01</h5>
+            <img src="~/Images/book01.png" style="width:120px;margin-right:10px;" class="img-thumbnail float-left" asp-append-version="true"/>
+            <p>書籍01</p>
+            <p>單價:999</p>
+            <a href="#" class="btn btn-primary">訂購</a>
+            <input type="button" class="btn btn-secondary" value="更多" />
+        </div>
+        <div style="margin-top:20px;" class="col-12 col-md-4">
+            <h5 class="bg-success text-white rounded text-center" style="padding:10px">書籍02</h5>
+            <img src="~/Images/book02.png" style="width:120px;margin-right:10px;" class="img-thumbnail float-left" asp-append-version="true"/>
+            <p>書籍02</p>
+            <p>單價:888</p>
+            <a href="#" class="btn btn-primary">訂購</a>
+            <input type="button" class="btn btn-secondary" value="更多" />
+        </div>
+        <div style="margin-top:20px;" class="col-12 col-md-4">
+            <h5 class="bg-success text-white rounded text-center" style="padding:10px">書籍03</h5>
+            <img src="~/Images/book03.png" style="width:120px;margin-right:10px;" class="img-thumbnail float-left" asp-append-version="true"/>
+            <p>書籍03</p>
+            <p>單價:777</p>
+            <a href="#" class="btn btn-primary">訂購</a>
+            <input type="button" class="btn btn-secondary" value="更多" />
+        </div>
+        <div style="margin-top:20px;" class="col-12 col-md-4">
+            <h5 class="bg-success text-white rounded text-center" style="padding:10px">書籍04</h5>
+            <img src="~/Images/book04.png" style="width:120px;margin-right:10px;" class="img-thumbnail float-left" asp-append-version="true"/>
+            <p>書籍04</p>
+            <p>單價:666</p>
+            <a href="#" class="btn btn-primary">訂購</a>
+            <input type="button" class="btn btn-secondary" value="更多" />
+        </div>
+    </div>
+</div>
+

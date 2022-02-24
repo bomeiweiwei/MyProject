@@ -10,6 +10,8 @@
     @*<button v-on:click="GetAuth()" class="btn btn-warning">驗證</button>*@
     <button v-on:click="CheckAuth()" class="btn btn-primary">重新檢查</button>
     <button v-on:click="PageReload()" class="btn btn-info">重新整理</button>   
+    <button class="btn btn-primary" type="button" v-on:click="showModal">點開視窗</button>
+    @*<button class="btn btn-primary" type="button" v-on:click="showPopupModal">點開視窗</button>*@
     <table class="table table-hover">
         <thead class="table-primary">
             <tr>
@@ -36,7 +38,18 @@
             :page-item="pageItem"
             @@go-to-page="toPage"
         ></pagination-btn>
-    </div>
+    </div>   
+
+    <modal ref="exampleModal" :parent-title="h1Title" parent-txt="1我是訊息視窗內容1" parent-version="v.0.0.1" v-on:emit-hide="hideModal"/>
+</div>
+<hr/>
+
+<span style="text-decoration:line-through">1個app有多個Modal好像有問題orz，只好放不同app</span>
+
+<hr/>
+<div id="app2">
+    <button class="btn btn-primary" type="button" v-on:click="showPopupModal">點開視窗</button>
+    <modal_popup ref="serviceModal" v-on:emit-hide="hidePopupModal"/>
 </div>
 
 <script src="~/scripts/Test/Index.js"></script>

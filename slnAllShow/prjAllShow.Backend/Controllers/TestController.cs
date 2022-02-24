@@ -10,5 +10,16 @@ namespace prjAllShow.Backend.Controllers
         {
             return View();
         }
+
+        public IActionResult TestModal()
+        {
+            return View();
+        }
+
+        public IActionResult Index_Popup(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
     }
 }

@@ -1,0 +1,43 @@
+﻿@inject IHtmlLocalizer<SharedResources> _localizer
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@*<style>
+    .modal .modal-dialog {
+        max-width: 95%;
+        width: 90%;
+    }
+</style>*@
+
+<div id="app">
+    <button v-on:click="AddShClass()" class="btn btn-primary">新增商店類別</button>
+    <table style="width:50%" class="table table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th style="width:60%">@_localizer["ShClass.ShClassName"]</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in ListData">
+                <td>{{item.shClassName}}</td>
+                <td>
+                    <button v-on:click="EditShClass(item.id)" class="btn btn-warning">編輯</button> |
+                    <button v-on:click="DeleteShClass(item.id)" class="btn btn-danger">刪除</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <pagination-btn
+            :page-item="pageItem"
+            @@paged="toPage"
+        ></pagination-btn>
+    </div>
+    <modal_popup ref="serviceModal" :parent-title="popupTitle" v-on:emit-hide="hidePopupModal"/>
+</div>
+
+<script src="~/scripts/Admin/ShClass/Index.js"></script>

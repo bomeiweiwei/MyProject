@@ -32,6 +32,8 @@ builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();
 //builder.Services.AddSingleton<ITokenService>(new TokenService(minute));
 builder.Services.AddTransient<ITokenService, TokenService>();
 
+builder.Services.AddTransient<IShClassService, ShClassService>();
+
 var jwtSettings = builder.Configuration.GetSection(nameof(Jwt)).Get<Jwt>();
 builder.Services.AddSingleton(jwtSettings);
 

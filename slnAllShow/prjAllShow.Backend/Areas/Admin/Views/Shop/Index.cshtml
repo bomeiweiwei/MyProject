@@ -54,7 +54,7 @@
                 @{
                     string imgUrl = Url.Action("ShowImages", "FilesUpload", new { Area = "", id = item.ShLogoPic });
                 }
-                <img width="100" height="100" src="@imgUrl">
+                <img width="100" height="100" src="@imgUrl" asp-append-version="true">
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ShName)

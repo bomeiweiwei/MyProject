@@ -2,6 +2,8 @@
 var apiUrl = '/api/Weather';
 var apiCheck = '/api/GetAuth/checktokenvalid';
 
+//var dialog = new Object;
+
 const paginationBtn = {
     props: ["pageItem"],
     template: `<nav aria-label="Page navigation" v-if="pageItem.currentPage!=0">
@@ -43,6 +45,33 @@ const paginationBtn = {
     },
 };
 
+const modal = {
+    props: ["parentTitle", "parentTxt", "parentVersion"],
+    methods: {
+        hidemodelInner() {
+            console.log("close1");
+            this.$emit("emit-hide");
+        }
+    },
+    template: ` 
+              <div class="modal fade" id="exampleModal" ref="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"> {{ parentTitle }}</h5>
+                    <button type="button" class="btn-close" @click="hidemodelInner()" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {{ parentTxt }}<br/>{{ parentVersion }}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="hidemodelInner()">關閉</button>
+                  </div>
+                </div>
+              </div>
+            </div>`           
+};
+
 const app = {
     //el: '#app',
     data() {
@@ -62,6 +91,10 @@ const app = {
                 pageTagHasNext: false,
             },
             isLoading: false,
+            h1Title: "這是新視窗",
+            isActive: true,
+            modal: null,
+            //tModal: null
         }
     },      
     mounted() {
@@ -71,6 +104,8 @@ const app = {
                 this.WeatherList = response.data.resultData;
                 this.pagination(this.WeatherList, 1, response.data.totalDataCount);
             });
+        this.modal = new bootstrap.Modal(this.$refs.exampleModal.$el);
+        //this.tModal = new bootstrap.Modal(this.$refs.serviceModal.$el);
     },
     computed: {
         dateFormat() {
@@ -79,6 +114,8 @@ const app = {
     },
     components: {
         paginationBtn,
+        modal,
+        //modal_popup
     },
     methods: {
         GetAuth() {
@@ -225,8 +262,91 @@ const app = {
                     this.pagination(this.WeatherList, page, response.data.totalDataCount);
                 });
             //this.pagination(this.WeatherList, page);
-        }
+        },
+        showModal() {
+            console.log('1');
+            this.modal.show();
+        },
+        //showModal2(id) {
+        //    console.log('2');
+        //    var url = "/Test/Index_Popup/"+id; //or anyother html page
+        //    $(".modal-body").html('<iframe width="100%" height="100%" frameborder="0" scrolling="no" allowtransparency="true" src="' + url + '"></iframe>');
+        //    this.modal2.show();
+        //},
+        hideModal() {
+            this.modal.hide();
+        },
+        //showPopupModal() {
+        //    this.tModal.show();
+        //},
+        //hidePopupModal() {
+        //    this.tModal.hide();
+        //}
     }
 };
 
 const vm = Vue.createApp(app).mount('#app');
+
+const modal_popup = {
+    methods: {
+        hidemodelInner() {
+            console.log("close");
+            this.$emit("emit-hide");
+        }
+    },
+    template: ` 
+        <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title" id="serviceModalLabel">古人云</h3>
+                <button type="button" class="btn-close" @click="hidemodelInner()" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p class="text-center">
+                    <img src="../Images/dtc-logo.png" class="w-50" />
+                </p>
+                <div>
+                    臣亮言：先帝創業未半，而中道崩殂。今天下三分，益州
+                    疲弊，此誠危急存亡之秋也。然侍衛之臣，不懈於內；忠志之
+                    士，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開
+                    張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻
+                    失義，以塞忠諫之路也。宮中府中，俱為一體，陟罰臧否，不
+                    宜異同。若有作姦犯科，及為忠善者，宜付有司，論其刑賞，
+                    以昭陛下平明之治，不宜篇私，使內外異法也。
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>`
+};
+
+const app2 = {
+    //el: '#app',
+    data() {
+        return {
+            tModal: null
+        }
+    },
+    mounted() {
+        this.tModal = new bootstrap.Modal(this.$refs.serviceModal.$el);
+    },
+    components: {
+        modal_popup
+    },
+    methods: {
+        showPopupModal() {
+            this.tModal.show();
+        },
+        hidePopupModal() {
+            this.tModal.hide();
+        }
+    }
+};
+
+const vm2 = Vue.createApp(app2).mount('#app2');
+

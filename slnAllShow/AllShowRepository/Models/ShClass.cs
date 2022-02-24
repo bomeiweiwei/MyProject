@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,9 @@ namespace AllShow.Models
         [Display(Name = "ShClass.ShClassName")]
         public string ShClassName { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<ShClassList> ShClassList { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ProductClass> ProductClass { get; set; }
     }
 }

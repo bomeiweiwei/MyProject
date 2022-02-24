@@ -234,6 +234,9 @@
   <data name="RegisterViewModel.Password" xml:space="preserve">
     <value>密碼</value>
   </data>
+  <data name="ShClass.ShClassName" xml:space="preserve">
+    <value>商店類別名稱</value>
+  </data>
   <data name="Shop.EmpNo" xml:space="preserve">
     <value>審核人編號</value>
   </data>
