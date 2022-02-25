@@ -11,7 +11,6 @@
     <title>@ViewData["Title"] - AllShow</title>
     <link rel="stylesheet" href="~/vendor/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.css" /> 
-
     <style>
         .numberCircle {
           display: inline-block;
@@ -40,16 +39,7 @@
           color:gray;
           cursor: pointer;
         }
-    </style>
-
-    <script src="~/vendor/jquery/dist/jquery.js"></script>
-    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>  
-    <script src="https://unpkg.com/vue@next"></script>
-    @*<script src="~/vendor/vue/dist/vue.js"></script>
-    <script src="~/vendor/bootstrap-vue/dist/bootstrap-vue.min.js"></script>*@
-    <script src="~/vendor/axios/dist/axios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="~/scripts/Shared.js"></Script>
+    </style>          
 </head>
 <body>
     <header>
@@ -86,37 +76,6 @@
 
     <div class="container mt-3">
         <main role="main" class="pb-3">
-            <form method="post">
-                <!-- form markup -->
-            </form>
-            <script>
-                const defaultOptions = {
-                        baseURL: window.location.origin,
-                        headers: {
-                          'Content-Type': 'application/json'
-                        },
-                    };
-                var baseInstance = axios.create(defaultOptions);
-                //axios 設定
-                baseInstance.interceptors.request.use(function (config) {
-                    config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
-                    config.headers.put['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
-                    config.headers.delete['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
-                    //const token = window.localStorage.getItem("token");
-                    //config.headers.Authorization =  token ? `Bearer ${token}` : '';                     
-
-                    return config;
-                });
-            </script>
-            <script>
-                //檢查是否刷新token
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    <text>
-                        checktoken();
-                    </text>
-                }
-            </script>
             @RenderBody()
         </main>
     </div>
@@ -131,7 +90,40 @@
             </div>
         </div>
     </footer>
-    @RenderSection("Scripts", required: false)
+    <script src="~/vendor/jquery/dist/jquery.js"></script>
+    <script src="~/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/vendor/moment-mini/moment.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>*@
+    @*<script src="https://unpkg.com/vue@next"></script>*@
+    <script src="~/vendor/vue/dist/vue.global.prod.js"></script> 
+    <script src="~/vendor/axios/dist/axios.js"></script>  
+    <script src="~/scripts/Shared.js"></Script>
+    <script>
+        const defaultOptions = {
+                baseURL: window.location.origin,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            };
+        var baseInstance = axios.create(defaultOptions);
+        //axios 設定
+        baseInstance.interceptors.request.use(function (config) {
+            config.headers.post['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+            config.headers.put['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+            config.headers.delete['RequestVerificationToken'] = $('input:hidden[name="__RequestVerificationToken"]').val();
+            //const token = window.localStorage.getItem("token");
+            //config.headers.Authorization =  token ? `Bearer ${token}` : '';                     
 
+            return config;
+        });               
+        //檢查是否刷新token
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <text>
+                checktoken();
+            </text>
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

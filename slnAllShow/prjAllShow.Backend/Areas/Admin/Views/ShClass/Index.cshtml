@@ -14,10 +14,10 @@
 
 <div id="app">
     <button v-on:click="AddShClass()" class="btn btn-primary">新增商店類別</button>
-    <table style="width:50%" class="table table-hover">
+    <table style="width:30%" class="table table-hover">
         <thead class="table-primary">
             <tr>
-                <th style="width:60%">@_localizer["ShClass.ShClassName"]</th>
+                <th style="width:40%">@_localizer["ShClass.ShClassName"]</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,7 +26,8 @@
                 <td>{{item.shClassName}}</td>
                 <td>
                     <button v-on:click="EditShClass(item.id)" class="btn btn-warning">編輯</button> |
-                    <button v-on:click="DeleteShClass(item.id)" class="btn btn-danger">刪除</button>
+                    <button v-on:click="DeleteShClass(item.id)" class="btn btn-danger">刪除</button> |
+                    <button v-on:click="SelectShClass(item.id)" class="btn btn-success">選擇</button>
                 </td>
             </tr>
         </tbody>
@@ -40,4 +41,6 @@
     <modal_popup ref="serviceModal" :parent-title="popupTitle" v-on:emit-hide="hidePopupModal"/>
 </div>
 
-<script src="~/scripts/Admin/ShClass/Index.js"></script>
+@section Scripts{
+    <script src="~/scripts/Admin/ShClass/Index.js"></script>
+}

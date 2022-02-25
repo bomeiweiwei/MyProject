@@ -141,7 +141,7 @@ function checktoken() {
             }
         }
     }).done(function (obj) {
-        console.log('check token expires finish');
+        //console.log('check token expires finish');
     }).fail(function (xhr, status, error) {
 
     });

@@ -171,8 +171,10 @@ const app = {
             this.popupModal.show();
         },
         DeleteShClass(id) {
-            var _url = apiUrl + "/" + id;
-            baseInstance.delete(_url)
+            var yes = confirm('你確定要刪除嗎？');
+            if (yes) {
+                var _url = apiUrl + "/" + id;
+                baseInstance.delete(_url)
                     .then(function (response) {
                         alert('刪除完成');
                         //this.refreshVuePage();
@@ -184,25 +186,29 @@ const app = {
                             console.log(error.response.status);
                         }
                     });
-            //$.ajax({
-            //    url: _url,
-            //    type: 'DELETE',
-            //    async: false,
-            //    headers: {
-            //        'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
-            //    },
-            //    }).done(function (obj) {
-            //        alert("刪除完成！！！");
-            //        refreshPage();
-            //    }).fail(function (xhr, status, error) {
+                //$.ajax({
+                //    url: _url,
+                //    type: 'DELETE',
+                //    async: false,
+                //    headers: {
+                //        'RequestVerificationToken': $('input:hidden[name="__RequestVerificationToken"]').val()
+                //    },
+                //    }).done(function (obj) {
+                //        alert("刪除完成！！！");
+                //        refreshPage();
+                //    }).fail(function (xhr, status, error) {
 
-            //    });
+                //    });
+            }                    
         },
         hidePopupModal() {
             this.popupModal.hide();
         },
         refreshVuePage() {
             this.toPage(this.pageItem.currentPage);
+        },
+        SelectShClass(id) {
+
         }
     }
 };
