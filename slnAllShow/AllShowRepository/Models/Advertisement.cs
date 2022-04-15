@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -49,8 +50,10 @@ namespace AllShow.Models
         [Display(Name = "Advertisement.AdCheckState")]
         public string AdCheckState { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("EmpNo")]
         public virtual EmployeeSetting Employee { get; set; }
+        [JsonIgnore]
         [ForeignKey("ShNo")]
         public virtual ShopSetting Shop { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +20,7 @@ namespace AllShow.Models
         [Display(Name = "AuthorityFunction.AuthorityName")]
         public string AuthorityName { get; set; }
 
+        [JsonIgnore]
         public ICollection<Authority> Authority { get; set; }
 
     }

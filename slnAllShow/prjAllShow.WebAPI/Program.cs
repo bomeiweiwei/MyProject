@@ -33,6 +33,7 @@ builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 
 builder.Services.AddTransient<IShClassService, ShClassService>();
+builder.Services.AddTransient<IShopService, ShopService>();
 
 var jwtSettings = builder.Configuration.GetSection(nameof(Jwt)).Get<Jwt>();
 builder.Services.AddSingleton(jwtSettings);

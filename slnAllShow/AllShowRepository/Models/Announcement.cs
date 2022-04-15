@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,6 +39,7 @@ namespace AllShow.Models
         [Display(Name = "Announcement.EndDate")]
         public System.DateTime EndDate { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("EmpNo")]
         public virtual EmployeeSetting Employee { get; set; }
     }

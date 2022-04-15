@@ -81,9 +81,9 @@
                 @Html.DisplayFor(modelItem => item.ShPwdStateDesc)
             </td>           
             <td>
-                <a asp-area="Admin" asp-action="Edit" asp-route-AuserId="@item.AuserId" asp-route-sId="@item.Id" class="btn btn-warning">編輯</a> |
-                <a asp-area="Admin" asp-action="Details" asp-route-AuserId="@item.AuserId" asp-route-sId="@item.Id" class="btn btn-info">詳細</a> |
-                <a asp-area="Admin" asp-action="Delete" asp-route-AuserId="@item.AuserId" asp-route-sId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
+                <a asp-area="Admin" asp-action="Edit" asp-route-sId="@item.Id" class="btn btn-warning">編輯</a> |
+                <a asp-area="Admin" asp-action="Details" asp-route-Id="@item.Id" class="btn btn-info">詳細</a> |
+                <a asp-area="Admin" asp-action="Delete" asp-route-sId="@item.Id" onclick="return confirm('確定要刪除嗎?');" class="btn btn-danger">刪除</a>
             </td>
         </tr>
 }

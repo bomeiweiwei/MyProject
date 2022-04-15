@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,8 +21,10 @@ namespace AllShow.Models
         [MaxLength(10, ErrorMessage = "Field_MaxLength")]
         public string Note { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("EmpNo")]
         public virtual EmployeeSetting Employee { get; set; }
+        [JsonIgnore]
         [ForeignKey("AuthorityNo")]
         public virtual AuthorityFunction AuthorityFunction { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿var apiUrl = '/api/ShClass';
+var shopApiUrl = '/api/Shop';
 
 const paginationBtn = {
     props: ["pageItem"],
@@ -51,7 +52,7 @@ const modal_popup = {
     },
     template: ` 
         <div class="modal fade" id="serviceModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog" id="divTargetModalDialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h3 class="modal-title" id="serviceModalLabel">{{ parentTitle }}</h3>
@@ -88,7 +89,9 @@ const app = {
             popupTitle: "商店類別",
             popupModal: null,
             Id: 0,
-            ShClassName: ""
+            ShClassName: "",
+            ShopList: [],
+            ShopListData:[]
         }
     },
     mounted() {
@@ -156,6 +159,10 @@ const app = {
                 });
         },
         AddShClass() {
+            if ($('#divTargetModalDialog').hasClass('modal-lg')) {
+                $('#divTargetModalDialog').removeClass("modal-lg");
+            }
+
             this.popupTitle = "新增商店類別";
             var url = "/Admin/ShClass/Create"; //or anyother html page
             var pageContent = String.format("<iframe width=\"100%\" frameborder=\"0\"  allowtransparency=\"true\" src=\"{0}\"></iframe>", url);
@@ -164,6 +171,10 @@ const app = {
             this.popupModal.show();
         },
         EditShClass(id) {
+            if ($('#divTargetModalDialog').hasClass('modal-lg')) {
+                $('#divTargetModalDialog').removeClass("modal-lg");
+            }
+
             this.popupTitle = "修改商店類別";
             var url = "/Admin/ShClass/Edit/"+id;
             var pageContent = String.format("<iframe width=\"100%\" frameborder=\"0\"  allowtransparency=\"true\" src=\"{0}\"></iframe>", url);
@@ -207,8 +218,23 @@ const app = {
         refreshVuePage() {
             this.toPage(this.pageItem.currentPage);
         },
-        SelectShClass(id) {
+        SelectShClass(id) {           
+            this.Id = id;
+            baseInstance.get(shopApiUrl + "/GetByShclass/" + this.Id)
+                .then(response => {
+                    this.ShopListData = response.data.resultData;
+                });
+        },
+        SelectShop(id) {
+            if (!$('#divTargetModalDialog').hasClass('modal-lg')) {
+                $('#divTargetModalDialog').addClass("modal-lg");
+            }
 
+            this.popupTitle = "商店內容";
+            var url = "/Admin/Shop/SimpleDetails/" + id;
+            var pageContent = String.format("<iframe width=\"100%\" height=\"{1}\" frameborder=\"0\"  allowtransparency=\"true\" src=\"{0}\"></iframe>", url, $(window).innerHeight()*0.5);
+            $(".modal-body").html(pageContent);
+            this.popupModal.show();
         }
     }
 };

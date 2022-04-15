@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -40,9 +41,13 @@ namespace AllShow.Models
         [MaxLength(1)]
         public string EmpAccountState { get; set; }
 
+        [JsonIgnore]
         public ICollection<Authority> Authorities { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Advertisement> Advertisement { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Announcement> Announcement { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ShopSetting> Shop { get; set; }
     }
 }

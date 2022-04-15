@@ -16,6 +16,8 @@ namespace AllShow
         private AllShowDBContext _context;
         private GenericRepository<EmployeeSetting> _employeeRepository;
         private GenericRepository<ShClass> _ShClassRepository;
+        private GenericRepository<ShClassList> _ShClassListRepository;
+        private GenericRepository<ShopSetting> _ShopSettingRepository;
 
         public UnitOfWork(AllShowDBContext context)
         {
@@ -43,6 +45,30 @@ namespace AllShow
                     this._ShClassRepository = new GenericRepository<ShClass>(_context);
                 }
                 return _ShClassRepository;
+            }
+        }
+
+        public IGenericRepository<ShClassList> ShClassListRepository
+        {
+            get
+            {
+                if (this._ShClassListRepository == null)
+                {
+                    this._ShClassListRepository = new GenericRepository<ShClassList>(_context);
+                }
+                return _ShClassListRepository;
+            }
+        }
+
+        public IGenericRepository<ShopSetting> ShopSettingRepository
+        {
+            get
+            {
+                if (this._ShopSettingRepository == null)
+                {
+                    this._ShopSettingRepository = new GenericRepository<ShopSetting>(_context);
+                }
+                return _ShopSettingRepository;
             }
         }
 

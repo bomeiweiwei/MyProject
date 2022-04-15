@@ -5,40 +5,133 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-@*<style>
-    .modal .modal-dialog {
+<style>
+    /*.modal .modal-dialog {
         max-width: 95%;
         width: 90%;
-    }
-</style>*@
+    }*/
+    /*.jumbotron {
+      padding: 2rem 1rem;
+      margin-bottom: 2rem;
+      background-color: #e9ecef;
+      border-radius: .3rem;
+    }*/
+    .modal-header {
+        padding:9px 15px;
+        border-bottom:1px solid #eee;
+        background-color: #0480be;
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        -moz-border-radius-topleft: 5px;
+        -moz-border-radius-topright: 5px;
+         border-top-left-radius: 5px;
+         border-top-right-radius: 5px;
+     }
+</style>
 
-<div id="app">
-    <button v-on:click="AddShClass()" class="btn btn-primary">新增商店類別</button>
-    <table style="width:30%" class="table table-hover">
-        <thead class="table-primary">
-            <tr>
-                <th style="width:40%">@_localizer["ShClass.ShClassName"]</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(item,index) in ListData">
-                <td>{{item.shClassName}}</td>
-                <td>
-                    <button v-on:click="EditShClass(item.id)" class="btn btn-warning">編輯</button> |
-                    <button v-on:click="DeleteShClass(item.id)" class="btn btn-danger">刪除</button> |
-                    <button v-on:click="SelectShClass(item.id)" class="btn btn-success">選擇</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="row">
-        <pagination-btn
-            :page-item="pageItem"
-            @@paged="toPage"
-        ></pagination-btn>
-    </div>
-    <modal_popup ref="serviceModal" :parent-title="popupTitle" v-on:emit-hide="hidePopupModal"/>
+<div class="row">
+  <div class="col-sm-12">
+    <!-- 大螢幕廣告 -->
+    @*<div class="bg-light p-3 rounded-lg m-1">
+      <h1 class="display-4">廣告啦!</h1>
+      <p class="lead">廣告資訊</p>
+      <a class="btn btn-primary btn-lg" href="#" role="button">資訊</a>
+    </div>*@
+    <!-- 幻燈片圖 -->
+    @*<div id="carouselink" class="carousel slide" data-ride="carousel">
+        <!-- 連結導引 -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselink" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselink" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselink" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>        
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="w-100" src="~/Images/slide1.jpg"/>
+            </div>
+            <div class="carousel-item">
+                <img class="w-100" src="~/Images/slide2.jpg"/>
+            </div>
+            <div class="carousel-item">
+                <img class="w-100" src="~/Images/slide3.jpg"/>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselink" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselink" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>*@
+    <div id="app">
+        <div class="row">
+            <div class="col-xs-4 col-sm-6">
+                <button v-on:click="AddShClass()" class="btn btn-primary m-1">新增商店類別</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4 col-sm-6">
+                                   
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width:40%">@_localizer["ShClass.ShClassName"]</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item,index) in ListData">
+                                <td>{{item.shClassName}}</td>
+                                <td>
+                                    <button v-on:click="EditShClass(item.id)" class="btn btn-warning">編輯</button> |
+                                    <button v-on:click="DeleteShClass(item.id)" class="btn btn-danger">刪除</button> |
+                                    <button v-on:click="SelectShClass(item.id)" class="btn btn-success">選擇</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <pagination-btn
+                            :page-item="pageItem"
+                            @@paged="toPage"
+                        ></pagination-btn>
+                    </div>
+                    <modal_popup ref="serviceModal" :parent-title="popupTitle" v-on:emit-hide="hidePopupModal"/>
+                
+                </div>
+                <div class="col-xs-8 col-sm-6">
+                
+                    <table class="table table-dark table-striped">
+                        <thead>
+                            <tr>
+                                <th style="width:40%">@_localizer["Shop.ShName"]</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody v-if="ShopListData.length">
+                            <tr v-for="(item,index) in ShopListData">
+                                <td>{{item.shName}}</td>
+                                <td>
+                                    <button v-on:click="SelectShop(item.id)" class="btn btn-success">選擇</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody v-else>
+                            <tr>
+                                <td>
+                                    無資料
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                </div>
+            </div>      
+        </div>
+  </div>
 </div>
 
 @section Scripts{

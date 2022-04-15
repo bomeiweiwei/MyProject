@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,6 +25,7 @@ namespace AllShow.Models
         [Display(Name = "ProductClass.ProClassName")]
         public string ProClassName { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("ShClassNo")]
         public virtual ShClass ShClass { get; set; }
     }

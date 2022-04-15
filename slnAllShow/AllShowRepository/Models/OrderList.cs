@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,8 +24,10 @@ namespace AllShow.Models
         [Display(Name = "OrderList.Quantity")]
         public int Quantity { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("ProNo")]
         public virtual Product Product { get; set; }
+        [JsonIgnore]
         [ForeignKey("ShoporderNo")]
         public virtual ShopOrder ShopOrder { get; set; }
     }

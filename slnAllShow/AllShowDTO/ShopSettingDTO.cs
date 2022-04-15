@@ -209,5 +209,8 @@ namespace AllShowDTO
         public string EmpName { get; set; }
 
         public bool? ChangePwd { get; set; }
+
+        [Display(Name = "ShClass.ShClassName")]
+        public string ShClassName { get; set; }
     }
 }

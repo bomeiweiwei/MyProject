@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -86,13 +87,19 @@ namespace AllShow.Models
 
         public Nullable<System.DateTime> ShStopRightEnddate { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("EmpNo")]
         public virtual EmployeeSetting Employee { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Advertisement> Advertisement { get; set; }
+        [JsonIgnore]
         public virtual ICollection<FavoriteShopList> FavoriteShopList { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Product> Product { get; set; }
         //public virtual ICollection<ProductClass> ProductClass { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ShopOrder> ShopOrder { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ShClassList> ShClassList { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,8 +22,10 @@ namespace AllShow.Models
         [Display(Name = "MemberList.OrderDate")]
         public Nullable<System.DateTime> OrderDate { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("MemNo")]
         public virtual MemberSetting Member { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ShopOrder> ShopOrder { get; set; }
     }
 }

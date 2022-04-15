@@ -3,6 +3,8 @@ using AllShow.Data;
 using AllShow.Models;
 using AllShow.Models.Identity;
 using AllShowDTO;
+using AllShowDTO.Infrastructure;
+using AllShowService.Interface;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +12,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Net.Mail;
 
 namespace prjAllShow.Backend.Areas.Admin.Controllers
@@ -22,24 +26,32 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         private readonly AllShowDBContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IShopService _shopService;
+        private readonly IMapper _mapper;
 
         public ShopController(
             IdentityDBContext dbContext, 
             AllShowDBContext context, 
             UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IShopService shopService,
+            IMapper mapper)
         {
             _dbContext = dbContext;
             _context = context;
             _userManager = userManager;
 
             _emailSender = emailSender;
+
+            _shopService = shopService;
+            _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(string currentFilter,
+        public IActionResult Index(string currentFilter,
                                                 string searchString,
                                                 int? pageNumber)
         {
+            List<ShopSettingDTO> shop = new List<ShopSettingDTO>();
             if (searchString != null)
             {
                 pageNumber = 1;
@@ -50,76 +62,42 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             }
             ViewData["CurrentFilter"] = searchString;
 
-            var user = await (from item in _dbContext.Users select item).ToListAsync();
-            var shop = await (
-                        from item1 in _context.ShopSetting
-                        join item2 in _context.EmployeeSetting on item1.EmpNo equals item2.Id
-                        select new ShopSettingDTO
-                        {
-                            Id = item1.Id,
-                            EmpNo = item2.Id,
-                            EmpName = item2.EmpName,
-                            ShAccount = item1.ShAccount,
-                            ShLogoPic = item1.ShLogoPic,
-                            ShName = item1.ShName,
-                            ShBoss = item1.ShBoss,
-                            ShContact = item1.ShContact,
-                            ShTel = item1.ShTel,
-                            ShPopShop = item1.ShPopShop,
-                            ShCheckState = item1.ShCheckState,
-                            ShPwdState = item1.ShPwdState
-                        }).ToListAsync();
+            if (!pageNumber.HasValue)
+                pageNumber = 1;
+
+            shop = _shopService.GetShopsByPage(pageNumber.Value - 1, 10);
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 shop = shop.Where(s => s.ShName.Contains(searchString)).ToList();
             }
-
-            var query = (from item2 in user
-                        join item1 in shop on item2.Email equals item1.ShAccount
-                        select new ShopSettingDTO
-                        {
-                            AuserId = item2.Id,
-                            Id = item1.Id,
-                            EmpNo = item1.Id,
-                            EmpName = item1.EmpName,
-                            ShLogoPic = item1.ShLogoPic,
-                            ShName = item1.ShName,
-                            ShBoss = item1.ShBoss,
-                            ShContact = item1.ShContact,
-                            ShTel = item1.ShTel,
-                            ShPopShop = item1.ShPopShop,
-                            ShCheckState = item1.ShCheckState,
-                            ShPwdState = item1.ShPwdState
-                        }).ToList();
-            int pageSize = 5;
-            var result = PaginatedList<ShopSettingDTO>.Create(query, pageNumber ?? 1, pageSize);
+           
+            int pageSize = 10;
+            var result = PaginatedList<ShopSettingDTO>.Create(shop, pageNumber ?? 1, pageSize);
             return View(result);
         }
 
-        public async Task<IActionResult> Details(int AuserId, int sId)
+        public IActionResult Details(int Id)
         {
-            var auser = await _userManager.FindByIdAsync(Convert.ToString(AuserId));
-            if (auser == null)
-            {
-                return NotFound();
-            }
-            var shop = await _context.ShopSetting
-                .FirstOrDefaultAsync(m => m.Id == sId);
+            ShopSettingDTO shop = _shopService.GetShopById(Id);
             if (shop == null)
             {
                 return NotFound();
             }
+            else
+                return View(shop);
+        }
 
-            var config = new MapperConfiguration(cfg =>
+        public async Task<IActionResult> SimpleDetails(int id)
+        {
+            var shop = await _context.ShopSetting
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (shop == null)
             {
-                cfg.CreateMap<ShopSetting, ShopSettingDTO>();
-            });
-            IMapper mapper = config.CreateMapper();
-            ShopSettingDTO viewModel = mapper.Map<ShopSetting, ShopSettingDTO>(shop);
-            viewModel.AuserId = auser.Id;
-            viewModel.EmpName = auser.UserName;
-            return View(viewModel);
+                return NotFound();
+            }
+            ShopSettingDTO viewModel = _mapper.Map<ShopSetting, ShopSettingDTO>(shop);
+            return View("_ShopDetailPartial", viewModel);
         }
 
         public IActionResult Create()
@@ -191,18 +169,23 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(int AuserId, int sId)
+        public async Task<IActionResult> Edit(int sId)
         {
-            var auser = await _userManager.FindByIdAsync(Convert.ToString(AuserId));
-            if (auser == null)
-            {
-                return NotFound();
-            }
+            //var auser = await _userManager.FindByIdAsync(Convert.ToString(AuserId));
+            //if (auser == null)
+            //{
+            //    return NotFound();
+            //}
+            ApplicationUser auser = null;
             var shop = await _context.ShopSetting
                 .FirstOrDefaultAsync(m => m.Id == sId);
             if (shop == null)
             {
                 return NotFound();
+            }
+            else
+            {
+                auser = await _userManager.FindByEmailAsync(shop.ShAccount);
             }
 
             SetApproveEmpItems();
@@ -221,6 +204,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(ShopSettingDTO model, IFormFile File_ShLogoPic, IFormFile File_ShThePic, IFormFile File_ShAdPic)
         {
             ModelState.Remove("EmpName");
+            ModelState.Remove("ShClassName");
             ModelState.Remove("ShLogoPic");
             ModelState.Remove("ShThePic");
             ModelState.Remove("ShAdPic");

@@ -33,7 +33,9 @@ builder.Services.AddDbContext<IdentityDBContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
 builder.Services.AddScoped<IUnitOfWorksPlus, UnitOfWorkPlus>();
+builder.Services.AddScoped < IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
+builder.Services.AddScoped<IShopService, ShopService>();
 
 //double minute = builder.Configuration.GetValue<double>("EXPIRY_DURATION_MINUTES");
 //builder.Services.AddSingleton<ITokenService>(new TokenService(minute));
@@ -120,6 +122,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = false;
 });
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+
+int shClassOtherId = builder.Configuration.GetValue<int>("shClassOtherId");
+//builder.Services.AddTransient(shClassOtherId);
 
 //builder.Host.ConfigureLogging(logging=>
 //{ 

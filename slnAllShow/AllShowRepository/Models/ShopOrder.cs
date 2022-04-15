@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -50,10 +51,13 @@ namespace AllShow.Models
         [Display(Name = "ShopOrder.PayType")]
         public string PayType { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("ShNo")]
         public virtual ShopSetting Shop { get; set; }
+        [JsonIgnore]
         [ForeignKey("OrderNo")]
         public virtual MemberList MemberList { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrderList> OrderList { get; set; }
     }
 }

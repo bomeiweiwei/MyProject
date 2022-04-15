@@ -459,7 +459,26 @@ namespace prjAllShow.Backend.Seed
                             ShClassNo = 5,
                             ShNo = 1,
                             Note = ""
-                        });
+                        },
+                        new ShClassList
+                        {
+                            ShClassNo = 6,
+                            ShNo = 2,
+                            Note = ""
+                        },
+                        new ShClassList
+                        {
+                            ShClassNo = 6,
+                            ShNo = 3,
+                            Note = ""
+                        }, 
+                        new ShClassList
+                        {
+                            ShClassNo = 6,
+                            ShNo = 4,
+                            Note = ""
+                        }
+                        );
                     context.SaveChanges();
                 }
                 #endregion

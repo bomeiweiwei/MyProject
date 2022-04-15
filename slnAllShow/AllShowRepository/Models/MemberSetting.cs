@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -49,7 +50,9 @@ namespace AllShow.Models
 
         public Nullable<System.DateTime> MemUpdateDate { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<FavoriteShopList> FavoriteShopList { get; set; }
+        [JsonIgnore]
         public virtual ICollection<MemberList> MemberList { get; set; }
     }
 }

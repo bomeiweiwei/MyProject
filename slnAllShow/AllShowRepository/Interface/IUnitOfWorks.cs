@@ -12,6 +12,8 @@ namespace AllShow.Interface
     {
         IGenericRepository<EmployeeSetting> EmployeeRepository { get; }
         IGenericRepository<ShClass> ShClassRepository { get; }
+        IGenericRepository<ShClassList> ShClassListRepository { get; }
+        IGenericRepository<ShopSetting> ShopSettingRepository { get; }
 
         void SaveChanges();
     }
