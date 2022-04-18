@@ -58,6 +58,10 @@ $(document).ready(function () {
     } else {
         $("#ShPwd").attr('disabled', true);
     }
+    //$("#ShClass").multiselect();
+    new SlimSelect({
+        select: '#ShClassListID'
+    })
 });
 
 $('#ChangePwd').change(function () {

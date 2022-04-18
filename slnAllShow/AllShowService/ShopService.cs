@@ -100,7 +100,7 @@ namespace AllShowService
                              EmpName = emp.EmpName
                          };
             */
-            //無商店類別分類=其他
+            //
             var query2 = from shop in _unitOfWork.ShopSettingRepository.Get()
                          join emp in _unitOfWork.EmployeeRepository.Get() on shop.EmpNo equals emp.Id
                          join ifactory in identityUser on shop.ShAccount equals ifactory.Email
@@ -230,8 +230,10 @@ namespace AllShowService
                              ShStopRightEnddate = shop.ShStopRightEnddate,
                              EmpName = emp.EmpName,
                              ShClassName = shclass.ShClassName
-                         }).FirstOrDefault();
-            return query;
+                         }).ToList();
+            ShopSettingDTO targetShop = query.FirstOrDefault();
+            targetShop.ShClassName = string.Join(",", query.Select(m => m.ShClassName));
+            return targetShop;
         }
         /// <summary>
         /// 取得商店By 分頁

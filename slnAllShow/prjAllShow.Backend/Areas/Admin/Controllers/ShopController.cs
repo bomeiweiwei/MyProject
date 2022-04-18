@@ -186,9 +186,13 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
             else
             {
                 auser = await _userManager.FindByEmailAsync(shop.ShAccount);
+                if (auser == null)
+                {
+                    return NotFound();
+                }
             }
 
-            SetApproveEmpItems();
+            SetDDLItems(shop.Id);
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -259,7 +263,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                     {
                         var result = await _userManager.UpdateAsync(user);
                         if (result.Succeeded)
-                        {
+                        {                            
                             var config = new MapperConfiguration(cfg =>
                             {
                                 if (model.ChangePwd.HasValue && model.ChangePwd.Value)
@@ -275,10 +279,32 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                             var shop = await _context.ShopSetting.FirstOrDefaultAsync(m => m.Id == model.Id);
                             if (shop != null)
                             {
+                                //原本已存在的ShClassList
+                                var scl = _context.ShClassList.Where(m => m.ShNo == model.Id).ToList();
+                                if (model.ShClassListID.Count > 0)
+                                {
+                                    foreach (var item in model.ShClassListID)
+                                    {
+                                        int id = Int32.Parse(item);
+                                        var check = scl.Where(m => m.ShClassNo == id).FirstOrDefault();
+                                        if (check == null)
+                                        {
+                                            ShClassList shClassList = new ShClassList() { ShClassNo = id, ShNo = shop.Id, Note = "" };
+                                            _context.ShClassList.Add(shClassList);
+                                            _context.SaveChanges();
+                                        }
+                                    }
+                                    var delScl = scl.Where(m => model.ShClassListID.Any(c => m.ShClassNo.ToString() != c)).ToList();
+                                    foreach (var item in delScl)
+                                    {
+                                        _context.ShClassList.Remove(item);
+                                        _context.SaveChanges();
+                                    }
+                                }
+
                                 shop = mapper.Map(model, shop);
                                 _context.SaveChanges();
-                                return RedirectToAction("Index");
-                                
+                                return RedirectToAction("Index");                                
                             }
                         }
                     }
@@ -288,7 +314,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                     }
                 }
             }
-            SetApproveEmpItems();
+            SetDDLItems(model.Id);
             return View(model);
         }
         public async Task<IActionResult> DeleteAsync(int AuserId, int sId)
@@ -321,7 +347,7 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
         /// <summary>
         /// 設定核准人員下拉選項
         /// </summary>
-        private void SetApproveEmpItems()
+        private void SetDDLItems(int shopId)
         {
             IEnumerable<SelectListItem> items =
                                        from value in _context.EmployeeSetting
@@ -331,8 +357,24 @@ namespace prjAllShow.Backend.Areas.Admin.Controllers
                                            Value = value.Id.ToString(),
                                             // Selected = value.Id == selectedMovie,
                                         };
+            var scitems =
+                        (from value in _context.ShClass
+                        select new
+                        {
+                            ShClassName = value.ShClassName.ToString(),
+                            Id = value.Id.ToString(),
+                            // Selected = value.Id == selectedMovie,
+                        }).ToList();
+            List<int> scitems_Selected = (
+                                    from item1 in _context.ShClassList
+                                    join item2 in _context.ShClass on item1.ShClassNo equals item2.Id
+                                    join item3 in _context.ShopSetting on item1.ShNo equals item3.Id
+                                    where item3.Id == shopId
+                                    select item2
+                                    ).Select(m => m.Id).ToList();    
 
             ViewBag.ApproveEmp = items;
+            ViewBag.ShClass = new MultiSelectList(scitems, "Id", "ShClassName", scitems_Selected);
         }
 
         private int SaveImg(IFormFile formFile)

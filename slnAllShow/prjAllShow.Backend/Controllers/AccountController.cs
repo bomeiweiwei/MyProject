@@ -335,6 +335,18 @@ namespace prjAllShow.Backend.Controllers
                     };
                     _context.ShopSetting.Add(shop);
                     _context.SaveChanges();
+
+                    int id = shop.Id;
+
+                    var shclasslist = new ShClassList
+                    {
+                        ShClassNo = 6,
+                        ShNo = id,
+                        Note = ""
+                    };
+                    _context.ShClassList.Add(shclasslist);
+                    _context.SaveChanges();
+                    
                     ViewData["Message"] = "Email Confirm,U can use shop function";
                     return View();
                 }

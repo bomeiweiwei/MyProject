@@ -17,6 +17,10 @@
                     <span asp-validation-for="EmpNo" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    @Html.DisplayNameFor(m => m.ShClassName)
+                    @Html.DropDownList("ShClassListID", (MultiSelectList)ViewBag.ShClass, new { multiple = "multiple"})
+                </div>
+                <div class="form-group">
                     <label asp-for="ShLogoPic" class="control-label"></label>
                     <div>
                         <img v-if="ShLogoPicImg" :src="ShLogoPicImg" width="300" />

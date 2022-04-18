@@ -212,5 +212,7 @@ namespace AllShowDTO
 
         [Display(Name = "ShClass.ShClassName")]
         public string ShClassName { get; set; }
+
+        public List<string> ShClassListID { get; set; }
     }
 }
