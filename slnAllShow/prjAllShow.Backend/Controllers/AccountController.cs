@@ -13,12 +13,14 @@ using System.Transactions;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using AllShow.Data;
 using AllShow.Models;
+using AllShowCommon;
 
 namespace prjAllShow.Backend.Controllers
 {
     [ResponseCache(NoStore = true)]
     public class AccountController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
@@ -26,7 +28,9 @@ namespace prjAllShow.Backend.Controllers
         private readonly AllShowDBContext _context;
         private readonly ILogger<HomeController> _logger;
         IStringLocalizer<SharedResources> _localizer;
-        public AccountController(UserManager<ApplicationUser> userManager,
+        private readonly string aesKey;
+        public AccountController(IConfiguration config,
+            UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<ApplicationRole> roleManager,
             IStringLocalizer<SharedResources> localizer,
@@ -34,6 +38,7 @@ namespace prjAllShow.Backend.Controllers
             AllShowDBContext context,
             ILogger<HomeController> logger)
         {
+            _config = config;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -41,6 +46,8 @@ namespace prjAllShow.Backend.Controllers
             _context = context;
             _localizer = localizer;
             _logger = logger;
+
+            this.aesKey = _config.GetSection("AES_Key").Value;
         }
         /// <summary>
         /// 註冊
@@ -154,7 +161,9 @@ namespace prjAllShow.Backend.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Index", "Home");
+                    //將密碼加密帶到Home Index
+                    string aesPWD = AESUtility.AESEncryptor(model.Password, aesKey);
+                    return RedirectToAction("Index", "Home", new { pwd = aesPWD });
                 }
                 else
                 {

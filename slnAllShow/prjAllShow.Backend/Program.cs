@@ -33,7 +33,7 @@ builder.Services.AddDbContext<IdentityDBContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWorks, UnitOfWork>();
 builder.Services.AddScoped<IUnitOfWorksPlus, UnitOfWorkPlus>();
-builder.Services.AddScoped < IApplicationUserService, ApplicationUserService>();
+builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 builder.Services.AddScoped<IEmployeeSettingService, EmployeeSettingService>();
 builder.Services.AddScoped<IShopService, ShopService>();
 

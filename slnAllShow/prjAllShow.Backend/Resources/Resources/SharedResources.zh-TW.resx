@@ -219,6 +219,12 @@
   <data name="Page.Previous" xml:space="preserve">
     <value>上一頁</value>
   </data>
+  <data name="Product.ProName" xml:space="preserve">
+    <value>產品名稱</value>
+  </data>
+  <data name="ProductClass.ProClassName" xml:space="preserve">
+    <value>產品類別名稱</value>
+  </data>
   <data name="Register.Login" xml:space="preserve">
     <value>登入</value>
   </data>

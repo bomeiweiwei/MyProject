@@ -37,7 +37,7 @@ namespace prjAllShow.Backend.Controllers
             this.aesKey = _config.GetSection("AES_Key").Value;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(string? pwd)
         {
             var uIdentity = User.Identity;
             if (uIdentity != null)
@@ -66,15 +66,21 @@ namespace prjAllShow.Backend.Controllers
                         {
                             userRoles.Add(r.ToLowerInvariant());
                         }
+                        //登入的密碼(已用AES加密)
+                        if (string.IsNullOrEmpty(pwd))
+                        {
+                            pwd = "";
+                        }
+
                         //role name全部轉小寫是否有包含area的小寫字串，有則帶進area/Home/Index，沒有則帶進Home/Welcome(因為註冊時是Customer，還沒有正式變成Factory，要去信件點連結)
                         if (userRoles.Contains("superadmin"))
-                        {
-                            await GetAuthTokenAsync(loginDt);
+                        {                           
+                            await GetAuthTokenAsync(loginDt, pwd);
                             return RedirectToAction("Index", "Home", new { Area = "admin" });
                         }
                         else if (userRoles.Any(m => m == area.ToLowerInvariant()))
                         {
-                            await GetAuthTokenAsync(loginDt);
+                            await GetAuthTokenAsync(loginDt, pwd);
                             return RedirectToAction("Index", "Home", new { Area = area });
                         }
                         else
@@ -113,14 +119,14 @@ namespace prjAllShow.Backend.Controllers
             return View();
         }
 
-        private async Task GetAuthTokenAsync(DateTime loginDt)
+        private async Task GetAuthTokenAsync(DateTime loginDt, string pwd)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
 
             string aesEmail = AESUtility.AESEncryptor(userEmail, aesKey);
-            string aesPWD = AESUtility.AESEncryptor(user.PasswordHash, aesKey);
+            string aesPWD = pwd;
 
             //The data that needs to be sent. Any object works.
             var sendObject = new

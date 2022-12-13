@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using AllShowDTO;
+using AutoMapper.Configuration;
 
 namespace AllShowService
 {
@@ -21,12 +22,19 @@ namespace AllShowService
 
         public ApplicationUser Authentication(string useremail, string password)
         {
-            //var defaultUser = new ApplicationUser();
-            //var passwordHasher = new PasswordHasher<ApplicationUser>();
-            //var hashedPassword = passwordHasher.HashPassword(defaultUser, password);
-
-            var applicationUser = _unitOfWork.ApplicationUserRepository.Get(item => item.Email == useremail && item.PasswordHash == password).FirstOrDefault();
-            return applicationUser;
+            ApplicationUser user = null;
+            ApplicationUser? query = FindOne(useremail);
+            if (query != null)
+            {
+                string pwd = query.PasswordHash;
+                PasswordHasher<ApplicationUser> passwordHasher = new PasswordHasher<ApplicationUser>();
+                PasswordVerificationResult result = passwordHasher.VerifyHashedPassword(query, pwd, password);
+                if (1 == (int)result)
+                {
+                    user = query;
+                }
+            }
+            return user;
         }
 
         public List<UserDTO> GetAll()
@@ -79,6 +87,12 @@ namespace AllShowService
                              Role = item3.Name
                          }).FirstOrDefault();
             return query ?? new UserDTO();
+        }
+
+        public ApplicationUser FindOne(string email)
+        {
+            var auser = _unitOfWork.ApplicationUserRepository.Get(m => m.Email == email).FirstOrDefault();
+            return auser;
         }
     }
 }

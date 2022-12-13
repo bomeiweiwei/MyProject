@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using prjAllShow.WebAPI.Models;
 using System.IdentityModel.Tokens.Jwt;
+using AllShow.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace prjAllShow.WebAPI.Controllers
 {
@@ -37,7 +39,7 @@ namespace prjAllShow.WebAPI.Controllers
         {
             string aesEmail = AESUtility.AESDecryptor(userCredential.UserEmail, aesKey);
             string aesPWD = AESUtility.AESDecryptor(userCredential.Password, aesKey);
-
+            //驗證登入的帳密
             var user = _service.Authentication(aesEmail, aesPWD);
             if (user == null)
             {

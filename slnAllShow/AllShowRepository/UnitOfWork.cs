@@ -2,7 +2,7 @@
 using AllShow.Interface;
 using AllShow.Models;
 using AllShow.Models.Identity;
-using AllShowRepository;
+//using AllShowRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,8 @@ namespace AllShow
         private GenericRepository<ShClass> _ShClassRepository;
         private GenericRepository<ShClassList> _ShClassListRepository;
         private GenericRepository<ShopSetting> _ShopSettingRepository;
+        private GenericRepository<ProductClass> _ProductClassRepository;
+        private GenericRepository<Product> _ProductRepository;
 
         public UnitOfWork(AllShowDBContext context)
         {
@@ -69,6 +71,30 @@ namespace AllShow
                     this._ShopSettingRepository = new GenericRepository<ShopSetting>(_context);
                 }
                 return _ShopSettingRepository;
+            }
+        }
+
+        public IGenericRepository<ProductClass> ProductClassRepository
+        {
+            get
+            {
+                if (this._ProductClassRepository == null)
+                {
+                    this._ProductClassRepository = new GenericRepository<ProductClass>(_context);
+                }
+                return _ProductClassRepository;
+            }
+        }
+
+        public IGenericRepository<Product> ProductRepository
+        {
+            get
+            {
+                if (this._ProductRepository == null)
+                {
+                    this._ProductRepository = new GenericRepository<Product>(_context);
+                }
+                return _ProductRepository;
             }
         }
 

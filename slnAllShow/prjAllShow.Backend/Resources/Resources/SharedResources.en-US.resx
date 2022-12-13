@@ -219,6 +219,12 @@
   <data name="Page.Previous" xml:space="preserve">
     <value>Previous</value>
   </data>
+  <data name="Product.ProName" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="ProductClass.ProClassName" xml:space="preserve">
+    <value>Product Class Name</value>
+  </data>
   <data name="Register.Login" xml:space="preserve">
     <value>Login</value>
   </data>

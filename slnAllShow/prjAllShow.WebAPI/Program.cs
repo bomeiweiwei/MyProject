@@ -3,7 +3,7 @@ using AllShow.Data;
 using AllShow.Interface;
 using AllShow.Models.Identity;
 using AllShowDTO;
-using AllShowRepository;
+//using AllShowRepository;
 using AllShowService;
 using AllShowService.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -34,6 +34,8 @@ builder.Services.AddTransient<ITokenService, TokenService>();
 
 builder.Services.AddTransient<IShClassService, ShClassService>();
 builder.Services.AddTransient<IShopService, ShopService>();
+builder.Services.AddTransient<IProductClassService, ProductClassService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 
 var jwtSettings = builder.Configuration.GetSection(nameof(Jwt)).Get<Jwt>();
 builder.Services.AddSingleton(jwtSettings);

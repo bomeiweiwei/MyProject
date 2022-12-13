@@ -14,5 +14,6 @@ namespace AllShowService.Interface
         List<UserDTO> GetAll();
         List<UserDTO> GetUserRoles(int Id);
         UserDTO FindOne(int Id);
+        ApplicationUser FindOne(string account);
     }
 }
