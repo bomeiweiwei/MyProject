@@ -37,10 +37,10 @@ namespace prjAllShow.WebAPI.Controllers
         [HttpPost("authentication")]
         public async Task<IActionResult> AuthenticationAsync([FromBody] UserCredential userCredential)
         {
-            string aesEmail = AESUtility.AESDecryptor(userCredential.UserEmail, aesKey);
-            string aesPWD = AESUtility.AESDecryptor(userCredential.Password, aesKey);
+            //string aesEmail = AESUtility.AESDecryptor(userCredential.UserEmail, aesKey);
+            //string aesPWD = AESUtility.AESDecryptor(userCredential.Password, aesKey);
             //驗證登入的帳密
-            var user = _service.Authentication(aesEmail, aesPWD);
+            var user = _service.Authentication(userCredential.UserEmail, userCredential.Password);
             if (user == null)
             {
                 //return Unauthorized();

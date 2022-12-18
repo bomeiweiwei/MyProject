@@ -71,6 +71,10 @@ namespace prjAllShow.Backend.Controllers
                         {
                             pwd = "";
                         }
+                        else 
+                        {
+                            pwd = AESUtility.AESDecryptor(pwd, aesKey);
+                        }
 
                         //role name全部轉小寫是否有包含area的小寫字串，有則帶進area/Home/Index，沒有則帶進Home/Welcome(因為註冊時是Customer，還沒有正式變成Factory，要去信件點連結)
                         if (userRoles.Contains("superadmin"))
@@ -125,14 +129,14 @@ namespace prjAllShow.Backend.Controllers
             var userEmail = User.FindFirstValue(ClaimTypes.Email);
             var user = await _userManager.FindByIdAsync(Convert.ToString(userId));
 
-            string aesEmail = AESUtility.AESEncryptor(userEmail, aesKey);
-            string aesPWD = pwd;
+            string email = userEmail;// AESUtility.AESEncryptor(userEmail, aesKey);
+            //string pwd = pwd;
 
             //The data that needs to be sent. Any object works.
             var sendObject = new
             {
-                userEmail = aesEmail,
-                password = aesPWD
+                userEmail = email,
+                password = pwd
             };
 
             //Converting the object to a json string. NOTE: Make sure the object doesn't contain circular references.

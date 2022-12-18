@@ -29,7 +29,7 @@ namespace AllShowService
 
         public ShClass GetShClassId(int id)
         {
-            var entity = _unitOfWork.ShClassRepository.Get(item => item.Id == id).FirstOrDefault();
+            var entity = _unitOfWork.ShClassRepository.Get(item => item.Id == id, item => item.OrderByDescending(m => m.Id)).FirstOrDefault();
             return _mapper.Map<ShClass>(entity);
         }
 
