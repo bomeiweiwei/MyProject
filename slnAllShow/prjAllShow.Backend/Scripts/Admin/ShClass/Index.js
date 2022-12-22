@@ -95,12 +95,25 @@ const app = {
         }
     },
     mounted() {
-        baseInstance.get(apiUrl +"/GetByPage/1")
-            .then(response => {
-                this.List = response.data.resultData;
-                //console.log(this.List);
-                this.pagination(this.List, 1, response.data.totalDataCount);
-            });
+        const shClsUrl = apiUrl + "/GetByPage/1";
+        const shUrl = shopApiUrl + "/GetByShclass/1";
+        Promise.all(
+            [baseInstance.get(shClsUrl), baseInstance.get(shUrl)]
+        ).then(
+            response => {
+                var res1 = response[0];
+                var res2 = response[1];
+                //console.log(res1);
+                //console.log(res2);
+                this.List = res1.data.resultData;
+                this.pagination(this.List, 1, res1.data.totalDataCount);
+
+                this.ShopListData = res2.data.resultData;
+            },
+            error => {
+                console.log(error);
+            });   
+
         this.popupModal = new bootstrap.Modal(this.$refs.serviceModal.$el);
     },
     components: {
